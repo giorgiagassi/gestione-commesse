@@ -1,0 +1,152 @@
+<div class="container p-3">
+  <h3 class="text-center">Crea Nuova Commessa</h3>
+  <hr>
+  <form >
+
+    <div class="row pt-3">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="nome_comune" class="active">Nome Comune</label>
+          <input type="text" class="form-control" id="nome_comune" formControlName="nome_comune">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="tipo_appalto" class="active">Tipologia Appalto</label>
+          <input type="text" class="form-control" id="tipo_appalto" formControlName="tipo_appalto">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="importo" class="active">Importo</label>
+          <input type="text" class="form-control" id="importo" formControlName="importo">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="data_inizio" class="active">Data Inizio </label>
+          <input type="date" class="form-control" id="data_inizio" formControlName="data_inizio">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="data_fine" class="active">Data Fine</label>
+          <input type="date" class="form-control" id="data_fine" formControlName="data_fine">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="anni" class="active">Anni</label>
+          <input type="text" class="form-control" id="anni" formControlName="anni">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="codice_fatturazione" class="active">Codice Fatturazione</label>
+          <input type="text" class="form-control" id="codice_fatturazione" formControlName="codice_fatturazione" >
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="tempi_fatturazione" class="active">Tempi di Fatturazione</label>
+          <input type="text" class="form-control" id="tempi_fatturazione" formControlName="tempi_fatturazione">
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="form-group">
+          <label for="determina" class="active">Determina</label>
+          <input type="text" class="form-control" id="determina" formControlName="determina">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label class="active">PNRR</label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input name="pnrr" [(ngModel)]="pnrrValue" type="radio" id="radio4" value="si" checked>
+              <label for="radio4">SI</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input name="pnrr" [(ngModel)]="pnrrValue" type="radio" id="radio5" value="no">
+              <label for="radio5">NO</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3" *ngIf="pnrrValue === 'si'">
+        <div class="select-wrapper">
+          <label for="misura">Scgli misura</label>
+          <select id="misura"  formControlName="misura">
+            <option selected="" value="">Scegli un'opzione</option>
+            <option value="1.2">1.2 </option>
+            <option value="1.4.1">1.4.1 </option>
+            <option value="1.4.3 App IO">1.4.3 App IO</option>
+            <option value="1.4.3 PagoPA">1.4.3 PagoPA</option>
+            <option value="1.4.4">1.4.4</option>
+            <option value="1.4.5">1.4.5</option>
+            <option value="1.3.1">1.3.1</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label for="tipo_commessa">Scegli misura</label>
+          <select id="tipo_commessa"  formControlName="tipo_commessa">
+            <option selected="" value="">Scegli un'opzione</option>
+            <option value="Tributi">Tributi </option>
+            <option value="Sanzioni">Sanzioni </option>
+            <option value="Autorizzo">Autorizzo</option>
+            <option value="Altro">Altro</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label for="risorse">Risorse Allocate</label>
+          <select id="risorse" formControlName="risorse" multiple (change)="onUserChange($event)">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let hunter of dipendentiList" [value]="hunter.id">
+              {{ hunter.name }} {{ hunter.surname }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="row">
+      <h5 class="pb-3">Responsabile</h5>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="nome_responsabile" class="active">Nome</label>
+          <input type="text" class="form-control" id="nome_responsabile" formControlName="nome_responsabile">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="cognome_responsabile" class="active">Cognome</label>
+          <input type="text" class="form-control" id="cognome_responsabile" formControlName="cognome_responsabile">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="email_responsabile" class="active">Email</label>
+          <input type="text" class="form-control" id="email_responsabile" formControlName="email_responsabile">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="cellulare_responsabile" class="active"> Cellulare</label>
+          <input type="number" class="form-control" id="cellulare_responsabile" formControlName="cellulare_responsabile">
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <button type="submit" class="btn btn-success">Salva</button>
+  </form>
+</div>

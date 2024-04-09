@@ -1,0 +1,9 @@
+<p-menubar [model]="items" styleClass="text-decoration: none">
+  <ng-template pTemplate="start" class="me-5">
+    <img ngSrc="assets/img/logo_1.png" height="114" class="pe-5" alt="" width="205"/>
+  </ng-template>
+  <ng-template pTemplate="end" class="me-5">
+    <p-chip label="{{ userName }}" icon="pi pi-user"  alt="Avatar image"></p-chip>
+    <p-button  icon="pi pi-sign-out"  size="small" (click)="authService.SignOut()" [rounded]="true" severity="secondary"></p-button>
+  </ng-template>
+</p-menubar>
