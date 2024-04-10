@@ -33,13 +33,6 @@ export class ListaCommesseComponent implements OnInit{
   ngOnInit() {
     this.getCommesseList()
   }
-  clear(table: Table) {
-    table.clear();
-  }
-  onFilter(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.dt1.filterGlobal(value, 'contains');
-  }
 
   async getCommesseList() {
     const huntersRef = ref(database, 'lista-commesse');
@@ -84,8 +77,6 @@ export class ListaCommesseComponent implements OnInit{
 
   attivitaCustomer(customer: any) {
     console.log(customer.id)
-    // Qui puoi navigare alla componente di modifica con i dati del cliente
-    // per esempio, utilizzando il Router di Angular e passando l'ID del cliente
     this.router.navigate(['/lista-attivita', customer.id]);
   }
 }

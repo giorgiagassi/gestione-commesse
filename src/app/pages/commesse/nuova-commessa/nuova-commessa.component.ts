@@ -4,7 +4,6 @@ import {NgForOf, NgIf} from "@angular/common";
 import {get, getDatabase, push, ref} from "firebase/database";
 import {initializeApp} from "firebase/app";
 import {environment} from "../../../enviroments/enviroments";
-import {Form} from "bootstrap-italia";
 import {Router} from "@angular/router";
 import Swal from "sweetalert2";
 const app = initializeApp(environment.firebaseConfig);
@@ -22,7 +21,7 @@ const database = getDatabase(app);
   styleUrl: './nuova-commessa.component.css'
 })
 export class NuovaCommessaComponent implements OnInit{
-  pnrrValue: string = 'si';
+  pnrrValue: string = '';
 dipendentiList: any;
   selectedDipendenti: any[] = []
   filteredDipendentiList:any;
@@ -35,7 +34,6 @@ responsabileForm!:FormGroup;
                private router: Router,) {
   }
   ngOnInit(): void {
-    this.pnrrValue = 'si';
 this.getUserList();
 this.#load();
   }
@@ -51,7 +49,7 @@ this.#load();
       codice_fatturazione: new FormControl(''),
       tempi_fatturazione: new FormControl(''),
       determina: new FormControl(''),
-      pnrrValue: new FormControl('si'),
+      pnrrValue: new FormControl(''),
       tipo_commessa: new FormControl(''),
       misura: new FormControl(''),
       pm: new FormControl(''),
@@ -74,7 +72,7 @@ this.#load();
   async getUserList() {
     const usersRef = ref(database, 'users');
     try {
-      const snapshot = await get(usersRef);
+      const snapshot = await get(usersRef!);
       if (snapshot.exists()) {
         const data = snapshot.val();
         this.dipendentiList = Object.keys(data).map(key => ({ ...data[key], id: key }));
@@ -108,7 +106,9 @@ this.#load();
   createRisorsa(): FormGroup {
     return this.formBuilder.group({
       dipendenti: [''],
-      tempo: ['']
+      tempo: [''],
+      percentuale:[''] || null,
+      mostraPercentuale: [false]
     });
   }
 
@@ -167,4 +167,13 @@ this.#load();
     });
 
   }
+  updateTempo(index: number, event: Event) {
+    const selectElement = event.target as HTMLSelectElement;
+    const tempo = selectElement.value;
+    const risorsa = this.risorse.at(index) as FormGroup;
+    risorsa.patchValue({
+      mostraPercentuale: tempo === 'part'
+    });
+  }
+
 }

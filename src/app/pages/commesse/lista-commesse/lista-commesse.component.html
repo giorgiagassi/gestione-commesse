@@ -1,4 +1,4 @@
-<h3 class="text-center">ELENCO CACCIATORI</h3>
+<h3 class="text-center p-5">COMMESSE</h3>
 <hr>
 
 <div class="card">
@@ -16,15 +16,10 @@
   >
     <ng-template pTemplate="caption">
       <div class="row ">
-        <div class="col-6">
-          <button pButton label="Cancella" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
-        </div>
-        <div class="col-6">
-        <span class="p-input-icon-left  float-end">
-             <input (input)="onFilter($event)" pInputText  type="text" placeholder="Cerca"/>
-             <i class="pi pi-search ms-5" ></i>
-            </span>
-          <p-button label="Crea Nuova Commessa" [raised]="true" [rounded]="true" class="m-2" size="small" routerLink="/nuova-commessa"></p-button>
+
+        <div class="col-12">
+
+          <p-button label="Crea Nuova Commessa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" routerLink="/nuova-commessa"></p-button>
         </div>
 
       </div>

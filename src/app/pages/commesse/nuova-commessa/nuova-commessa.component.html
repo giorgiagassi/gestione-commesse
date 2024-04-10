@@ -64,7 +64,7 @@
           <label class="active">PNRR</label>
           <div>
             <div class="form-check form-check-inline">
-              <input name="pnrr" [(ngModel)]="pnrrValue" type="radio" id="radio4" value="si" checked>
+              <input name="pnrr" [(ngModel)]="pnrrValue" type="radio" id="radio4" value="si" >
               <label for="radio4">SI</label>
             </div>
             <div class="form-check form-check-inline">
@@ -124,43 +124,49 @@
       </div>
 
       <div formArrayName="risorse" class="p-3">
-        <div *ngFor="let risorsa of risorse.controls; let i = index" [formGroupName]="i" >
+        <div *ngFor="let risorsa of risorse.controls; let i = index" [formGroupName]="i">
           <div class="row p-3" style="border: solid rgba(128,128,128,0.53)">
             <div class="col-3 p-2">
-          <div class="select-wrapper">
-            <label>Dipendenti</label>
-            <select formControlName="dipendenti">
-              <option value="">Scegli un'opzione</option>
-              <option *ngFor="let hunter of filteredDipendentiList" [value]="hunter.id">
-                {{ hunter.name }} {{ hunter.surname }}
-              </option>
-            </select>
-          </div>
+              <div class="select-wrapper">
+                <label>Dipendenti</label>
+                <select formControlName="dipendenti">
+                  <option value="">Scegli un'opzione</option>
+                  <option *ngFor="let hunter of filteredDipendentiList" [value]="hunter.id">
+                    {{ hunter.name }} {{ hunter.surname }}
+                  </option>
+                </select>
+              </div>
             </div>
             <div class="col-3 p-2">
-          <div class="select-wrapper">
-            <label>Tempo</label>
-            <select formControlName="tempo">
-              <option value="">Scegli un'opzione</option>
-              <option value="full">Full Time</option>
-              <option value="part">Part Time</option>
-            </select>
-          </div>
+              <div class="select-wrapper">
+                <label>Tempo</label>
+                <select formControlName="tempo" (change)="updateTempo(i, $event)">
+                  <option value="">Scegli un'opzione</option>
+                  <option value="full">Full Time</option>
+                  <option value="part">Part Time</option>
+                </select>
+              </div>
+            </div>
+            <div *ngIf="risorsa.get('mostraPercentuale')!.value" class="col-3 p-2">
+              <div class="form-group">
+                <label for="percentuale" class="active">Percentuale</label>
+                <input type="text" class="form-control" id="percentuale" formControlName="percentuale">
+              </div>
             </div>
             <div class="col p-3">
               <button type="button" (click)="removeRisorsa(i)" class="btn-danger">Rimuovi</button>
             </div>
           </div>
-
         </div>
       </div>
+
 
     </div>
   </form>
 
   <form [formGroup]="responsabileForm">
     <div class="row p-3">
-      <h5 class="pb-3 text-center">Responsabile</h5>
+      <h5 class="pb-3 text-center">Referente Ente</h5>
       <div class="col-3 pt-3">
         <div class="form-group">
           <label for="nome_responsabile" class="active">Nome</label>

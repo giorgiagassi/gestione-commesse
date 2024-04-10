@@ -39,7 +39,7 @@ export class AuthService {
             uid: user.uid,
             ...snapshot.val() // presupponendo che snapshot.val() ritorni un oggetto con name e surname
           };
-          localStorage.setItem('user', JSON.stringify(userData));
+          sessionStorage.setItem('user', JSON.stringify(userData));
         }
 
         Swal.fire({title: 'Login avvenuto con successo', icon: "success"});
@@ -64,7 +64,7 @@ export class AuthService {
   async SignOut() {
     try {
       await signOut(auth);
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
       Swal.fire({title: 'Logout avvenuto con successo', icon: "success"});
       this.router.navigate(['login']);
     } catch (error: any) {
@@ -121,12 +121,12 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
+    const user = JSON.parse(sessionStorage.getItem('user') || 'null');
     return user !== null;
   }
   getUserDetails() {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    return user ? { name: user.name, surname: user.surname } : null;
+    const user = JSON.parse(sessionStorage.getItem('user')!);
+    return user ? { name: user.name, surname: user.surname, role: user.role } : null;
   }
 
 }
