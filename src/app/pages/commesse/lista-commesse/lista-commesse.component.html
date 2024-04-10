@@ -1,1 +1,114 @@
-<p>lista-commesse works!</p>
+<h3 class="text-center">ELENCO CACCIATORI</h3>
+<hr>
+
+<div class="card">
+  <p-table
+    #dt1
+    [value]="commesseList"
+    dataKey="num_tesserino"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading"
+    [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['nome_comune', 'importo', 'data_inizio', 'data_fine', 'pnrrValue', 'codice_fatturazione', 'determina']"
+  >
+    <ng-template pTemplate="caption">
+      <div class="row ">
+        <div class="col-6">
+          <button pButton label="Cancella" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(dt1)"></button>
+        </div>
+        <div class="col-6">
+        <span class="p-input-icon-left  float-end">
+             <input (input)="onFilter($event)" pInputText  type="text" placeholder="Cerca"/>
+             <i class="pi pi-search ms-5" ></i>
+            </span>
+          <p-button label="Crea Nuova Commessa" [raised]="true" [rounded]="true" class="m-2" size="small" routerLink="/nuova-commessa"></p-button>
+        </div>
+
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width:15rem">
+          <div class="flex align-items-center">
+            Comune
+          </div>
+        </th>
+        <th style="min-width:15rem">
+          <div class="flex align-items-center">
+            Importo
+
+          </div>
+        </th>
+        <th style="min-width:10rem">
+          <div class="flex align-items-center">
+            Da
+
+          </div>
+        </th>
+
+        <th style="min-width:10rem">
+          <div class="flex align-items-center text-center">
+            A
+
+          </div>
+        </th>
+        <th style="min-width:10rem">
+          <div class="flex align-items-center text-center">
+            PNRR
+
+          </div>
+        </th>
+        <th style="min-width:10rem">
+          <div class="flex align-items-center text-center">
+            Codice Fatturazione
+
+          </div>
+        </th>
+        <th style="min-width:10rem">
+          <div class="flex align-items-center text-center">
+            Determina
+
+          </div>
+        </th>
+        <th>Azioni</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-customer>
+      <tr>
+        <td>
+          {{customer.commessa.nome_comune}}
+        </td>
+        <td>
+          {{customer.commessa.importo}}
+        </td>
+        <td>
+          {{customer.commessa.data_inizio}}
+        </td>
+        <td>
+          {{customer.commessa.data_fine}}
+        </td>
+        <td>
+          {{customer.commessa.pnrrValue}}
+        </td>
+        <td>
+          {{customer.commessa.codice_fatturazione}}
+        </td>
+        <td>
+          {{customer.commessa.determina}}
+        </td>
+        <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2"></p-button>
+        <p-button (click)="attivitaCustomer(customer)" label="Attività" class="p-2" severity="info"></p-button>
+        <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">Nessun elemento trovato.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,7 +1,7 @@
 <div class="container p-3">
   <h3 class="text-center">Crea Nuova Commessa</h3>
   <hr>
-  <form >
+  <form [formGroup]="commessaForm">
 
     <div class="row pt-3">
       <div class="col-3">
@@ -91,7 +91,7 @@
       </div>
       <div class="col-3">
         <div class="select-wrapper">
-          <label for="tipo_commessa">Scegli misura</label>
+          <label for="tipo_commessa">Tipo Commessa</label>
           <select id="tipo_commessa"  formControlName="tipo_commessa">
             <option selected="" value="">Scegli un'opzione</option>
             <option value="Tributi">Tributi </option>
@@ -103,10 +103,10 @@
       </div>
       <div class="col-3">
         <div class="select-wrapper">
-          <label for="risorse">Risorse Allocate</label>
-          <select id="risorse" formControlName="risorse" multiple (change)="onUserChange($event)">
+          <label>PM</label>
+          <select formControlName="pm">
             <option value="">Scegli un'opzione</option>
-            <option *ngFor="let hunter of dipendentiList" [value]="hunter.id">
+            <option *ngFor="let hunter of filteredPMList" [value]="hunter.id">
               {{ hunter.name }} {{ hunter.surname }}
             </option>
           </select>
@@ -115,28 +115,71 @@
 
 
     </div>
+  </form>
+  <form [formGroup]="risorseForm">
+    <div class="row p-3">
+      <h5 class="pt-3 text-center">Risorse Allocate</h5>
+      <div class="col p-3">
+        <button type="button" class="btn-primary float-end" (click)="addRisorsa()">Aggiungi Risorsa</button>
+      </div>
 
-    <div class="row">
-      <h5 class="pb-3">Responsabile</h5>
-      <div class="col-3">
+      <div formArrayName="risorse" class="p-3">
+        <div *ngFor="let risorsa of risorse.controls; let i = index" [formGroupName]="i" >
+          <div class="row p-3" style="border: solid rgba(128,128,128,0.53)">
+            <div class="col-3 p-2">
+          <div class="select-wrapper">
+            <label>Dipendenti</label>
+            <select formControlName="dipendenti">
+              <option value="">Scegli un'opzione</option>
+              <option *ngFor="let hunter of filteredDipendentiList" [value]="hunter.id">
+                {{ hunter.name }} {{ hunter.surname }}
+              </option>
+            </select>
+          </div>
+            </div>
+            <div class="col-3 p-2">
+          <div class="select-wrapper">
+            <label>Tempo</label>
+            <select formControlName="tempo">
+              <option value="">Scegli un'opzione</option>
+              <option value="full">Full Time</option>
+              <option value="part">Part Time</option>
+            </select>
+          </div>
+            </div>
+            <div class="col p-3">
+              <button type="button" (click)="removeRisorsa(i)" class="btn-danger">Rimuovi</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </form>
+
+  <form [formGroup]="responsabileForm">
+    <div class="row p-3">
+      <h5 class="pb-3 text-center">Responsabile</h5>
+      <div class="col-3 pt-3">
         <div class="form-group">
           <label for="nome_responsabile" class="active">Nome</label>
           <input type="text" class="form-control" id="nome_responsabile" formControlName="nome_responsabile">
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pt-3">
         <div class="form-group">
           <label for="cognome_responsabile" class="active">Cognome</label>
           <input type="text" class="form-control" id="cognome_responsabile" formControlName="cognome_responsabile">
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pt-3">
         <div class="form-group">
           <label for="email_responsabile" class="active">Email</label>
           <input type="text" class="form-control" id="email_responsabile" formControlName="email_responsabile">
         </div>
       </div>
-      <div class="col-3">
+      <div class="col-3 pt-3">
         <div class="form-group">
           <label for="cellulare_responsabile" class="active"> Cellulare</label>
           <input type="number" class="form-control" id="cellulare_responsabile" formControlName="cellulare_responsabile">
@@ -145,8 +188,12 @@
 
     </div>
 
-
-
-    <button type="submit" class="btn btn-success">Salva</button>
   </form>
+<div class="row justify-content-center">
+  <div class="col text-center">
+    <button type="submit" class="btn btn-success" (click)="saveForm()">Salva</button>
+  </div>
+</div>
+
+
 </div>
