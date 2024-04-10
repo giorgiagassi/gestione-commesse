@@ -49,7 +49,7 @@ this.#load();
       codice_fatturazione: new FormControl(''),
       tempi_fatturazione: new FormControl(''),
       determina: new FormControl(''),
-      pnrrValue: new FormControl(''),
+      pnrrValue: new FormControl('si'),
       tipo_commessa: new FormControl(''),
       misura: new FormControl(''),
       pm: new FormControl(''),
@@ -93,16 +93,6 @@ this.#load();
     }
   }
 
-  onUserChange(event: Event) {
-    const selectElement = event.target as HTMLSelectElement;
-    const selectedValues = Array.from(selectElement.selectedOptions).map(option => option.value);
-
-    // Filtra la lista dei dipendenti basata sui valori selezionati
-    this.selectedDipendenti = this.dipendentiList.filter((dipendente:any) => selectedValues.includes(dipendente.id));
-
-    // Ora `this.selectedDipendenti` contiene gli oggetti dei dipendenti selezionati
-    console.log('Dipendenti selezionati:', this.selectedDipendenti);
-  }
   createRisorsa(): FormGroup {
     return this.formBuilder.group({
       dipendenti: [''],

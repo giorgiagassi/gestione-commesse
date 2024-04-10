@@ -64,28 +64,23 @@
           <label class="active">PNRR</label>
           <div>
             <div class="form-check form-check-inline">
-              <input name="pnrr" [(ngModel)]="pnrrValue" type="radio" id="radio4" value="si" >
+              <input type="radio" id="radio4" formControlName="pnrrValue" value="si">
               <label for="radio4">SI</label>
             </div>
             <div class="form-check form-check-inline">
-              <input name="pnrr" [(ngModel)]="pnrrValue" type="radio" id="radio5" value="no">
+              <input type="radio" id="radio5" formControlName="pnrrValue" value="no">
               <label for="radio5">NO</label>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-3" *ngIf="pnrrValue === 'si'">
+      <div class="col-3" *ngIf="commessaForm.get('pnrrValue')!.value === 'si'">
         <div class="select-wrapper">
-          <label for="misura">Scgli misura</label>
-          <select id="misura"  formControlName="misura">
-            <option selected="" value="">Scegli un'opzione</option>
-            <option value="1.2">1.2 </option>
-            <option value="1.4.1">1.4.1 </option>
-            <option value="1.4.3 App IO">1.4.3 App IO</option>
-            <option value="1.4.3 PagoPA">1.4.3 PagoPA</option>
-            <option value="1.4.4">1.4.4</option>
-            <option value="1.4.5">1.4.5</option>
-            <option value="1.3.1">1.3.1</option>
+          <label for="misura">Scegli misura</label>
+          <select id="misura" formControlName="misura">
+            <option value="">Scegli un'opzione</option>
+            <option value="1.2">1.2</option>
+            <!-- Altre opzioni -->
           </select>
         </div>
       </div>
