@@ -8,6 +8,7 @@ import {NuovoDipendenteComponent} from "./pages/dipendenti/nuovo-dipendente/nuov
 import {RegistrazioneComponent} from "./pages/utenti/registrazione/registrazione.component";
 import {ListaCommesseComponent} from "./pages/commesse/lista-commesse/lista-commesse.component";
 import {ModificaCommessaComponent} from "./pages/commesse/modifica-commessa/modifica-commessa.component";
+import {ComuniComponent} from "./pages/impostazioni/comuni/comuni.component";
 
 export const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
@@ -19,6 +20,7 @@ export const routes: Routes = [
   {path:'lista-dipendenti', component: ListaDipendentiComponent},
   {path:'nuovo-dipendente', component: NuovoDipendenteComponent},
   {path:'registrazione', component:RegistrazioneComponent},
-  {path:'modifica-commessa/:id', component:ModificaCommessaComponent}
+  {path:'modifica-commessa/:id', component:ModificaCommessaComponent},
+  {path:'comuni', component: ComuniComponent},
 
 ];

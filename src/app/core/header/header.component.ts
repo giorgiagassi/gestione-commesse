@@ -61,6 +61,17 @@ export class HeaderComponent implements OnInit {
           },
         ]
       },
+      {
+        label: 'Impostazioni',
+        icon: 'pi pi-fw pi-cog',
+        items: [
+          {
+            label: 'Comuni',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/comuni'] // Aggiungi il percorso di navigazione desiderato
+          },
+        ]
+      },
       // Aggiungi altri elementi del menu come necessario
     ];
   }
