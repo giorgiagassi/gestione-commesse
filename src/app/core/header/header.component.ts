@@ -64,11 +64,47 @@ export class HeaderComponent implements OnInit {
       {
         label: 'Impostazioni',
         icon: 'pi pi-fw pi-cog',
+        routerLink:['/lista-impostazioni'],
         items: [
           {
             label: 'Comuni',
             icon: 'pi pi-fw pi-plus',
             routerLink: ['/comuni'] // Aggiungi il percorso di navigazione desiderato
+          },
+          {
+            label: 'Oggetto',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/oggetto'] // Aggiungi il percorso di navigazione desiderato
+          },
+          {
+            label: 'Spese Postali',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/spese-postali'] // Aggiungi il percorso di navigazione desiderato
+          },
+          {
+            label: 'Tipo Atto',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/tipo-atto'] // Aggiungi il percorso di navigazione desiderato
+          },
+          {
+            label: 'Tipo Ritiro',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/tipo-ritiro'] // Aggiungi il percorso di navigazione desiderato
+          },
+          {
+            label: 'Tipo Spedizione',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/tipo-spedizione'] // Aggiungi il percorso di navigazione desiderato
+          },
+          {
+            label: 'Tipo Stampa',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/tipo-stampa'] // Aggiungi il percorso di navigazione desiderato
+          },
+          {
+            label: 'Vettore Postale',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/vettore-postale'] // Aggiungi il percorso di navigazione desiderato
           },
         ]
       },

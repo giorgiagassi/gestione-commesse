@@ -1,0 +1,19 @@
+<div class="container">
+  <h3 class="text-center">Aggiungi Tipo Spedizione</h3>
+  <hr>
+  <form [formGroup]="tipoSpedizioneForm">
+    <div class="row pt-3">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="spese" class="active">Tipo Spedizione</label>
+          <input type="text" class="form-control" id="spese" formControlName="tipo_spedizione">
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <button type="submit" class="btn btn-success" (click)="saveForm()">Salva</button>
+    </div>
+  </div>
+</div>

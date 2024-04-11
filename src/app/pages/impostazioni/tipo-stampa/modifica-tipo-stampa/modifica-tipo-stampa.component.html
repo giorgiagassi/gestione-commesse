@@ -1,0 +1,19 @@
+<div class="container">
+  <h3 class="text-center">Modifica Tipo Stampa</h3>
+  <hr>
+  <form [formGroup]="tipoStampaForm">
+    <div class="row pt-3">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="oggetto" class="active">Tipo Stampa</label>
+          <input type="text" class="form-control" id="oggetto" formControlName="tipo_stampa">
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <button type="submit" class="btn btn-success" (click)="saveForm()">Salva</button>
+    </div>
+  </div>
+</div>

@@ -16,25 +16,95 @@ import {TipoAttoComponent} from "./pages/impostazioni/tipo-atto/tipo-atto.compon
 import {TipoSpedizioneComponent} from "./pages/impostazioni/tipo-spedizione/tipo-spedizione.component";
 import {TipoStampaComponent} from "./pages/impostazioni/tipo-stampa/tipo-stampa.component";
 import {VettorePostaleComponent} from "./pages/impostazioni/vettore-postale/vettore-postale.component";
+import {ListaImpostazioniComponent} from "./pages/impostazioni/lista-impostazioni/lista-impostazioni.component";
+import {NuovoComuneComponent} from "./pages/impostazioni/comuni/nuovo-comune/nuovo-comune.component";
+import {ModificaComuneComponent} from "./pages/impostazioni/comuni/modifica-comune/modifica-comune.component";
+import {NuovoOggettoComponent} from "./pages/impostazioni/oggetto/nuovo-oggetto/nuovo-oggetto.component";
+import {ModificaOggettoComponent} from "./pages/impostazioni/oggetto/modifica-oggetto/modifica-oggetto.component";
+import {
+  NuoveSpesePostaliComponent
+} from "./pages/impostazioni/spese-postali/nuove-spese-postali/nuove-spese-postali.component";
+import {
+  ModificaSpesePostaliComponent
+} from "./pages/impostazioni/spese-postali/modifica-spese-postali/modifica-spese-postali.component";
+import {NuovoTipoAttoComponent} from "./pages/impostazioni/tipo-atto/nuovo-tipo-atto/nuovo-tipo-atto.component";
+import {
+  ModificaTipoAttoComponent
+} from "./pages/impostazioni/tipo-atto/modifica-tipo-atto/modifica-tipo-atto.component";
+import {NuovoTipoRitiroComponent} from "./pages/impostazioni/tipo-ritiro/nuovo-tipo-ritiro/nuovo-tipo-ritiro.component";
+import {
+  ModificaTipoRitiroComponent
+} from "./pages/impostazioni/tipo-ritiro/modifica-tipo-ritiro/modifica-tipo-ritiro.component";
+import {
+  NuovoTipoSpedizioneComponent
+} from "./pages/impostazioni/tipo-spedizione/nuovo-tipo-spedizione/nuovo-tipo-spedizione.component";
+import {
+  ModificaTipoSpedizioneComponent
+} from "./pages/impostazioni/tipo-spedizione/modifica-tipo-spedizione/modifica-tipo-spedizione.component";
+import {NuovoTipoStampaComponent} from "./pages/impostazioni/tipo-stampa/nuovo-tipo-stampa/nuovo-tipo-stampa.component";
+import {
+  ModificaTipoStampaComponent
+} from "./pages/impostazioni/tipo-stampa/modifica-tipo-stampa/modifica-tipo-stampa.component";
+import {
+  NuovoVettorePostaleComponent
+} from "./pages/impostazioni/vettore-postale/nuovo-vettore-postale/nuovo-vettore-postale.component";
+import {
+  ModificaVettorePostaleComponent
+} from "./pages/impostazioni/vettore-postale/modifica-vettore-postale/modifica-vettore-postale.component";
 
 export const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
+  //utenti
   {path:'login', component: LoginComponent},
-  {path:'lista-attivita/:id', component: ListaAttivitaComponent},
-  {path:'stampa', component: StampaComponent},
-  {path:'lista-commesse', component: ListaCommesseComponent},
-  {path:'nuova-commessa', component: NuovaCommessaComponent},
   {path:'lista-dipendenti', component: ListaDipendentiComponent},
   {path:'nuovo-dipendente', component: NuovoDipendenteComponent},
   {path:'registrazione', component:RegistrazioneComponent},
+  //attività
+  {path:'lista-attivita/:id', component: ListaAttivitaComponent},
+  {path:'stampa', component: StampaComponent},
+
+  //commesse
+  {path:'lista-commesse', component: ListaCommesseComponent},
+  {path:'nuova-commessa', component: NuovaCommessaComponent},
   {path:'modifica-commessa/:id', component:ModificaCommessaComponent},
+
+//impostazioni
+  {path:'lista-impostazioni', component: ListaImpostazioniComponent},
+  //comuni
   {path:'comuni', component: ComuniComponent},
+  {path:'nuovo-comune', component: NuovoComuneComponent},
+  {path:'modifica-comune/:id', component: ModificaComuneComponent},
+  //oggetto
   {path:'oggetto', component:OggettoComponent},
+  {path:'nuovo-oggetto', component: NuovoOggettoComponent},
+  {path:'modifica-oggetto/:id', component: ModificaOggettoComponent},
+  //spese postali
   {path:'spese-postali', component: SpesePostaliComponent},
+  {path:'nuovo-spese-postali', component: NuoveSpesePostaliComponent},
+  {path:'modifica-spese-postali/:id', component: ModificaSpesePostaliComponent},
+  //tipo atto
   {path:'tipo-atto', component:TipoAttoComponent},
+  {path:'nuovo-tipo-atto', component: NuovoTipoAttoComponent},
+  {path:'modifica-tipo-atto/:id', component: ModificaTipoAttoComponent},
+  //tipo ritiro
   {path:'tipo-ritiro', component: TipoRitiroComponent},
+  {path:'nuovo-tipo-ritiro', component: NuovoTipoRitiroComponent},
+  {path:'modifica-tipo-ritiro/:id', component: ModificaTipoRitiroComponent},
+  //tipo spedizione
   {path:'tipo-spedizione', component: TipoSpedizioneComponent},
+  {path:'nuovo-tipo-spedizione', component: NuovoTipoSpedizioneComponent},
+  {path:'modifica-tipo-spedizione/:id', component: ModificaTipoSpedizioneComponent},
+  //tipo stampa
   {path:'tipo-stampa', component: TipoStampaComponent},
-  {path:'vettore-postale', component: VettorePostaleComponent}
+  {path:'nuovo-tipo-stampa', component: NuovoTipoStampaComponent},
+  {path:'modifica-tipo-stampa/:id', component: ModificaTipoStampaComponent},
+  //vettore postale
+  {path:'vettore-postale', component: VettorePostaleComponent},
+  {path:'nuovo-vettore-postale', component: NuovoVettorePostaleComponent},
+  {path:'modifica-vettore-postale/:id', component: ModificaVettorePostaleComponent},
+
+
+
+
 
 ];
