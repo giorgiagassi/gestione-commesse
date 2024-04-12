@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
 <h3 class="text-center p-5">COMMESSE</h3>
 <hr>
 
@@ -18,7 +18,7 @@
     <ng-template pTemplate="caption">
       <div class="row ">
 
-        <div class="col-12">
+        <div class="col-12" *ngIf="role != 'dipendente'">
 
           <p-button label="Crea Nuova Commessa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" routerLink="/nuova-commessa"></p-button>
         </div>
@@ -70,7 +70,7 @@
 
           </div>
         </th>
-        <th>Azioni</th>
+        <th  >Azioni</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-customer>
@@ -96,9 +96,9 @@
         <td>
           {{customer.commessa.determina}}
         </td>
-        <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2"></p-button>
+        <p-button *ngIf="role != 'dipendente'" (click)="editCustomer(customer)" label="Modfica" class="p-2" ></p-button>
         <p-button (click)="attivitaCustomer(customer)" label="Attività" class="p-2" severity="info"></p-button>
-        <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
+        <p-button *ngIf="role != 'dipendente'" (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">

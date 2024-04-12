@@ -1,11 +1,10 @@
 <div class="container">
-  <h3 class="text-center">Lista Dipendenti</h3>
+  <h3 class="text-center">Lista Misure PNRR</h3>
   <hr>
-
   <div class="card text-center">
     <p-table
       #dt1
-      [value]="usersList"
+      [value]="misuraList"
       dataKey="num_tesserino"
       [rows]="10"
       [showCurrentPageReport]="true"
@@ -13,14 +12,14 @@
       [loading]="loading"
       [paginator]="true"
       currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-      [globalFilterFields]="['nome_comune',]"
+      [globalFilterFields]="['misura_pnrr',]"
     >
       <ng-template pTemplate="caption">
         <div class="row ">
 
           <div class="col-12">
 
-            <p-button label="Crea Nuovo Dipendente" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" routerLink="/nuovo-dipendente"></p-button>
+            <p-button label="Crea Nuovo" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" routerLink="/nuovo-misura-pnrr"></p-button>
           </div>
 
         </div>
@@ -30,17 +29,7 @@
         <tr>
           <th >
             <div class="flex align-items-center">
-              Nome
-            </div>
-          </th>
-          <th >
-            <div class="flex align-items-center">
-              Cognome
-            </div>
-          </th>
-          <th >
-            <div class="flex align-items-center">
-              Ruolo
+              Misura PNRR
             </div>
           </th>
           <th>Azioni</th>
@@ -49,16 +38,10 @@
       <ng-template pTemplate="body" let-customer>
         <tr>
           <td class="text-center">
-            {{customer.name}}
-          </td>
-          <td class="text-center">
-            {{customer.surname}}
-          </td>
-          <td class="text-center">
-            {{customer.role}}
+            {{customer.misura_pnrr}}
           </td>
 
-
+          <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2"></p-button>
           <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
         </tr>
       </ng-template>

@@ -5,6 +5,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, se
 import { initializeApp } from "firebase/app";
 import { getDatabase, ref, set, get } from 'firebase/database';
 import {environment} from "../enviroments/enviroments";
+import {BehaviorSubject} from "rxjs";
 
 
 const firebaseApp = initializeApp(environment.firebaseConfig);
@@ -15,6 +16,7 @@ const database = getDatabase(firebaseApp);
   providedIn: 'root'
 })
 export class AuthService {
+  loading: boolean = false;
   constructor(private router: Router) {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -26,6 +28,7 @@ export class AuthService {
   }
 
   async SignIn(email: string, password: string) {
+    this.loading = true;
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -49,19 +52,26 @@ export class AuthService {
       console.error("Errore di login:", error);
       this.errorMessage(error.code);
     }
+    finally {
+      this.loading = false;
+    }
   }
 
   async ForgotPassword(passwordResetEmail: string) {
+    this.loading = true;
     try {
       await sendPasswordResetEmail(auth, passwordResetEmail);
       Swal.fire({title: 'Cambio password avvenuto con successo! Controlla la tua mail', icon: "success"});
     } catch (error: any) {
       console.error("Errore nel reset della password:", error);
       this.errorMessage(error.code);
+    }finally {
+      this.loading = false;
     }
   }
 
   async SignOut() {
+    this.loading = true;
     try {
       await signOut(auth);
       sessionStorage.removeItem('user');
@@ -70,10 +80,13 @@ export class AuthService {
     } catch (error: any) {
       console.error("Errore nel logout:", error);
       this.errorMessage(error.code);
+    }finally {
+      this.loading = false;
     }
   }
 
   async createUser(name: string, surname: string, email: string, password: string, role: string) {
+    this.loading = true;
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -87,11 +100,15 @@ export class AuthService {
           role: role,
         });
 
-        this.router.navigate(['/login']);
+
       }
+      Swal.fire({title: 'Registrazione avvenuta con successo', icon: "success"});
     } catch (error: any) {
       console.error("Errore nella creazione dell'utente:", error);
       this.errorMessage(error.code);
+    }
+    finally {
+      this.loading = false;
     }
   }
 
@@ -126,7 +143,7 @@ export class AuthService {
   }
   getUserDetails() {
     const user = JSON.parse(sessionStorage.getItem('user')!);
-    return user ? { name: user.name, surname: user.surname, role: user.role } : null;
+    return user ? { name: user.name, surname: user.surname, role: user.role, id: user.uid} : null;
   }
 
 }

@@ -17,10 +17,11 @@ export class RegistrazioneComponent {
   email: string = '';
   password: string = '';
   role: string = '';
-
+loading: boolean = false;
   constructor(private authService: AuthService) {}
 
   async onRegister() {
+    this.loading= true
     if (!this.name || !this.surname || !this.email || !this.password || !this.role) {
       console.error("Per favore, completa tutti i campi.");
       return;
@@ -29,10 +30,11 @@ export class RegistrazioneComponent {
     try {
       await this.authService.createUser(this.name, this.surname, this.email, this.password, this.role);
 
-      // La navigazione a 'home' o altra logica può essere gestita qui o all'interno di createUser
     } catch (error) {
       console.error("Errore durante la registrazione", error);
       // Gestisci gli errori qui, ad esempio mostrando un messaggio all'utente
+    }finally {
+      this.loading = false;
     }
   }
 }

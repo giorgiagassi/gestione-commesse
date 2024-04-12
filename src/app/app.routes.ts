@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import {LoginComponent} from "./pages/utenti/login/login.component";
 import {ListaAttivitaComponent} from "./pages/attivita/lista-attivita/lista-attivita.component";
-import {StampaComponent} from "./pages/attivita/stampa/stampa.component";
+import {StampaComponent} from "./pages/attivita/attivita-stampa/stampa/stampa.component";
 import {NuovaCommessaComponent} from "./pages/commesse/nuova-commessa/nuova-commessa.component";
 import {ListaDipendentiComponent} from "./pages/dipendenti/lista-dipendenti/lista-dipendenti.component";
 import {NuovoDipendenteComponent} from "./pages/dipendenti/nuovo-dipendente/nuovo-dipendente.component";
@@ -51,6 +51,19 @@ import {
 import {
   ModificaVettorePostaleComponent
 } from "./pages/impostazioni/vettore-postale/modifica-vettore-postale/modifica-vettore-postale.component";
+import {TipoCommessaComponent} from "./pages/impostazioni/tipo-commessa/tipo-commessa.component";
+import {
+  NuovoTipoCommessaComponent
+} from "./pages/impostazioni/tipo-commessa/nuovo-tipo-commessa/nuovo-tipo-commessa.component";
+import {
+  ModificaTipoCommessaComponent
+} from "./pages/impostazioni/tipo-commessa/modifica-tipo-commessa/modifica-tipo-commessa.component";
+import {MisuraPnrrComponent} from "./pages/impostazioni/misura-pnrr/misura-pnrr.component";
+import {NuovoMisuraPnrrComponent} from "./pages/impostazioni/misura-pnrr/nuovo-misura-pnrr/nuovo-misura-pnrr.component";
+import {
+  ModificaMisuraPnrrComponent
+} from "./pages/impostazioni/misura-pnrr/modifica-misura-pnrr/modifica-misura-pnrr.component";
+import {ModificaStampaComponent} from "./pages/attivita/attivita-stampa/modifica-stampa/modifica-stampa.component";
 
 export const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
@@ -61,7 +74,8 @@ export const routes: Routes = [
   {path:'registrazione', component:RegistrazioneComponent},
   //attività
   {path:'lista-attivita/:id', component: ListaAttivitaComponent},
-  {path:'stampa', component: StampaComponent},
+  {path:'stampa/:id', component: StampaComponent},
+  {path:'modifica-stampa/:id', component: ModificaStampaComponent},
 
   //commesse
   {path:'lista-commesse', component: ListaCommesseComponent},
@@ -102,6 +116,14 @@ export const routes: Routes = [
   {path:'vettore-postale', component: VettorePostaleComponent},
   {path:'nuovo-vettore-postale', component: NuovoVettorePostaleComponent},
   {path:'modifica-vettore-postale/:id', component: ModificaVettorePostaleComponent},
+  //tipo commessa
+  {path:'tipo-commessa', component: TipoCommessaComponent},
+  {path:'nuovo-tipo-commessa', component: NuovoTipoCommessaComponent},
+  {path:'modifica-tipo-commessa/:id', component: ModificaTipoCommessaComponent},
+  //misura pnrr
+  {path:'misura-pnrr', component: MisuraPnrrComponent},
+  {path:'nuovo-misura-pnrr', component: NuovoMisuraPnrrComponent},
+  {path:'modifica-misura-pnrr/:id', component: ModificaMisuraPnrrComponent},
 
 
 

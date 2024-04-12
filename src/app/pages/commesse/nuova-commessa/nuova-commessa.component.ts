@@ -23,19 +23,24 @@ const database = getDatabase(app);
 export class NuovaCommessaComponent implements OnInit{
   pnrrValue: string = '';
 dipendentiList: any;
-  selectedDipendenti: any[] = []
   filteredDipendentiList:any;
   filteredPMList:any;
 commessaForm!: FormGroup;
 risorseForm!:FormGroup;
 responsabileForm!:FormGroup;
-
+misuraList: any;
+tipoCommessaList: any;
+comuneList: any;
+loading: boolean = false
   constructor( public formBuilder: FormBuilder,
                private router: Router,) {
   }
   ngOnInit(): void {
 this.getUserList();
 this.#load();
+this.getTipoComessaList();
+this.getMisuraList();
+this.getComuniList();
   }
 
   async #load() {
@@ -70,6 +75,7 @@ this.#load();
     })
   }
   async getUserList() {
+    this.loading = true;
     const usersRef = ref(database, 'users');
     try {
       const snapshot = await get(usersRef!);
@@ -81,15 +87,17 @@ this.#load();
         this.filteredDipendentiList = this.dipendentiList.filter((dipendente:any) => dipendente.role === 'dipendente');
         this.filteredPMList = this.dipendentiList.filter((dipendente:any) => dipendente.role === 'pm');
 
-        console.log('Lista dei dipendenti:', this.dipendentiList);
+
         return this.filteredDipendentiList && this.filteredPMList;
       } else {
-        console.log('Nessuna lista dei dipendenti trovata nel database.');
+
         return null;
       }
     } catch (error) {
-      console.error('Errore durante il recupero della lista dei dipendenti:', error);
+
       return null;
+    }finally {
+      this.loading = false; // Nascondi lo spinner
     }
   }
 
@@ -117,9 +125,11 @@ this.#load();
   }
 
   saveForm(): void {
+    this.loading = true;  // Inizia a mostrare lo spinner
+
     const dataSend = {
       commessa: {
-        nome_comune: this.commessaForm?.value.nome_comune,
+        nome_comune: this.commessaForm?.get('nome_comune')!?.value || null,
         tipo_appalto: this.commessaForm?.value.tipo_appalto,
         importo: this.commessaForm?.value.importo,
         data_inizio: this.commessaForm?.value.data_inizio,
@@ -129,8 +139,8 @@ this.#load();
         tempi_fatturazione: this.commessaForm?.value.tempi_fatturazione,
         determina: this.commessaForm?.value.determina,
         pnrrValue:this.commessaForm?.value.pnrrValue,
-        tipo_commessa: this.commessaForm?.value.tipo_commessa,
-        misura: this.commessaForm?.value.misura,
+        tipo_commessa: this.commessaForm?.get('tipo_commessa')!.value || null,
+        misura: this.commessaForm?.get('misura')!.value || null,
         pm: this.commessaForm?.value.pm,
       },
       dipendenti: {
@@ -142,20 +152,17 @@ this.#load();
         email_responsabile: this.responsabileForm.value.email_responsabile,
         cellulare_responsabile: this.responsabileForm.value.cellulare_responsabile,
       }
-    }
+    };
 
     const commessaRef = ref(database, 'lista-commesse');
     push(commessaRef, dataSend).then(() => {
-      console.log( dataSend, 'dati salvati con successo')
-      setTimeout(() => {
-        Swal.fire({title: 'Commessa creata con successo', icon: "success"});
-        this.router.navigate(['/lista-commesse']);
-      }, 2000);
+      Swal.fire({title: 'Commessa creata con successo', icon: "success"});
+      this.router.navigate(['/lista-commesse']);
     }).catch((error) => {
       Swal.fire('Errore', error.message, 'error');
-      console.error('Error saving data:', error);  // È utile loggare l'errore
+    }).finally(() => {
+      this.loading = false;  // Nascondi lo spinner
     });
-
   }
   updateTempo(index: number, event: Event) {
     const selectElement = event.target as HTMLSelectElement;
@@ -164,6 +171,66 @@ this.#load();
     risorsa.patchValue({
       mostraPercentuale: tempo === 'part'
     });
+  }
+
+
+  async getComuniList() {
+    this.loading = true;
+    const usersRef = ref(database, 'impostazioni/comuni');
+    try {
+      const snapshot = await get(usersRef!);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        this.comuneList = Object.keys(data).map(key => ({ ...data[key], id: key }));
+        return this.comuneList
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return null;
+    }finally {
+      this.loading = false; // Nascondi lo spinner
+    }
+  }
+  async getTipoComessaList() {
+    this.loading = true;
+    const usersRef = ref(database, 'impostazioni/tipo-commessa');
+    try {
+      const snapshot = await get(usersRef!);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        this.tipoCommessaList = Object.keys(data).map(key => ({ ...data[key], id: key }));
+        return this.tipoCommessaList
+      } else {
+
+        return null;
+      }
+    } catch (error) {
+
+      return null;
+    }finally {
+      this.loading = false; // Nascondi lo spinner
+    }
+  }
+  async getMisuraList() {
+    this.loading = true;
+    const usersRef = ref(database, 'impostazioni/misura-pnrr');
+    try {
+      const snapshot = await get(usersRef!);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        this.misuraList = Object.keys(data).map(key => ({ ...data[key], id: key }));
+        return this.misuraList
+      } else {
+
+        return null;
+      }
+    } catch (error) {
+
+      return null;
+    }finally {
+      this.loading = false; // Nascondi lo spinner
+    }
   }
 
 }

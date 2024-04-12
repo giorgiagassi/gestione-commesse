@@ -1,1 +1,205 @@
-<p>modifica-commessa works!</p>
+<div class="container p-3">
+  <h3 class="text-center"> Modifica Commessa</h3>
+  <hr>
+  <form [formGroup]="commessaForm">
+
+    <div class="row pt-3">
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label>Comune</label>
+          <select formControlName="nome_comune">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let comune of comuneList" [value]="comune.nome_comune">
+              {{ comune.nome_comune }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="tipo_appalto" class="active">Tipologia Appalto</label>
+          <input type="text" class="form-control" id="tipo_appalto" formControlName="tipo_appalto">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="importo" class="active">Importo</label>
+          <input type="text" class="form-control" id="importo" formControlName="importo">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="data_inizio" class="active">Data Inizio </label>
+          <input type="date" class="form-control" id="data_inizio" formControlName="data_inizio">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="data_fine" class="active">Data Fine</label>
+          <input type="date" class="form-control" id="data_fine" formControlName="data_fine">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="anni" class="active">Anni</label>
+          <input type="text" class="form-control" id="anni" formControlName="anni">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="codice_fatturazione" class="active">Codice Fatturazione</label>
+          <input type="text" class="form-control" id="codice_fatturazione" formControlName="codice_fatturazione" >
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="tempi_fatturazione" class="active">Tempi di Fatturazione</label>
+          <input type="text" class="form-control" id="tempi_fatturazione" formControlName="tempi_fatturazione">
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="form-group">
+          <label for="determina" class="active">Determina</label>
+          <input type="text" class="form-control" id="determina" formControlName="determina">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label class="active">PNRR</label>
+          <div>
+            <div class="form-check form-check-inline">
+              <input type="radio" id="radio4" formControlName="pnrrValue" value="si" checked>
+              <label for="radio4">SI</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input type="radio" id="radio5" formControlName="pnrrValue" value="no">
+              <label for="radio5">NO</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-3" *ngIf="commessaForm.get('pnrrValue')!.value === 'si'">
+        <div class="select-wrapper">
+          <label>Segli Misura</label>
+          <select formControlName="misura">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let hunter of misuraList" [value]="hunter.misura_pnrr">
+              {{ hunter.misura_pnrr }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label>Tipo Commessa</label>
+          <select formControlName="tipo_commessa">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let hunter of tipoCommessaList" [value]="hunter.tipo_commessa">
+              {{ hunter.tipo_commessa }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label>PM</label>
+          <select formControlName="pm">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let hunter of filteredPMList" [value]="hunter.name + hunter.surname">
+              {{ hunter.name }} {{ hunter.surname }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+
+    </div>
+  </form>
+  <form [formGroup]="risorseForm">
+    <div class="row p-3">
+      <h5 class="pt-3 text-center">Risorse Allocate</h5>
+      <div class="col p-3">
+        <button type="button" class="btn-primary float-end" (click)="addRisorsa()">Aggiungi Risorsa</button>
+      </div>
+
+      <div formArrayName="risorse" class="p-3">
+        <div *ngFor="let risorsa of risorse.controls; let i = index" [formGroupName]="i">
+          <div class="row p-3" style="border: solid rgba(128,128,128,0.53)">
+            <div class="col-3 p-2">
+              <div class="select-wrapper">
+                <label>Dipendenti</label>
+                <select formControlName="dipendenti">
+                  <option value="">Scegli un'opzione</option>
+                  <option *ngFor="let hunter of filteredDipendentiList" [value]="hunter.id">
+                    {{ hunter.name }} {{ hunter.surname }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-3 p-2">
+              <div class="select-wrapper">
+                <label>Tempo</label>
+                <select formControlName="tempo" (change)="updateTempo(i, $event)">
+                  <option value="">Scegli un'opzione</option>
+                  <option value="full">Full Time</option>
+                  <option value="part">Part Time</option>
+                </select>
+              </div>
+            </div>
+            <div *ngIf="risorsa.get('mostraPercentuale')!.value" class="col-3 p-2">
+              <div class="form-group">
+                <label for="percentuale" class="active">Percentuale</label>
+                <input type="text" class="form-control" id="percentuale" formControlName="percentuale">
+              </div>
+            </div>
+            <div class="col p-3">
+              <button type="button" (click)="removeRisorsa(i)" class="btn-danger">Rimuovi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </form>
+
+  <form [formGroup]="responsabileForm">
+    <div class="row p-3">
+      <h5 class="pb-3 text-center">Referente Ente</h5>
+      <div class="col-3 pt-3">
+        <div class="form-group">
+          <label for="nome_responsabile" class="active">Nome</label>
+          <input type="text" class="form-control" id="nome_responsabile" formControlName="nome_responsabile">
+        </div>
+      </div>
+      <div class="col-3 pt-3">
+        <div class="form-group">
+          <label for="cognome_responsabile" class="active">Cognome</label>
+          <input type="text" class="form-control" id="cognome_responsabile" formControlName="cognome_responsabile">
+        </div>
+      </div>
+      <div class="col-3 pt-3">
+        <div class="form-group">
+          <label for="email_responsabile" class="active">Email</label>
+          <input type="text" class="form-control" id="email_responsabile" formControlName="email_responsabile">
+        </div>
+      </div>
+      <div class="col-3 pt-3">
+        <div class="form-group">
+          <label for="cellulare_responsabile" class="active"> Cellulare</label>
+          <input type="number" class="form-control" id="cellulare_responsabile" formControlName="cellulare_responsabile">
+        </div>
+      </div>
+
+    </div>
+
+  </form>
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <button type="submit" class="btn btn-success" (click)="saveForm()">Salva</button>
+    </div>
+  </div>
+
+
+</div>

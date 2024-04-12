@@ -6,6 +6,7 @@ import {environment} from "../../../enviroments/enviroments";
 import {ButtonModule} from "primeng/button";
 import {SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
+import {AuthService} from "../../../providers/auth.service";
 const app = initializeApp(environment.firebaseConfig);
 const database = getDatabase(app);
 @Component({
@@ -24,46 +25,68 @@ export class ListaAttivitaComponent implements OnInit{
   @ViewChild('dt1') dt1: any;
   attivitaList:any;
   loading: boolean = false
+  role!: string;
+  idUtente!:string;
   constructor(private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private authService: AuthService
   ) {
   }
 
   ngOnInit() {
-    this.getCommesseList()
+    this.getCommesseList();
+    this.userDetails();
+  }
+  userDetails(): void {
+    this.authService.getUserDetails()
+    const userDetails = this.authService.getUserDetails();
+    if (userDetails) {
+      this.role = userDetails.role
+      this.idUtente = userDetails.id
+    }
   }
 
   async getCommesseList() {
-    const huntersRef = ref(database, 'lista-attivita');
+    const huntersRef = ref(database, 'attivita/attivita-stampa');
     try {
       const snapshot = await get(huntersRef);
       if (snapshot.exists()) {
-        // La lista è stata trovata nel database, puoi accedere ai dati
         const data = snapshot.val();
-        this.attivitaList = Object.keys(data).map(key => ({ ...data[key], id: key }));
-        console.log('Lista dei attivita:', this.attivitaList);
+        // Stampa i valori per ogni chiave per comprendere meglio i dati
+        Object.keys(data).forEach(key => {
+        });
+
+        // Applica il filtro e la mappatura se necessario
+        if (this.role === 'dipendente') {
+          this.attivitaList = Object.keys(data)
+            .filter(key =>
+              data[key].dipendenti?.risorse.some((r:any) => r.dipendenti === this.idUtente)
+            )
+            .map(key => ({ ...data[key], id: key }));
+        } else {
+          this.attivitaList = Object.keys(data)
+            .map(key => ({ ...data[key], id: key }));
+        }
+
         return this.attivitaList;
       } else {
-        // La lista non è stata trovata nel database
-        console.log('Nessuna lista dei attivita trovata nel database.');
+
         return null;
       }
     } catch (error) {
-      // Si è verificato un errore durante il recupero dei dati
-      console.error('Errore durante il recupero della lista dei attivita:', error);
+
       return null;
     }
-
   }
   editCustomer(customer: any) {
     console.log(customer.id)
     // Qui puoi navigare alla componente di modifica con i dati del cliente
     // per esempio, utilizzando il Router di Angular e passando l'ID del cliente
-    this.router.navigate(['/modifica-commessa', customer.id]);
+    this.router.navigate(['/modifica-stampa', customer.id]);
   }
   deleteCustomer(customer: any) {
     // Assicurati di avere un DatabaseReference corretto
-    const customerRef = ref(database, `lista-attivita/${customer.id}`);
+    const customerRef = ref(database, `attivita/attivita-stampa/${customer.id}`);
 
     remove(customerRef).then(() => {
       // Rimuovi l'elemento dall'array per aggiornare l'UI
@@ -76,6 +99,6 @@ export class ListaAttivitaComponent implements OnInit{
 
   stampaCustomer() {
     const commessaId = this.route.snapshot.paramMap.get('id'); // Assumendo che 'id' sia il nome del parametro nella rotta
-    this.router.navigate(['/stampa'], { state: { commessaId: commessaId } });
+    this.router.navigate(['/stampa',  commessaId]);
   }
 }

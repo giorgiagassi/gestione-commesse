@@ -5,9 +5,14 @@
 
     <div class="row pt-3">
       <div class="col-3">
-        <div class="form-group">
-          <label for="nome_comune" class="active">Nome Comune</label>
-          <input type="text" class="form-control" id="nome_comune" formControlName="nome_comune">
+        <div class="select-wrapper">
+          <label>Comune</label>
+          <select formControlName="nome_comune">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let comune of comuneList" [value]="comune.nome_comune">
+              {{ comune.nome_comune }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="col-3">
@@ -76,28 +81,23 @@
       </div>
       <div class="col-3" *ngIf="commessaForm.get('pnrrValue')!.value === 'si'">
         <div class="select-wrapper">
-          <label for="misura">Scgli misura</label>
-          <select id="misura"  formControlName="misura">
-            <option selected="" value="">Scegli un'opzione</option>
-            <option value="1.2">1.2 </option>
-            <option value="1.4.1">1.4.1 </option>
-            <option value="1.4.3 App IO">1.4.3 App IO</option>
-            <option value="1.4.3 PagoPA">1.4.3 PagoPA</option>
-            <option value="1.4.4">1.4.4</option>
-            <option value="1.4.5">1.4.5</option>
-            <option value="1.3.1">1.3.1</option>
+          <label>Segli Misura</label>
+          <select formControlName="misura">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let hunter of misuraList" [value]="hunter.misura_pnrr">
+              {{ hunter.misura_pnrr }}
+            </option>
           </select>
         </div>
       </div>
       <div class="col-3">
         <div class="select-wrapper">
-          <label for="tipo_commessa">Tipo Commessa</label>
-          <select id="tipo_commessa"  formControlName="tipo_commessa">
-            <option selected="" value="">Scegli un'opzione</option>
-            <option value="Tributi">Tributi </option>
-            <option value="Sanzioni">Sanzioni </option>
-            <option value="Autorizzo">Autorizzo</option>
-            <option value="Altro">Altro</option>
+          <label>Tipo Commessa</label>
+          <select formControlName="tipo_commessa">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let hunter of tipoCommessaList" [value]="hunter.tipo_commessa">
+              {{ hunter.tipo_commessa }}
+            </option>
           </select>
         </div>
       </div>
@@ -106,7 +106,7 @@
           <label>PM</label>
           <select formControlName="pm">
             <option value="">Scegli un'opzione</option>
-            <option *ngFor="let hunter of filteredPMList" [value]="hunter.id">
+            <option *ngFor="let hunter of filteredPMList" [value]="hunter.name + hunter.surname">
               {{ hunter.name }} {{ hunter.surname }}
             </option>
           </select>

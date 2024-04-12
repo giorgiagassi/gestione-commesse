@@ -8,6 +8,8 @@ import {TipoRitiroComponent} from "../tipo-ritiro/tipo-ritiro.component";
 import {TipoSpedizioneComponent} from "../tipo-spedizione/tipo-spedizione.component";
 import {TipoStampaComponent} from "../tipo-stampa/tipo-stampa.component";
 import {VettorePostaleComponent} from "../vettore-postale/vettore-postale.component";
+import {MisuraPnrrComponent} from "../misura-pnrr/misura-pnrr.component";
+import {TipoCommessaComponent} from "../tipo-commessa/tipo-commessa.component";
 
 @Component({
   selector: 'app-lista-impostazioni',
@@ -21,7 +23,9 @@ import {VettorePostaleComponent} from "../vettore-postale/vettore-postale.compon
     TipoRitiroComponent,
     TipoSpedizioneComponent,
     TipoStampaComponent,
-    VettorePostaleComponent
+    VettorePostaleComponent,
+    MisuraPnrrComponent,
+    TipoCommessaComponent
   ],
   templateUrl: './lista-impostazioni.component.html',
   styleUrl: './lista-impostazioni.component.css'

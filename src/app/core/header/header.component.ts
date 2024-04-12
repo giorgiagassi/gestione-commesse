@@ -106,6 +106,16 @@ export class HeaderComponent implements OnInit {
             icon: 'pi pi-fw pi-plus',
             routerLink: ['/vettore-postale'] // Aggiungi il percorso di navigazione desiderato
           },
+          {
+            label: 'Tipo Commessa',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/tipo-commessa'] // Aggiungi il percorso di navigazione desiderato
+          },
+          {
+            label: 'Misura PNRR',
+            icon: 'pi pi-fw pi-plus',
+            routerLink: ['/misura_pnrr'] // Aggiungi il percorso di navigazione desiderato
+          },
         ]
       },
       // Aggiungi altri elementi del menu come necessario

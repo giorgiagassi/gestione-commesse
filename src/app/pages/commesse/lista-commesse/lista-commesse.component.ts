@@ -10,6 +10,8 @@ const database = getDatabase(app);
 import { remove } from 'firebase/database';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
+import {AuthService} from "../../../providers/auth.service";
+import {NgIf} from "@angular/common";
 @Component({
   selector: 'app-lista-commesse',
   standalone: true,
@@ -17,7 +19,8 @@ import {InputTextModule} from "primeng/inputtext";
     TableModule,
     ButtonModule,
     InputTextModule,
-    RouterLink
+    RouterLink,
+    NgIf
   ],
   templateUrl: './lista-commesse.component.html',
   styleUrl: './lista-commesse.component.css'
@@ -25,37 +28,60 @@ import {InputTextModule} from "primeng/inputtext";
 export class ListaCommesseComponent implements OnInit{
   @ViewChild('dt1') dt1: any;
   commesseList:any;
-  loading: boolean = false
+  loading: boolean = false;
+  role!: string;
+  idUtente!:string;
   constructor(private router: Router,
+              private authService: AuthService
   ) {
   }
 
   ngOnInit() {
-    this.getCommesseList()
-  }
+    this.getCommesseList();
+    this.userDetails();
 
+  }
+userDetails(): void {
+    this.authService.getUserDetails()
+  const userDetails = this.authService.getUserDetails();
+  if (userDetails) {
+    this.role = userDetails.role
+    this.idUtente = userDetails.id
+  }
+}
   async getCommesseList() {
     const huntersRef = ref(database, 'lista-commesse');
     try {
       const snapshot = await get(huntersRef);
       if (snapshot.exists()) {
-        // La lista è stata trovata nel database, puoi accedere ai dati
         const data = snapshot.val();
-        this.commesseList = Object.keys(data).map(key => ({ ...data[key], id: key }));
-        console.log('Lista dei commesse:', this.commesseList);
+        // Stampa i valori per ogni chiave per comprendere meglio i dati
+        Object.keys(data).forEach(key => {
+        });
+
+        // Applica il filtro e la mappatura se necessario
+        if (this.role === 'dipendente') {
+          this.commesseList = Object.keys(data)
+            .filter(key =>
+              data[key].dipendenti?.risorse.some((r:any) => r.dipendenti === this.idUtente)
+            )
+            .map(key => ({ ...data[key], id: key }));
+        } else {
+          this.commesseList = Object.keys(data)
+            .map(key => ({ ...data[key], id: key }));
+        }
+
         return this.commesseList;
       } else {
-        // La lista non è stata trovata nel database
-        console.log('Nessuna lista dei commesse trovata nel database.');
+
         return null;
       }
     } catch (error) {
-      // Si è verificato un errore durante il recupero dei dati
-      console.error('Errore durante il recupero della lista dei commesse:', error);
+
       return null;
     }
-
   }
+
   editCustomer(customer: any) {
     console.log(customer.id)
     // Qui puoi navigare alla componente di modifica con i dati del cliente
@@ -69,14 +95,13 @@ export class ListaCommesseComponent implements OnInit{
     remove(customerRef).then(() => {
       // Rimuovi l'elemento dall'array per aggiornare l'UI
       this.commesseList = this.commesseList.filter((item: any) => item.id !== customer.id);
-      console.log('Commessa eliminato con successo');
+
     }).catch((error:any) => {
-      console.error('Errore durante l/eliminazione della commessa:', error);
     });
   }
 
   attivitaCustomer(customer: any) {
-    console.log(customer.id)
+
     this.router.navigate(['/lista-attivita', customer.id]);
   }
 }

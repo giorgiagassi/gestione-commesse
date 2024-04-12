@@ -1,4 +1,4 @@
-<h3 class="text-center p-5">COMMESSE</h3>
+<h3 class="text-center p-5">Lista Attività</h3>
 <hr>
 
 <div class="card">
@@ -12,7 +12,7 @@
     [loading]="loading"
     [paginator]="true"
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="['nome_comune', 'importo', 'data_inizio', 'data_fine', 'pnrrValue', 'codice_fatturazione', 'determina']"
+    [globalFilterFields]="['cliente', 'richiedente', 'oggetto', 'spese_postali', 'tipo_atto', 'tipo_spedizione', 'tipo_stampa', 'vettore_postale']"
   >
     <ng-template pTemplate="caption">
       <div class="row ">
@@ -27,45 +27,51 @@
 
     <ng-template pTemplate="header">
       <tr>
-        <th style="min-width:15rem">
+        <th >
           <div class="flex align-items-center">
-            Comune
+            Cliente
           </div>
         </th>
-        <th style="min-width:15rem">
+        <th >
           <div class="flex align-items-center">
-            Importo
+            Richiedente
 
           </div>
         </th>
-        <th style="min-width:10rem">
+        <th >
           <div class="flex align-items-center">
-            Da
+            Oggetto
 
           </div>
         </th>
 
-        <th style="min-width:10rem">
+        <th >
           <div class="flex align-items-center text-center">
-            A
+            Spese POstali
 
           </div>
         </th>
-        <th style="min-width:10rem">
+        <th >
           <div class="flex align-items-center text-center">
-            PNRR
+            Tipo Atto
 
           </div>
         </th>
-        <th style="min-width:10rem">
+        <th >
           <div class="flex align-items-center text-center">
-            Codice Fatturazione
+            Tipo Spedizione
 
           </div>
         </th>
-        <th style="min-width:10rem">
+        <th >
           <div class="flex align-items-center text-center">
-            Determina
+            Tipo Stampa
+
+          </div>
+        </th>
+        <th >
+          <div class="flex align-items-center text-center">
+            Vettore Postale
 
           </div>
         </th>
@@ -75,25 +81,28 @@
     <ng-template pTemplate="body" let-customer>
       <tr>
         <td>
-          {{customer.commessa.nome_comune}}
+          {{customer.stampa?.cliente}}
         </td>
         <td>
-          {{customer.commessa.importo}}
+          {{customer.stampa?.richiedente}}
         </td>
         <td>
-          {{customer.commessa.data_inizio}}
+          {{customer.stampa?.oggetto}}
         </td>
         <td>
-          {{customer.commessa.data_fine}}
+          {{customer.stampa?.spese_postali}}
         </td>
         <td>
-          {{customer.commessa.pnrrValue}}
+          {{customer.stampa?.tipo_atto}}
         </td>
         <td>
-          {{customer.commessa.codice_fatturazione}}
+          {{customer.stampa?.tipo_spedizione}}
         </td>
         <td>
-          {{customer.commessa.determina}}
+          {{customer.stampa?.tipo_stampa}}
+        </td>
+        <td>
+          {{customer.stampa?.vettore_postale}}
         </td>
         <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2"></p-button>
         <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
