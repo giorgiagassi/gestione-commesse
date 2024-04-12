@@ -1,0 +1,99 @@
+<div class="container">
+
+  <h5 class="text-center">Riepilogo Attività </h5>
+  <hr>
+
+  <table class="table table-hover table-sm">
+
+    <tbody>
+    <tr>
+      <th scope="row">Richiedente</th>
+      <td colspan="2">{{attivitaList?.richiedente}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Cliente</th>
+      <td colspan="2">{{attivitaList?.cliente}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Oggetto</th>
+      <td colspan="2">{{attivitaList?.oggetto}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Tipologia di stampa</th>
+      <td colspan="2">{{attivitaList?.tipo_stampa}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Tipo Atto</th>
+      <td colspan="2">{{attivitaList?.tipo_atto}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Tipo Spedizione</th>
+      <td colspan="2">{{attivitaList?.tipo_spedizione}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Vettore Postale</th>
+      <td colspan="2">{{attivitaList?.vettore_postale}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Spese Postali</th>
+      <td colspan="2">{{attivitaList?.spese_postali}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+
+  <h5 class="text-center p-5">Dati da compilare </h5>
+  <hr>
+  <form [formGroup]="consegnaForm">
+    <div class="row pt-3">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="quantita_stampata" class="active">Quantità stampata</label>
+          <input type="text" class="form-control" id="quantita_stampata" formControlName="quantita_stampata">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="data_stampa" class="active">Data Stampa</label>
+          <input type="date" class="form-control" id="data_stampa" formControlName="data_stampa">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label>Tipo Ritiro</label>
+          <select formControlName="tipo_ritiro">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let tipo_ritiro of tipoRitiroList" [value]="tipo_ritiro.tipo_ritiro">
+              {{ tipo_ritiro.tipo_ritiro }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="quantita_ritirata" class="active">Quantità Ritirata</label>
+          <input type="text" class="form-control" id="quantita_ritirata" formControlName="quantita_ritirata">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="data_ritiro" class="active">Data Ritiro</label>
+          <input type="date" class="form-control" id="data_ritiro" formControlName="data_ritiro">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="data_accettazione" class="active">Data Accettazione</label>
+          <input type="date" class="form-control" id="data_accettazione" formControlName="data_accettazione">
+        </div>
+      </div>
+    </div>
+
+  </form>
+
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <button type="submit" class="btn btn-success" (click)="saveForm()">Salva</button>
+    </div>
+  </div>
+</div>

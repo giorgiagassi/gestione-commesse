@@ -64,6 +64,10 @@ import {
   ModificaMisuraPnrrComponent
 } from "./pages/impostazioni/misura-pnrr/modifica-misura-pnrr/modifica-misura-pnrr.component";
 import {ModificaStampaComponent} from "./pages/attivita/attivita-stampa/modifica-stampa/modifica-stampa.component";
+import {
+  ModificaStampaDipendenteComponent
+} from "./pages/attivita/attivita-stampa/modifica-stampa-dipendente/modifica-stampa-dipendente.component";
+import {DdtComponent} from "./pages/attivita/attivita-stampa/ddt/ddt.component";
 
 export const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
@@ -76,6 +80,8 @@ export const routes: Routes = [
   {path:'lista-attivita/:id', component: ListaAttivitaComponent},
   {path:'stampa/:id', component: StampaComponent},
   {path:'modifica-stampa/:id', component: ModificaStampaComponent},
+  {path:'modifica-stampa-dipendente/:id', component: ModificaStampaDipendenteComponent},
+  {path:'ddt/:id', component: DdtComponent},
 
   //commesse
   {path:'lista-commesse', component: ListaCommesseComponent},

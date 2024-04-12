@@ -32,12 +32,7 @@
             Cliente
           </div>
         </th>
-        <th >
-          <div class="flex align-items-center">
-            Richiedente
 
-          </div>
-        </th>
         <th >
           <div class="flex align-items-center">
             Oggetto
@@ -47,7 +42,7 @@
 
         <th >
           <div class="flex align-items-center text-center">
-            Spese POstali
+            Spese Postali
 
           </div>
         </th>
@@ -84,9 +79,6 @@
           {{customer.stampa?.cliente}}
         </td>
         <td>
-          {{customer.stampa?.richiedente}}
-        </td>
-        <td>
           {{customer.stampa?.oggetto}}
         </td>
         <td>
@@ -104,8 +96,16 @@
         <td>
           {{customer.stampa?.vettore_postale}}
         </td>
-        <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2"></p-button>
-        <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
+        <td>
+          <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2" *ngIf="role === 'pm'"></p-button>
+          <p-button (click)="editCustomerDipendente(customer)" label="Modfica" class="p-2" *ngIf="role === 'dipendente'"></p-button>
+          <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
+            <p-button *ngIf="customer?.consegna" label="DDT" severity="info" class="p-2" (click)="ddt(customer)" ></p-button>
+
+        </td>
+
+
+
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -115,3 +115,5 @@
     </ng-template>
   </p-table>
 </div>
+
+

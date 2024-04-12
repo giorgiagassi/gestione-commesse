@@ -7,6 +7,7 @@ import {ButtonModule} from "primeng/button";
 import {SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {AuthService} from "../../../providers/auth.service";
+import {NgForOf, NgIf} from "@angular/common";
 const app = initializeApp(environment.firebaseConfig);
 const database = getDatabase(app);
 @Component({
@@ -16,7 +17,9 @@ const database = getDatabase(app);
     ButtonModule,
     RouterLink,
     SharedModule,
-    TableModule
+    TableModule,
+    NgIf,
+    NgForOf
   ],
   templateUrl: './lista-attivita.component.html',
   styleUrl: './lista-attivita.component.css'
@@ -24,6 +27,7 @@ const database = getDatabase(app);
 export class ListaAttivitaComponent implements OnInit{
   @ViewChild('dt1') dt1: any;
   attivitaList:any;
+
   loading: boolean = false
   role!: string;
   idUtente!:string;
@@ -59,16 +63,22 @@ export class ListaAttivitaComponent implements OnInit{
         // Applica il filtro e la mappatura se necessario
         if (this.role === 'dipendente') {
           this.attivitaList = Object.keys(data)
+
             .filter(key =>
               data[key].dipendenti?.risorse.some((r:any) => r.dipendenti === this.idUtente)
+
             )
             .map(key => ({ ...data[key], id: key }));
+
+          console.log(this.attivitaList)
         } else {
           this.attivitaList = Object.keys(data)
             .map(key => ({ ...data[key], id: key }));
+
         }
 
         return this.attivitaList;
+
       } else {
 
         return null;
@@ -79,11 +89,18 @@ export class ListaAttivitaComponent implements OnInit{
     }
   }
   editCustomer(customer: any) {
-    console.log(customer.id)
-    // Qui puoi navigare alla componente di modifica con i dati del cliente
-    // per esempio, utilizzando il Router di Angular e passando l'ID del cliente
+
     this.router.navigate(['/modifica-stampa', customer.id]);
   }
+  ddt(customer: any) {
+    this.router.navigate(['/ddt', customer.id]);
+  }
+  editCustomerDipendente(customer: any) {
+
+    this.router.navigate(['/modifica-stampa-dipendente', customer.id]);
+  }
+
+
   deleteCustomer(customer: any) {
     // Assicurati di avere un DatabaseReference corretto
     const customerRef = ref(database, `attivita/attivita-stampa/${customer.id}`);

@@ -1,0 +1,72 @@
+<div class="container">
+  <div id="content-to-print">
+<div class="row">
+  <div class="col-6 p-5">
+    <img class="text-center" ngSrc="assets/img/logo_1.png" height="114" width="205" alt="">
+  </div>
+  <div class="col-6 p-5">
+    <p>
+      Gestione Servizi Spa<br>
+      Conversano (BA) - 70014<br>
+      Vico della Vittoria,24<br>
+      P.IVA: 05512020727<br>
+      Telefono: 080 495 96 06<br>
+      email:amministrazione&#64;gestioneservizispa.it<br>
+
+    </p>
+  </div>
+</div>
+
+
+  <hr>
+
+  <table class="table table-hover table-sm">
+
+    <tbody>
+    <tr>
+      <th scope="row">Oggetto</th>
+      <td colspan="2">{{attivitaList?.oggetto}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Tipo Atto</th>
+      <td colspan="2">{{attivitaList?.tipo_atto}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Tipo Spedizione</th>
+      <td colspan="2">{{attivitaList?.tipo_spedizione}}</td>
+    </tr>
+    <tr>
+      <th scope="row">Quantità Ritirata</th>
+      <td colspan="2">{{consegnaList?.quantita_stampata}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="row p-3">
+    <p>
+      Il funzionario dell'azienda, Sig. <strong>{{userName}} </strong> consegna all' incaricato di <strong>{{attivitaList?.vettore_postale}} </strong>, la quantità di corrispondenza sopra descritta in data <strong>
+      {{ consegnaList?.data_ritiro | date:'dd-MM-yyyy' }}
+    </strong>.
+    </p>
+  </div>
+
+  <table class="table table-hover table-sm">
+
+    <tbody>
+    <tr>
+      <th scope="row">Firma dell'incaricato al ritiro</th>
+      <td colspan="2"></td>
+    </tr>
+    <tr>
+      <th scope="row">Firma del funzionario dell'azienda</th>
+      <td colspan="2"></td>
+    </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <button type="submit" class="btn btn-success" (click)="printPage()">Stampa</button>
+    </div>
+  </div>
+</div>
