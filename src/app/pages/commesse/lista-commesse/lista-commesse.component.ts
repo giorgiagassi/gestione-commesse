@@ -11,7 +11,8 @@ import { remove } from 'firebase/database';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {AuthService} from "../../../providers/auth.service";
-import {NgIf} from "@angular/common";
+import {DatePipe, NgIf} from "@angular/common";
+import {replaceTsWithNgInErrors} from "@angular/compiler-cli/src/ngtsc/diagnostics";
 @Component({
   selector: 'app-lista-commesse',
   standalone: true,
@@ -20,7 +21,8 @@ import {NgIf} from "@angular/common";
     ButtonModule,
     InputTextModule,
     RouterLink,
-    NgIf
+    NgIf,
+    DatePipe
   ],
   templateUrl: './lista-commesse.component.html',
   styleUrl: './lista-commesse.component.css'
@@ -70,8 +72,9 @@ userDetails(): void {
           this.commesseList = Object.keys(data)
             .map(key => ({ ...data[key], id: key }));
         }
-
+        console.log(this.commesseList)
         return this.commesseList;
+
       } else {
 
         return null;
@@ -83,17 +86,14 @@ userDetails(): void {
   }
 
   editCustomer(customer: any) {
-    console.log(customer.id)
-    // Qui puoi navigare alla componente di modifica con i dati del cliente
-    // per esempio, utilizzando il Router di Angular e passando l'ID del cliente
+
     this.router.navigate(['/modifica-commessa', customer.id]);
   }
   deleteCustomer(customer: any) {
-    // Assicurati di avere un DatabaseReference corretto
+
     const customerRef = ref(database, `lista-commesse/${customer.id}`);
 
     remove(customerRef).then(() => {
-      // Rimuovi l'elemento dall'array per aggiornare l'UI
       this.commesseList = this.commesseList.filter((item: any) => item.id !== customer.id);
 
     }).catch((error:any) => {
@@ -104,4 +104,6 @@ userDetails(): void {
 
     this.router.navigate(['/lista-attivita', customer.id]);
   }
+
+  protected readonly replaceTsWithNgInErrors = replaceTsWithNgInErrors;
 }

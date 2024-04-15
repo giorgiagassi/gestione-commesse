@@ -3,7 +3,6 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../../providers/auth.service";
 import {FormBuilder} from "@angular/forms";
 import {get, getDatabase, ref, update} from "firebase/database";
-import console from "node:console";
 import Swal from "sweetalert2";
 import {DatePipe, NgOptimizedImage} from "@angular/common";
 import html2canvas from "html2canvas";

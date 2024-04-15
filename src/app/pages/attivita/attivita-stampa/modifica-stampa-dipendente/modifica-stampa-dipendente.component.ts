@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {get, getDatabase, ref, update} from "firebase/database";
-import {FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import Swal from "sweetalert2";
-import * as console from "node:console";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AuthService} from "../../../../providers/auth.service";
 import {NgForOf} from "@angular/common";
 import {initializeApp} from "firebase/app";
 import {environment} from "../../../../enviroments/enviroments";
@@ -30,7 +28,6 @@ attivitaList:any
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private authService: AuthService,
               public formBuilder: FormBuilder,
   ) {
     this.commessaId = this.route.snapshot.paramMap.get('id') || '';
