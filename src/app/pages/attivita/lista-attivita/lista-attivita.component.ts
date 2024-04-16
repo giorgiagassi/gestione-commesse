@@ -118,4 +118,10 @@ export class ListaAttivitaComponent implements OnInit{
     const commessaId = this.route.snapshot.paramMap.get('id'); // Assumendo che 'id' sia il nome del parametro nella rotta
     this.router.navigate(['/stampa',  commessaId]);
   }
+  openPDF(url: string): void {
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
+
 }

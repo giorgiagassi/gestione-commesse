@@ -109,9 +109,10 @@
         <td *ngIf="role === 'dipendente'"  class="flex align-items-center text-center">
           {{customer?.dipendenti?.risorse[0].tempo}}
         </td>
-        <td *ngIf="role === 'dipendente' && customer?.dipendenti?.risorse[0].tempo != 'full'"  class="flex align-items-center text-center">
-          {{customer?.dipendenti?.risorse[0].percentuale}}%
+        <td *ngIf="role === 'dipendente'" class="flex align-items-center text-center">
+          {{ customer?.dipendenti?.risorse[0].tempo === 'full' ? '100%' : customer?.dipendenti?.risorse[0].percentuale + '%' }}
         </td>
+
         <p-button *ngIf="role != 'dipendente'" (click)="editCustomer(customer)" label="Modfica" class="p-2" ></p-button>
         <p-button (click)="attivitaCustomer(customer)" label="Attività" class="p-2" severity="info"></p-button>
         <p-button *ngIf="role != 'dipendente'" (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>

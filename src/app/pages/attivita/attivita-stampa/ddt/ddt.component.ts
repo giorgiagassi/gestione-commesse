@@ -80,24 +80,34 @@ export class DdtComponent implements OnInit {
         const imgHeight = canvas.height * imgWidth / canvas.width;
 
         pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        const pdfBlob = pdf.output('blob'); // Crea un Blob direttamente
 
-        // Riferimento a Firebase Storage
-        const pdfRef = storageRef(getStorage(), 'pdfs/myNewPDF.pdf');
+        // Genera un nome di file dinamico basato sull'ID della commessa e sulla data
+        const fileName = `PDF_${this.commessaId}_${new Date().toISOString().slice(0,10)}.pdf`;
+
+        // Crea un Blob del PDF
+        const pdfBlob = pdf.output('blob');
+
+        // Salvare il PDF localmente
+        pdf.save(fileName); // Salva il file PDF con il nome generato dinamicamente
+
+        // Riferimento a Firebase Storage per caricare il PDF
+        const pdfRef = storageRef(getStorage(), `pdfs/${fileName}`);
         uploadBytes(pdfRef, pdfBlob).then(snapshot => {
-          // Recupera l'URL del PDF caricato
           return getDownloadURL(snapshot.ref);
         }).then(downloadURL => {
           this.savePDFLink(downloadURL);
-          Swal.fire('Successo', 'Dati aggiunti con successo', 'success');
-          // Qui puoi anche salvare l'URL nel tuo database se necessario
+          Swal.fire('Successo', 'PDF aggiunto con successo', 'success');
+
+          // Apri il PDF in una nuova scheda per la stampa
+          const url = window.URL.createObjectURL(pdfBlob);
+          window.open(url, '_blank')!.focus();
+
         }).catch(error => {
-          Swal.fire('Errore', 'Impossibile aggiornare i dati', 'error');
+          Swal.fire('Errore', 'Impossibile caricare il PDF', 'error');
         });
       });
     }
   }
-
 
   savePDFLink(url:any): void {
     this.loading = true;
@@ -120,4 +130,5 @@ export class DdtComponent implements OnInit {
         this.loading = false;
       });
   }
+
 }

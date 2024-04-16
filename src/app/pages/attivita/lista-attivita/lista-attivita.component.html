@@ -17,7 +17,7 @@
     <ng-template pTemplate="caption">
       <div class="row ">
 
-        <div class="col-12">
+        <div class="col-12" *ngIf="role != 'dipendente'">
 
           <p-button label="Crea Nuova Attività di Stampa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>
         </div>
@@ -97,14 +97,12 @@
           {{customer.stampa?.vettore_postale}}
         </td>
         <td>
-          <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2" *ngIf="role === 'pm'"></p-button>
-          <p-button (click)="editCustomerDipendente(customer)" label="Modfica" class="p-2" *ngIf="role === 'dipendente'"></p-button>
-          <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
-            <p-button *ngIf="customer?.consegna" label="DDT" severity="info" class="p-2" (click)="ddt(customer)" ></p-button>
-
+          <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2" *ngIf="role === 'pm' && !customer?.ddt"></p-button>
+          <p-button (click)="editCustomerDipendente(customer)" label="Modfica" class="p-2" *ngIf="role === 'dipendente' "></p-button>
+          <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger" *ngIf="!customer?.ddt"></p-button>
+            <p-button *ngIf="customer?.consegna && !customer?.ddt" label="DDT" severity="info" class="p-2" (click)="ddt(customer)" ></p-button>
+            <p-button *ngIf="customer?.ddt" icon="pi pi-eye" severity="secondary" class="p-2" (click)="openPDF(customer?.ddt?.pdfUrl)"></p-button>
         </td>
-
-
 
       </tr>
     </ng-template>

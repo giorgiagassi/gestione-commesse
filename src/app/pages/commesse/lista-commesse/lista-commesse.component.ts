@@ -12,7 +12,6 @@ import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {AuthService} from "../../../providers/auth.service";
 import {DatePipe, NgIf} from "@angular/common";
-import {replaceTsWithNgInErrors} from "@angular/compiler-cli/src/ngtsc/diagnostics";
 @Component({
   selector: 'app-lista-commesse',
   standalone: true,
@@ -105,5 +104,4 @@ userDetails(): void {
     this.router.navigate(['/lista-attivita', customer.id]);
   }
 
-  protected readonly replaceTsWithNgInErrors = replaceTsWithNgInErrors;
 }
