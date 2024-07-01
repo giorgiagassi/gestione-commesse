@@ -10,6 +10,7 @@ import {TipoStampaComponent} from "../tipo-stampa/tipo-stampa.component";
 import {VettorePostaleComponent} from "../vettore-postale/vettore-postale.component";
 import {MisuraPnrrComponent} from "../misura-pnrr/misura-pnrr.component";
 import {TipoCommessaComponent} from "../tipo-commessa/tipo-commessa.component";
+import {AttivitaComponent} from "../attivita/attivita.component";
 
 @Component({
   selector: 'app-lista-impostazioni',
@@ -25,7 +26,8 @@ import {TipoCommessaComponent} from "../tipo-commessa/tipo-commessa.component";
     TipoStampaComponent,
     VettorePostaleComponent,
     MisuraPnrrComponent,
-    TipoCommessaComponent
+    TipoCommessaComponent,
+    AttivitaComponent
   ],
   templateUrl: './lista-impostazioni.component.html',
   styleUrl: './lista-impostazioni.component.css'

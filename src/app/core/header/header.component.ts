@@ -44,13 +44,13 @@ export class HeaderComponent implements OnInit {
     if (role === 'dipendente') {
       this.items = [
         {
-          label: 'Commesse',
+          label: 'Attivita',
           icon: 'pi pi-fw pi-table',
           items: [
             {
-              label: 'Lista Commesse',
+              label: 'Lista Attivita',
               icon: 'pi pi-fw pi-ellipsis-v',
-              routerLink: ['/lista-commesse']
+              routerLink: ['/lista-attivita']
             }
           ]
         }
@@ -143,6 +143,11 @@ export class HeaderComponent implements OnInit {
               label: 'Misura PNRR',
               icon: 'pi pi-fw pi-plus',
               routerLink: ['/misura_pnrr'] // Aggiungi il percorso di navigazione desiderato
+            },
+            {
+              label: 'Attività',
+              icon: 'pi pi-fw pi-plus',
+              routerLink: ['/attivita'] // Aggiungi il percorso di navigazione desiderato
             },
           ]
         },

@@ -1,7 +1,17 @@
 <h3 class="text-center p-5">Lista Attività</h3>
 <hr>
 
-<div class="card">
+  <div class="row ">
+
+    <div class="col-12" *ngIf="role != 'dipendente'">
+
+      <p-button label=" Nuova Attività" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>
+    </div>
+
+  </div>
+
+
+<div class="card" >
   <p-table
     #dt1
     [value]="attivitaList"
@@ -14,16 +24,7 @@
     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
     [globalFilterFields]="['cliente', 'richiedente', 'oggetto', 'spese_postali', 'tipo_atto', 'tipo_spedizione', 'tipo_stampa', 'vettore_postale']"
   >
-    <ng-template pTemplate="caption">
-      <div class="row ">
 
-        <div class="col-12" *ngIf="role != 'dipendente'">
-
-          <p-button label="Crea Nuova Attività di Stampa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>
-        </div>
-
-      </div>
-    </ng-template>
 
     <ng-template pTemplate="header">
       <tr>
@@ -41,32 +42,32 @@
         </th>
 
         <th >
-          <div class="flex align-items-center text-center">
-            Spese Postali
+          <div class="flex align-items-center ">
+            Data Inzio
 
           </div>
         </th>
         <th >
-          <div class="flex align-items-center text-center">
-            Tipo Atto
+          <div class="flex align-items-center ">
+            Data Fine
 
           </div>
         </th>
         <th >
-          <div class="flex align-items-center text-center">
-            Tipo Spedizione
+          <div class="flex align-items-center ">
+            Tipologia
 
           </div>
         </th>
         <th >
-          <div class="flex align-items-center text-center">
-            Tipo Stampa
+          <div class="flex align-items-center ">
+            Descrizione Attività
 
           </div>
         </th>
         <th >
-          <div class="flex align-items-center text-center">
-            Vettore Postale
+          <div class="flex align-items-center ">
+            Stato
 
           </div>
         </th>
@@ -82,28 +83,35 @@
           {{customer.stampa?.oggetto}}
         </td>
         <td>
-          {{customer.stampa?.spese_postali}}
+          {{customer.stampa?.data_inizio | date:'dd-MM-yyyy'}}
         </td>
         <td>
-          {{customer.stampa?.tipo_atto}}
+          {{customer.stampa?.data_fine | date:'dd-MM-yyyy'}}
         </td>
         <td>
-          {{customer.stampa?.tipo_spedizione}}
+          {{customer.stampa?.tipo_attivita}}
         </td>
         <td>
-          {{customer.stampa?.tipo_stampa}}
+          {{customer.stampa?.descrizione_attivita}}
         </td>
         <td>
-          {{customer.stampa?.vettore_postale}}
+          <p-tag *ngIf="customer.stato === 'Terminata'" severity="success" value="Terminata"/>
+          <p-tag *ngIf="customer.stato === 'In Lavorazione'" severity="info" value="In Lavorazione"/>
+          <p-tag  *ngIf="customer.stato === 'Assegnata'" severity="warning" value="Assegnata"/>
         </td>
-        <td>
-          <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2" *ngIf="role === 'pm' && !customer?.ddt"></p-button>
-          <p-button (click)="editCustomerDipendente(customer)" label="Modfica" class="p-2" *ngIf="role === 'dipendente' "></p-button>
+        <td *ngIf="customer.stampa?.tipo_attivita == 'Stampa'">
+          <p-button (click)="editCustomer(customer)" label="Modifica" class="p-2" *ngIf="role === 'pm' && !customer?.ddt"></p-button>
+          <p-button (click)="editCustomerDipendente(customer)" label="Modifica" class="p-2" *ngIf="role === 'dipendente'"></p-button>
           <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger" *ngIf="!customer?.ddt"></p-button>
-            <p-button *ngIf="customer?.consegna && !customer?.ddt" label="DDT" severity="info" class="p-2" (click)="ddt(customer)" ></p-button>
-            <p-button *ngIf="customer?.ddt" icon="pi pi-eye" severity="secondary" class="p-2" (click)="openPDF(customer?.ddt?.pdfUrl)"></p-button>
-        </td>
+          <p-button *ngIf="customer?.consegna && !customer?.ddt" label="DDT" severity="info" class="p-2" (click)="ddt(customer)"></p-button>
+          <p-button *ngIf="customer?.ddt?.pdfUrl" icon="pi pi-eye" severity="secondary" class="p-2" (click)="openPDF(customer.ddt.pdfUrl)"></p-button>
 
+        </td>
+        <td *ngIf="customer.stampa?.tipo_attivita != 'Stampa'">
+                    <p-button (click)="editCustomerGenerica(customer)" label="Modfica" class="p-2" *ngIf="role === 'pm' && !customer?.ddt"></p-button>
+                    <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger" *ngIf="role === 'pm'"></p-button>
+                    <p-button (click)="visualizzaGenerica(customer)" label="Visualizza" severity="info" *ngIf="role === 'dipendente'"></p-button>
+        </td>
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">
@@ -113,5 +121,3 @@
     </ng-template>
   </p-table>
 </div>
-
-

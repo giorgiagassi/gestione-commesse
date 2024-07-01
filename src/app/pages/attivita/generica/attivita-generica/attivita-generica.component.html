@@ -1,0 +1,190 @@
+<div class="container p-3">
+  <h3 class="text-center">Dettagli Attività</h3>
+  <hr>
+  <form [formGroup]="stampaForm">
+    <div class="row pt-3">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="richiedente" class="active">Richiedente</label>
+          <input type="text" class="form-control" id="richiedente" formControlName="richiedente">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="cliente" class="active">Cliente</label>
+          <input type="text" class="form-control" id="cliente" formControlName="cliente">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label>Oggetto</label>
+          <select formControlName="oggetto">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let oggetto of oggettoList" [value]="oggetto.oggetto">
+              {{ oggetto.oggetto }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label>Tipo Attività</label>
+          <select formControlName="tipo_attivita">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let attivita of tipoAttivitaList" [value]="attivita.nome_attivita">
+              {{ attivita.nome_attivita }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-2">
+          <div class="form-group">
+            <label class="active" for="data_inizio">Data Inizio</label>
+            <input type="date" id="data_inizio" formControlName="data_inizio">
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+            <label class="active" for="data_fine">Data Fine</label>
+            <input type="date" id="data_fine" formControlName="data_fine">
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+            <label class="active" for="ora_inizio">Ora Inizio</label>
+            <input type="time" id="ora_inizio" formControlName="ora_inizio">
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+            <label class="active" for="ora_fine">Ora Fine</label>
+            <input type="time" id="ora_fine" formControlName="ora_fine">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="form-group">
+            <label class="active" for="descrizione_attivita">Descrizione Attività</label>
+            <input type="text" id="descrizione_attivita" formControlName="descrizione_attivita">
+          </div>
+        </div>
+
+      </div>
+
+      <!--      riga da inserire solo se attività è stampa-->
+      <div class="row" *ngIf="tipoAttivita === 'Stampa'">
+        <div class="col-2">
+          <div class="select-wrapper">
+            <label>Tipologia di Stampa</label>
+            <select formControlName="tipo_stampa">
+              <option value="">Scegli un'opzione</option>
+              <option *ngFor="let stampa of tipoStampaList" [value]="stampa.tipo_stampa">
+                {{ stampa.tipo_stampa }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="select-wrapper">
+            <label>Tipo Atto</label>
+            <select formControlName="tipo_atto">
+              <option value="">Scegli un'opzione</option>
+              <option *ngFor="let atto of tipoAttoList" [value]="atto.tipo_atto">
+                {{ atto.tipo_atto }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="select-wrapper">
+            <label>Tipo Spedizione</label>
+            <select formControlName="tipo_spedizione">
+              <option value="">Scegli un'opzione</option>
+              <option *ngFor="let spedizione of tipoSpedizioneList" [value]="spedizione.tipo_spedizione">
+                {{ spedizione.tipo_spedizione }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="select-wrapper">
+            <label>Vettore Postale</label>
+            <select formControlName="vettore_postale">
+              <option value="">Scegli un'opzione</option>
+              <option *ngFor="let vettore of vettorePostaleList" [value]="vettore.vettore_postale">
+                {{ vettore.vettore_postale }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="select-wrapper">
+            <label>Spese Postali</label>
+            <select formControlName="spese_postali">
+              <option value="">Scegli un'opzione</option>
+              <option *ngFor="let spese of spesePostaliList" [value]="spese.spese_postali">
+                {{ spese.spese_postali }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!--     fine riga da inserire solo se attività è stampa-->
+    </div>
+
+  </form>
+  <form [formGroup]="risorseForm" class="pt-3">
+    <div class="row p-3">
+      <h5 class="pt-3 text-center">Assegna Attività </h5>
+      <div class="col p-3">
+        <button type="button" class="btn-primary float-end" (click)="addRisorsa()">Aggiungi Risorsa</button>
+      </div>
+
+      <div formArrayName="risorse" class="p-3">
+        <div *ngFor="let risorsa of risorse.controls; let i = index" [formGroupName]="i">
+          <div class="row p-3" style="border: solid rgba(128,128,128,0.53)">
+            <div class="col-3 p-2">
+              <div class="select-wrapper">
+                <label>Dipendenti</label>
+                <select formControlName="dipendenti">
+                  <option value="">Scegli un'opzione</option>
+                  <option *ngFor="let hunter of filteredDipendentiList" [value]="hunter.id">
+                    {{ hunter.name }} {{ hunter.surname }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-3 p-2">
+              <div class="select-wrapper">
+                <label>Tempo</label>
+                <select formControlName="tempo" (change)="updateTempo(i, $event)">
+                  <option value="">Scegli un'opzione</option>
+                  <option value="full">Full Time</option>
+                  <option value="part">Part Time</option>
+                </select>
+              </div>
+            </div>
+            <div *ngIf="risorsa.get('mostraPercentuale')!.value" class="col-3 p-2">
+              <div class="form-group">
+                <label for="percentuale" class="active">Percentuale</label>
+                <input type="text" class="form-control" id="percentuale" formControlName="percentuale">
+              </div>
+            </div>
+            <div class="col p-3">
+              <button type="button" (click)="removeRisorsa(i)" class="btn-danger">Rimuovi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </form>
+  <div class="row justify-content-center">
+    <div class="col text-center">
+      <button type="submit" class="btn btn-success" (click)="saveForm()">Salva</button>
+    </div>
+  </div>
+</div>

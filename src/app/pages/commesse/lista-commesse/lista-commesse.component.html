@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container-fluid">
 <h3 class="text-center p-5">COMMESSE</h3>
 <hr>
 
@@ -60,7 +60,7 @@
         </th>
         <th   *ngIf="role != 'dipendente'" >
           <div class="flex align-items-center text-center">
-            Codice Fatturazione
+            Tipo
 
           </div>
         </th>
@@ -101,7 +101,7 @@
           {{customer.commessa.pnrrValue}}
         </td>
         <td *ngIf="role != 'dipendente'"  class="flex align-items-center text-center">
-          {{customer.commessa.codice_fatturazione}}
+          {{customer.commessa.tipo_commessa}}
         </td>
         <td *ngIf="role != 'dipendente'"  class="flex align-items-center text-center" >
           {{customer.commessa.determina}}
@@ -113,9 +113,17 @@
           {{ customer?.dipendenti?.risorse[0].tempo === 'full' ? '100%' : customer?.dipendenti?.risorse[0].percentuale + '%' }}
         </td>
 
-        <p-button *ngIf="role != 'dipendente'" (click)="editCustomer(customer)" label="Modfica" class="p-2" ></p-button>
-        <p-button (click)="attivitaCustomer(customer)" label="Attività" class="p-2" severity="info"></p-button>
-        <p-button *ngIf="role != 'dipendente'" (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
+        <p-button *ngIf="role != 'dipendente'" (click)="editCustomer(customer)" icon="pi pi-pencil" class="p-2" pTooltip="Modifica"
+                  tooltipPosition="bottom"></p-button>
+        <p-button *ngIf="role != 'dipendente'" (click)="deleteCustomer(customer)" icon="pi pi-trash" severity="danger" class="p-2" pTooltip="Elimina"
+                  tooltipPosition="bottom"></p-button>
+        <p-button (click)="attivitaCustomer(customer)" icon="pi pi-user-plus"  pTooltip="Attività"
+                  tooltipPosition="bottom"class="p-2" severity="info"></p-button>
+        <p-button (click)="attivitaCustomer(customer)"  icon="pi pi-calculator" class="p-2" severity="info" pTooltip="Contabilità"
+                  tooltipPosition="bottom"></p-button>
+        <p-button (click)="attivitaCustomer(customer)" icon="pi pi-money-bill" class="p-2" severity="info" pTooltip="Forniture"
+                  tooltipPosition="bottom" ></p-button>
+
       </tr>
     </ng-template>
     <ng-template pTemplate="emptymessage">

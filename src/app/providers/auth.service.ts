@@ -46,7 +46,7 @@ export class AuthService {
         }
 
         Swal.fire({title: 'Login avvenuto con successo', icon: "success"});
-        this.router.navigate(['/lista-commesse']);
+
       }
     } catch (error: any) {
       console.error("Errore di login:", error);

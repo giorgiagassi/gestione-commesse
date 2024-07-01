@@ -1,20 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {get, getDatabase, ref, set} from "firebase/database";
 import Swal from "sweetalert2";
 
 @Component({
-  selector: 'app-modifica-tipo-commessa',
+  selector: 'app-modifica-attivita',
   standalone: true,
   imports: [
-    FormsModule,
     ReactiveFormsModule
   ],
-  templateUrl: './modifica-tipo-commessa.component.html',
-  styleUrl: './modifica-tipo-commessa.component.css'
+  templateUrl: './modifica-attivita.component.html',
+  styleUrl: './modifica-attivita.component.css'
 })
-export class ModificaTipoCommessaComponent implements OnInit{
+export class ModificaAttivitaComponent implements OnInit{
   tipoCommessaForm!: FormGroup;
   id: string | null = null;
   constructor(public formBuilder: FormBuilder,
@@ -32,12 +31,12 @@ export class ModificaTipoCommessaComponent implements OnInit{
   }
   async #load(){
     this.tipoCommessaForm = this.formBuilder.group({
-      tipo_commessa: new FormControl(''),
+      nome_attivita: new FormControl(''),
     })
   }
   loadComuneData(id: string) {
     const db = getDatabase();
-    const hunterRef = ref(db, 'impostazioni/tipo-commessa/' + id);
+    const hunterRef = ref(db, 'impostazioni/attivita/' + id);
     get(hunterRef).then((snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.val();
@@ -52,12 +51,12 @@ export class ModificaTipoCommessaComponent implements OnInit{
   saveForm() {
     if (this.id) {
       const db = getDatabase();
-      const hunterRef = ref(db, 'impostazioni/tipo-commessa/' + this.id);
+      const hunterRef = ref(db, 'impostazioni/attivita/' + this.id);
       set(hunterRef, this.tipoCommessaForm.value).then(() => {
-        Swal.fire({title: 'modificato con successo', icon: "success"});
+        Swal.fire({title: ' modificato con successo', icon: "success"});
 
         setTimeout(() => {
-          this.router.navigate(['/tipo-commessa']);
+          this.router.navigate(['/attivita']);
         }, 3000);
       }).catch((error:any) => {
         Swal.fire('Errore', error.message, 'error');

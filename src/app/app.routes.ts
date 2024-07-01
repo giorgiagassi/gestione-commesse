@@ -68,6 +68,12 @@ import {
   ModificaStampaDipendenteComponent
 } from "./pages/attivita/attivita-stampa/modifica-stampa-dipendente/modifica-stampa-dipendente.component";
 import {DdtComponent} from "./pages/attivita/attivita-stampa/ddt/ddt.component";
+import {AttivitaComponent} from "./pages/impostazioni/attivita/attivita.component";
+import {NuovaAttivitaComponent} from "./pages/impostazioni/attivita/nuova-attivita/nuova-attivita.component";
+import {ModificaAttivitaComponent} from "./pages/impostazioni/attivita/modifica-attivita/modifica-attivita.component";
+import {AttivitaGenericaComponent} from "./pages/attivita/generica/attivita-generica/attivita-generica.component";
+import {VisualizzaAttivitaComponent} from "./pages/attivita/generica/visualizza-attivita/visualizza-attivita.component";
+import {ModificaAttivitaGenericaComponent} from "./pages/attivita/generica/modifica-attivita-generica/modifica-attivita-generica.component";
 
 export const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
@@ -78,7 +84,11 @@ export const routes: Routes = [
   {path:'registrazione', component:RegistrazioneComponent},
   //attività
   {path:'lista-attivita/:id', component: ListaAttivitaComponent},
+  {path:'lista-attivita', component: ListaAttivitaComponent},
   {path:'stampa/:id', component: StampaComponent},
+  {path:'nuova-generica/:id', component: AttivitaGenericaComponent},
+  {path:'modifica-generica/:id', component: ModificaAttivitaGenericaComponent},
+  {path:'visualizza-generica/:id', component: VisualizzaAttivitaComponent},
   {path:'modifica-stampa/:id', component: ModificaStampaComponent},
   {path:'modifica-stampa-dipendente/:id', component: ModificaStampaDipendenteComponent},
   {path:'ddt/:id', component: DdtComponent},
@@ -130,6 +140,10 @@ export const routes: Routes = [
   {path:'misura-pnrr', component: MisuraPnrrComponent},
   {path:'nuovo-misura-pnrr', component: NuovoMisuraPnrrComponent},
   {path:'modifica-misura-pnrr/:id', component: ModificaMisuraPnrrComponent},
+  //attivita
+  {path:'attivita', component: AttivitaComponent},
+  {path:'nuova-attivita', component:NuovaAttivitaComponent},
+  {path:'modifica-attivita/:id', component: ModificaAttivitaComponent},
 
 
 

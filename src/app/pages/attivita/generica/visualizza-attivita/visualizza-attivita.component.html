@@ -1,0 +1,49 @@
+<div class="container">
+
+  <div class="row justify-content-center">
+    <div class="col-6">
+      <button type="submit" class="btn btn-primary p-2 float-end" (click)="presaVisione()" >Presa visione</button>
+
+    </div>
+    <div class="col-6">
+      <button type="submit" class="btn btn-primary p-2" (click)="terminaAttivita()">Termina Attività</button>
+
+    </div>
+  </div>
+
+
+    <hr>
+
+    <table class="table table-hover table-sm">
+
+      <tbody>
+      <tr>
+        <th scope="row">Oggetto</th>
+        <td colspan="2">{{attivitaList?.oggetto}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Data Inzio</th>
+        <td colspan="2">{{attivitaList?.data_inizio | date:'dd-MM-yyyy'}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Data Fine</th>
+        <td colspan="2">{{attivitaList?.data_fine | date:'dd-MM-yyyy'}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Descrizione Attività</th>
+        <td colspan="2">{{consegnaList?.descrizione_attivita}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Ora Inzio</th>
+        <td colspan="2">{{attivitaList?.ora_inizio}}</td>
+      </tr>
+      <tr>
+        <th scope="row">Ora Fine</th>
+        <td colspan="2">{{attivitaList?.ora_fine}}</td>
+      </tr>
+      </tbody>
+    </table>
+
+
+
+</div>

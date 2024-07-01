@@ -12,6 +12,8 @@ import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {AuthService} from "../../../providers/auth.service";
 import {DatePipe, NgIf} from "@angular/common";
+import {SharedService} from "../../../providers/shared.service";
+import {TooltipModule} from "primeng/tooltip";
 @Component({
   selector: 'app-lista-commesse',
   standalone: true,
@@ -21,7 +23,8 @@ import {DatePipe, NgIf} from "@angular/common";
     InputTextModule,
     RouterLink,
     NgIf,
-    DatePipe
+    DatePipe,
+    TooltipModule
   ],
   templateUrl: './lista-commesse.component.html',
   styleUrl: './lista-commesse.component.css'
@@ -33,7 +36,8 @@ export class ListaCommesseComponent implements OnInit{
   role!: string;
   idUtente!:string;
   constructor(private router: Router,
-              private authService: AuthService
+              private authService: AuthService,
+              private sharedService: SharedService,
   ) {
   }
 
@@ -100,8 +104,9 @@ userDetails(): void {
   }
 
   attivitaCustomer(customer: any) {
-
+    this.sharedService.setCustomerId(customer.id);
     this.router.navigate(['/lista-attivita', customer.id]);
+    console.log(customer.id, 'listacommesse ')
   }
 
 }

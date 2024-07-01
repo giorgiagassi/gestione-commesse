@@ -7,7 +7,9 @@ import {ButtonModule} from "primeng/button";
 import {SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {AuthService} from "../../../providers/auth.service";
-import {NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
+import {SharedService} from "../../../providers/shared.service";
+import {TagModule} from "primeng/tag";
 const app = initializeApp(environment.firebaseConfig);
 const database = getDatabase(app);
 @Component({
@@ -19,7 +21,9 @@ const database = getDatabase(app);
     SharedModule,
     TableModule,
     NgIf,
-    NgForOf
+    NgForOf,
+    DatePipe,
+    TagModule
   ],
   templateUrl: './lista-attivita.component.html',
   styleUrl: './lista-attivita.component.css'
@@ -31,9 +35,11 @@ export class ListaAttivitaComponent implements OnInit{
   loading: boolean = false
   role!: string;
   idUtente!:string;
+  tipoAttivitaCorrente: string = '';
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private authService: AuthService
+              private authService: AuthService,
+              private sharedService: SharedService
   ) {
   }
 
@@ -56,38 +62,40 @@ export class ListaAttivitaComponent implements OnInit{
       const snapshot = await get(huntersRef);
       if (snapshot.exists()) {
         const data = snapshot.val();
-        // Stampa i valori per ogni chiave per comprendere meglio i dati
-        Object.keys(data).forEach(key => {
-        });
+        const customerId = this.sharedService.getCustomerId(); // Recupera l'ID del cliente
 
-        // Applica il filtro e la mappatura se necessario
+        // Crea una lista temporanea per le attività filtrate
+        let tempAttivitaList = [];
+
         if (this.role === 'dipendente') {
-          this.attivitaList = Object.keys(data)
-
+          tempAttivitaList = Object.keys(data)
             .filter(key =>
-              data[key].dipendenti?.risorse.some((r:any) => r.dipendenti === this.idUtente)
-
+              data[key].dipendenti?.risorse.some((r: any) => r.dipendenti === this.idUtente)
             )
             .map(key => ({ ...data[key], id: key }));
-
-          console.log(this.attivitaList)
         } else {
-          this.attivitaList = Object.keys(data)
+          tempAttivitaList = Object.keys(data)
             .map(key => ({ ...data[key], id: key }));
-
         }
 
+        // Filtra la lista in base all'ID del cliente sotto la voce commessa, se disponibile
+        if (customerId) {
+          this.attivitaList = tempAttivitaList.filter((attivita: any) => attivita.commessa === customerId);
+        } else {
+          this.attivitaList = tempAttivitaList;
+        }
+
+
+
         return this.attivitaList;
-
       } else {
-
         return null;
       }
     } catch (error) {
-
       return null;
     }
   }
+
   editCustomer(customer: any) {
 
     this.router.navigate(['/modifica-stampa', customer.id]);
@@ -116,7 +124,8 @@ export class ListaAttivitaComponent implements OnInit{
 
   stampaCustomer() {
     const commessaId = this.route.snapshot.paramMap.get('id'); // Assumendo che 'id' sia il nome del parametro nella rotta
-    this.router.navigate(['/stampa',  commessaId]);
+    this.router.navigate(['/nuova-generica/',  commessaId]);
+    console.log(commessaId, 'commessaID')
   }
   openPDF(url: string): void {
     if (url) {
@@ -124,4 +133,15 @@ export class ListaAttivitaComponent implements OnInit{
     }
   }
 
+
+  editCustomerGenerica(customer: any) {
+
+    this.router.navigate(['/modifica-generica', customer.id]);
+    console.log(customer.id);
+
+  }
+
+  visualizzaGenerica(customer:any): void {
+    this.router.navigate(['/visualizza-generica', customer.id]);
+  }
 }

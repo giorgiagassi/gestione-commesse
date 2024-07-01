@@ -59,7 +59,7 @@ attivitaList:any
       }
     } catch (error) {
       console.error("Errore nel caricamento della commessa", error);
-      Swal.fire('Errore', 'Impossibile caricare i dati della commessa', 'error');
+      await Swal.fire('Errore', 'Impossibile caricare i dati della commessa', 'error');
     } finally {
       this.loading = false;
     }
@@ -87,13 +87,20 @@ attivitaList:any
   }
   saveForm(): void {
     this.loading = true;
-    const dbRef = ref(getDatabase(), `attivita/attivita-stampa/${this.commessaId}/consegna`);
 
     // Prendi i dati dal form di consegna
     const formConsegnaData = this.consegnaForm.value;
 
-    // Usa update per aggiungere/modificare solo i dati di consegna senza toccare altri dati
-    update(dbRef, formConsegnaData)
+    // Riferimenti al database
+    const consegnaRef = ref(getDatabase(), `attivita/attivita-stampa/${this.commessaId}/consegna`);
+    const statoRef = ref(getDatabase(), `attivita/attivita-stampa/${this.commessaId}/`);
+
+    // Effettua gli aggiornamenti
+    Promise.all([
+      update(consegnaRef, formConsegnaData),
+      update(statoRef, { stato: 'In Lavorazione' })
+
+    ])
       .then(() => {
         Swal.fire('Successo', 'Dati aggiunti con successo all\'attività di stampa', 'success');
         this.router.navigate(['/lista-attivita', this.commessaId]);
