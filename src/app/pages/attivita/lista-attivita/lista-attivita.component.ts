@@ -77,7 +77,10 @@ export class ListaAttivitaComponent implements OnInit{
           tempAttivitaList = Object.keys(data)
             .map(key => ({ ...data[key], id: key }));
         }
-
+        // Ordinamento dal più recente al meno recente basato su ID
+        tempAttivitaList.sort((a, b) => {
+          return b.id.localeCompare(a.id);
+        });
         // Filtra la lista in base all'ID del cliente sotto la voce commessa, se disponibile
         if (customerId) {
           this.attivitaList = tempAttivitaList.filter((attivita: any) => attivita.commessa === customerId);

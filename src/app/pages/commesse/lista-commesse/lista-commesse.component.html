@@ -29,18 +29,18 @@
     <ng-template pTemplate="header">
       <tr>
         <th>
-          <div class="flex align-items-center">
+          <div class="flex align-items-center text-center">
             Comune
           </div>
         </th>
         <th  *ngIf="role != 'dipendente'">
-          <div class="flex align-items-center">
+          <div class="flex align-items-center text-center">
             Importo
 
           </div>
         </th>
         <th >
-          <div class="flex align-items-center">
+          <div class="flex align-items-center text-center">
             Da
 
           </div>
@@ -119,9 +119,9 @@
                   tooltipPosition="bottom"></p-button>
         <p-button (click)="attivitaCustomer(customer)" icon="pi pi-user-plus"  pTooltip="Attività"
                   tooltipPosition="bottom"class="p-2" severity="info"></p-button>
-        <p-button (click)="attivitaCustomer(customer)"  icon="pi pi-calculator" class="p-2" severity="info" pTooltip="Contabilità"
+        <p-button (click)="contabilitaCustomer(customer)"  icon="pi pi-calculator" class="p-2" severity="info" pTooltip="Contabilità"
                   tooltipPosition="bottom"></p-button>
-        <p-button (click)="attivitaCustomer(customer)" icon="pi pi-money-bill" class="p-2" severity="info" pTooltip="Forniture"
+        <p-button (click)="fornitureCustomer(customer)" icon="pi pi-money-bill" class="p-2" severity="info" pTooltip="Forniture"
                   tooltipPosition="bottom" ></p-button>
 
       </tr>

@@ -1,1 +1,66 @@
-<p>lista-contabilita works!</p>
+<h3 class="text-center p-5">Contabilità</h3>
+<hr>
+
+<div class="row ">
+  <div class="col-12" *ngIf="role != 'dipendente'">
+    <p-button label="Nuova Contabilità" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>
+  </div>
+</div>
+
+<div class="card">
+  <p-table
+    #dt1
+    [value]="attivitaList"
+    dataKey="num_tesserino"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading"
+    [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['cliente', 'richiedente', 'oggetto', 'spese_postali', 'tipo_atto', 'tipo_spedizione', 'tipo_stampa', 'vettore_postale']"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>
+          <div class="flex align-items-center">N°Fattura</div>
+        </th>
+        <th>
+          <div class="flex align-items-center">Importo</div>
+        </th>
+        <th>
+          <div class="flex align-items-center colspan-2">Descrizione</div>
+        </th>
+        <th>
+          <div class="flex align-items-center">Periodo Fatturazione</div>
+        </th>
+        <th>
+          <div class="flex align-items-center">Pagamento</div>
+        </th>
+        <th>Azioni</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-customer>
+      <tr>
+        <td>{{customer.contabilita.n_fattura}}</td>
+        <td>{{customer.contabilita.importo}}</td>
+        <td>{{customer.contabilita.descrizione}}</td>
+        <td>
+          {{customer.contabilita.data_inizio | date:'dd/MM/yyyy'}} - {{customer.contabilita.data_fine | date:'dd/MM/yyyy'}}
+        </td>
+        <td>
+          <p-toggleButton [(ngModel)]="customer.contabilita.pagato" onLabel="SI" offLabel="NO"   (onChange)="togglePagamento(customer, $event)" ></p-toggleButton>
+        </td>
+        <td>
+          <p-button (click)="editCustomer(customer)" label="Modifica" class="p-2" *ngIf="role === 'pm'"></p-button>
+          <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">Nessun elemento trovato.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

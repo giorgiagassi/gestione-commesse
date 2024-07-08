@@ -44,11 +44,11 @@ export class HeaderComponent implements OnInit {
     if (role === 'dipendente') {
       this.items = [
         {
-          label: 'Attivita',
+          label: 'Attività',
           icon: 'pi pi-fw pi-table',
           items: [
             {
-              label: 'Lista Attivita',
+              label: 'Lista Attività',
               icon: 'pi pi-fw pi-ellipsis-v',
               routerLink: ['/lista-attivita']
             }

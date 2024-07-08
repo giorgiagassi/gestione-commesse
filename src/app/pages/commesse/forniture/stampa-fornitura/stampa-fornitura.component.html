@@ -1,0 +1,54 @@
+<div class="container printable">
+  <div class="row">
+<p>DOCUMENTO DI TRASPORTO  N. {{ customer.fornitura.n_ddt }}</p>
+  </div>
+  <div class="row justify-content-end">
+    <p class="text-end"> DESTINATARIO: {{customer.fornitura.destinatario}}</p>
+  </div>
+  <div class="row">
+   <p> LUOGO DI DESTINAZIONE: {{customer.fornitura.destinazione}} <br>
+   CAUSALE:  {{customer.fornitura.causale}}</p>
+  </div>
+
+  <div class="row">
+    <table class="table">
+      <thead>
+      <tr>
+        <th scope="col">Descrizione</th>
+        <th scope="col">Seriale</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let dettaglio of customer.fornitura.dettagli; let i = index">
+        <td>{{ dettaglio.descrizione }}</td>
+        <td>{{ dettaglio.seriale }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="row pt-3">
+    <p>
+      COLLI: {{ customer.fornitura.colli }} <br>
+      ASPETTO: {{ customer.fornitura.aspetto }} <br>
+      TRASPORTO A CURA DEL: {{ customer.fornitura.cura}}
+    </p>
+  </div>
+
+  <div class="row">
+    <p> DATA: {{ customer.fornitura.data_consegna | date: "dd/mm/yyyy" }}    ORA: {{ customer.fornitura.ora_consegna }}</p>
+  </div>
+
+
+
+
+</div>
+
+
+<div class="row justify-content-center">
+  <div class="col text-center">
+    <button type="submit" class="btn btn-success" (click)="printPage()">Stampa</button>
+  </div>
+</div>
+
+

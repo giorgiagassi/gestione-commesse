@@ -60,30 +60,28 @@ userDetails(): void {
       const snapshot = await get(huntersRef);
       if (snapshot.exists()) {
         const data = snapshot.val();
-        // Stampa i valori per ogni chiave per comprendere meglio i dati
-        Object.keys(data).forEach(key => {
-        });
 
-        // Applica il filtro e la mappatura se necessario
+        // Filtra e mappa i dati in base al ruolo
+        let tempCommesseList = [];
         if (this.role === 'dipendente') {
-          this.commesseList = Object.keys(data)
-            .filter(key =>
-              data[key].dipendenti?.risorse.some((r:any) => r.dipendenti === this.idUtente)
-            )
+          tempCommesseList = Object.keys(data)
+            .filter(key => data[key].dipendenti?.risorse.some((r: any) => r.dipendenti === this.idUtente))
             .map(key => ({ ...data[key], id: key }));
         } else {
-          this.commesseList = Object.keys(data)
-            .map(key => ({ ...data[key], id: key }));
+          tempCommesseList = Object.keys(data).map(key => ({ ...data[key], id: key }));
         }
-        console.log(this.commesseList)
+
+        // Ordinamento dal più recente al meno recente basato su ID
+        tempCommesseList.sort((a, b) => b.id.localeCompare(a.id));
+
+        this.commesseList = tempCommesseList;
+        console.log(this.commesseList);
         return this.commesseList;
-
       } else {
-
         return null;
       }
     } catch (error) {
-
+      console.error('Errore durante il recupero delle commesse:', error);
       return null;
     }
   }
@@ -109,4 +107,13 @@ userDetails(): void {
     console.log(customer.id, 'listacommesse ')
   }
 
+  contabilitaCustomer(customer: any) {
+    this.sharedService.setCustomerId(customer.id);
+    this.router.navigate(['/lista-contabilita', customer.id]);
+  }
+  fornitureCustomer(customer: any) {
+    this.sharedService.setCustomerId(customer.id);
+    this.router.navigate(['/lista-forniture', customer.id]);
+    console.log(customer.id, 'listacommesse ')
+  }
 }

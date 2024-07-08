@@ -1,1 +1,106 @@
-<p>nuova-fornitura works!</p>
+<div class="container p-3">
+  <h3 class="text-center">Dettagli Fornitura</h3>
+  <hr>
+  <form [formGroup]="fornituraForm">
+    <div class="row pt-3">
+      <div class="col-3">
+        <div class="form-group">
+          <label for="quantita" class="active">Quantità</label>
+          <input type="number" class="form-control" id="quantita" formControlName="quantita">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="n_ddt" class="active">Numero DDT</label>
+          <input type="text" class="form-control" id="n_ddt" formControlName="n_ddt" readonly>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="destinatario" class="active">Destinatario</label>
+          <input type="text" class="form-control" id="destinatario" formControlName="destinatario">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="destinazione" class="active">Destinazione</label>
+          <input type="text" class="form-control" id="destinazione" formControlName="destinazione">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="causale" class="active">Causale</label>
+          <input type="text" class="form-control" id="causale" formControlName="causale">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="colli" class="active">Colli</label>
+          <input type="number" class="form-control" id="colli" formControlName="colli">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="aspetto" class="active">Aspetto</label>
+          <input type="text" class="form-control" id="aspetto" formControlName="aspetto">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="cura" class="active">Cura del Trasporto</label>
+          <input type="text" class="form-control" id="cura" formControlName="cura">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="data_consegna" class="active">Data di Consegna</label>
+          <input type="date" class="form-control" id="data_consegna" formControlName="data_consegna">
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="ora_consegna" class="active">Ora di Consegna</label>
+          <input type="time" class="form-control" id="ora_consegna" formControlName="ora_consegna">
+        </div>
+      </div>
+    </div>
+
+    <div formArrayName="dettagli" *ngFor="let dettaglio of dettagli.controls; let i = index">
+      <div [formGroupName]="i" class="row pt-3">
+        <div class="row p-4" style="border:solid;">
+          <div class="col-3 pt-4">
+            <div class="form-group">
+              <label for="descrizione-{{i}}" class="active">Descrizione</label>
+              <input type="text" class="form-control" id="descrizione-{{i}}" formControlName="descrizione">
+            </div>
+          </div>
+          <div class="col-3 pt-4">
+            <div class="form-group">
+              <label for="seriale-{{i}}" class="active">Seriale</label>
+              <input type="text" class="form-control" id="seriale-{{i}}" formControlName="seriale">
+            </div>
+          </div>
+          <div class="col-3">
+            <h6>Consegnato</h6>
+            <p-toggleButton id="consegnato-{{i}}" formControlName="consegnato" onLabel="Sì" offLabel="No"></p-toggleButton>
+          </div>
+          <div class="col-1">
+            <button type="button" class="btn btn-danger" (click)="removeDettaglio(i)">Elimina</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pt-3">
+      <div class="col-12">
+        <button type="button" class="btn btn-primary" (click)="addDettaglio()">Aggiungi Dettaglio</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row justify-content-center pt-3">
+    <div class="col text-center">
+      <button type="submit" class="btn btn-success" (click)="saveForm()">Salva</button>
+    </div>
+  </div>
+</div>

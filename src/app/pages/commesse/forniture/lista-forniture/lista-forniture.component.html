@@ -1,1 +1,66 @@
-<p>lista-forniture works!</p>
+<h3 class="text-center p-5">Forniture</h3>
+<hr>
+<div class="container">
+  <div class="row ">
+    <div class="col-12" *ngIf="role != 'dipendente'">
+      <p-button label="Nuova Fornitura" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>
+    </div>
+  </div>
+
+  <div class="card">
+    <p-table
+      #dt1
+      [value]="attivitaList"
+      dataKey="num_tesserino"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [loading]="loading"
+      [paginator]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [globalFilterFields]="['cliente', 'richiedente']"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th>
+            <div class="flex align-items-center">N° DDT</div>
+          </th>
+          <th>
+            <div class="flex align-items-center">Destinatario</div>
+          </th>
+          <th>
+            <div class="flex align-items-center">Quantità</div>
+          </th>
+          <th>Azioni</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+        <tr>
+          <td>{{customer.fornitura.n_ddt}}</td>
+          <td>{{customer.fornitura.destinatario}}</td>
+          <td>{{customer.fornitura.quantita}}</td>
+
+          <td>
+            <p-button (click)="editCustomer(customer)" label="Modifica" class="p-2" *ngIf="role === 'pm'"></p-button>
+            <p-button (click)="stampaPDF(customer)" label="DDT" class="p-2" *ngIf="role === 'pm'"></p-button>
+            <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
+            <ng-container *ngIf="customer.fornitura.ddt_firmato; else attachButton">
+              <p-button (click)="viewSignedDDT(customer.fornitura.ddt_firmato)" label="Visualizza DDT Firmato" class="p-2"></p-button>
+            </ng-container>
+            <ng-template #attachButton>
+              <p-button (click)="selectCustomerForUpload(customer)" label="Allega DDT Firmato" class="p-2"></p-button>
+              <input type="file" id="file-upload-{{customer.id}}" style="display: none;" (change)="onFileSelected($event, customer)" />
+              <p-progressSpinner *ngIf="loading && selectedCustomer?.id === customer.id" [style]="{width: '25px', height: '25px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+            </ng-template>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7">Nessun elemento trovato.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+

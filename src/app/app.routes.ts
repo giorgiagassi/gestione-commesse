@@ -74,6 +74,15 @@ import {ModificaAttivitaComponent} from "./pages/impostazioni/attivita/modifica-
 import {AttivitaGenericaComponent} from "./pages/attivita/generica/attivita-generica/attivita-generica.component";
 import {VisualizzaAttivitaComponent} from "./pages/attivita/generica/visualizza-attivita/visualizza-attivita.component";
 import {ModificaAttivitaGenericaComponent} from "./pages/attivita/generica/modifica-attivita-generica/modifica-attivita-generica.component";
+import {ListaContabilitaComponent} from "./pages/commesse/contabilita/lista-contabilita/lista-contabilita.component";
+import {NuovaContabilitaComponent} from "./pages/commesse/contabilita/nuova-contabilita/nuova-contabilita.component";
+import {
+  ModificaContabilitaComponent
+} from "./pages/commesse/contabilita/modifica-contabilita/modifica-contabilita.component";
+import {ListaFornitureComponent} from "./pages/commesse/forniture/lista-forniture/lista-forniture.component";
+import {NuovaFornituraComponent} from "./pages/commesse/forniture/nuova-fornitura/nuova-fornitura.component";
+import {ModificaFornituraComponent} from "./pages/commesse/forniture/modifica-fornitura/modifica-fornitura.component";
+import {StampaFornituraComponent} from "./pages/commesse/forniture/stampa-fornitura/stampa-fornitura.component";
 
 export const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
@@ -97,6 +106,13 @@ export const routes: Routes = [
   {path:'lista-commesse', component: ListaCommesseComponent},
   {path:'nuova-commessa', component: NuovaCommessaComponent},
   {path:'modifica-commessa/:id', component:ModificaCommessaComponent},
+  {path:'lista-contabilita/:id', component: ListaContabilitaComponent},
+  {path: 'nuova-contabilita/:id', component:NuovaContabilitaComponent},
+  {path:'modifica-contabilita/:id', component:ModificaContabilitaComponent},
+  {path:'lista-forniture/:id', component: ListaFornitureComponent},
+  {path:'nuova-fornitura/:id', component:NuovaFornituraComponent},
+  {path:'modifica-fornitura/:id', component:ModificaFornituraComponent},
+  {path:'stampa-fornitura', component:StampaFornituraComponent},
 
 //impostazioni
   {path:'lista-impostazioni', component: ListaImpostazioniComponent},
