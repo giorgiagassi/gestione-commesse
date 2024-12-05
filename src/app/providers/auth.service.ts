@@ -1,11 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Router } from "@angular/router";
+import {Injectable} from '@angular/core';
+import {Router} from "@angular/router";
 import Swal from 'sweetalert2';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, signOut } from "firebase/auth";
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get } from 'firebase/database';
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut
+} from "firebase/auth";
+import {initializeApp} from "firebase/app";
+import {get, getDatabase, ref, set} from 'firebase/database';
 import {environment} from "../enviroments/enviroments";
-import {BehaviorSubject} from "rxjs";
 
 
 const firebaseApp = initializeApp(environment.firebaseConfig);
@@ -17,6 +22,7 @@ const database = getDatabase(firebaseApp);
 })
 export class AuthService {
   loading: boolean = false;
+
   constructor(private router: Router) {
     auth.onAuthStateChanged((user) => {
       if (user) {
@@ -51,8 +57,7 @@ export class AuthService {
     } catch (error: any) {
       console.error("Errore di login:", error);
       this.errorMessage(error.code);
-    }
-    finally {
+    } finally {
       this.loading = false;
     }
   }
@@ -65,7 +70,7 @@ export class AuthService {
     } catch (error: any) {
       console.error("Errore nel reset della password:", error);
       this.errorMessage(error.code);
-    }finally {
+    } finally {
       this.loading = false;
     }
   }
@@ -80,7 +85,7 @@ export class AuthService {
     } catch (error: any) {
       console.error("Errore nel logout:", error);
       this.errorMessage(error.code);
-    }finally {
+    } finally {
       this.loading = false;
     }
   }
@@ -106,8 +111,7 @@ export class AuthService {
     } catch (error: any) {
       console.error("Errore nella creazione dell'utente:", error);
       this.errorMessage(error.code);
-    }
-    finally {
+    } finally {
       this.loading = false;
     }
   }
@@ -141,9 +145,10 @@ export class AuthService {
     const user = JSON.parse(sessionStorage.getItem('user') || 'null');
     return user !== null;
   }
+
   getUserDetails() {
     const user = JSON.parse(sessionStorage.getItem('user')!);
-    return user ? { name: user.name, surname: user.surname, role: user.role, id: user.uid} : null;
+    return user ? {name: user.name, surname: user.surname, role: user.role, id: user.uid} : null;
   }
 
 }

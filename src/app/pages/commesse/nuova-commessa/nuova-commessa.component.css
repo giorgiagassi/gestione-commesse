@@ -1,0 +1,11 @@
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap; /* Se hai tante checkbox, permetti che vanno a capo quando lo spazio è insufficiente */
+  gap: 10px; /* Spaziatura tra le checkbox */
+}
+
+.form-check {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px; /* Spaziatura tra le checkbox */
+}

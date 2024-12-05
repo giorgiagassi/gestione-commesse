@@ -83,6 +83,9 @@ import {ListaFornitureComponent} from "./pages/commesse/forniture/lista-fornitur
 import {NuovaFornituraComponent} from "./pages/commesse/forniture/nuova-fornitura/nuova-fornitura.component";
 import {ModificaFornituraComponent} from "./pages/commesse/forniture/modifica-fornitura/modifica-fornitura.component";
 import {StampaFornituraComponent} from "./pages/commesse/forniture/stampa-fornitura/stampa-fornitura.component";
+import {TempiFatturazioneComponent} from "./pages/impostazioni/tempi-fatturazione/tempi-fatturazione.component";
+import {ModificaTempoComponent} from "./pages/impostazioni/tempi-fatturazione/modifica-tempo/modifica-tempo.component";
+import {NuovoTempoComponent} from "./pages/impostazioni/tempi-fatturazione/nuovo-tempo/nuovo-tempo.component";
 
 export const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
@@ -120,6 +123,10 @@ export const routes: Routes = [
   {path:'comuni', component: ComuniComponent},
   {path:'nuovo-comune', component: NuovoComuneComponent},
   {path:'modifica-comune/:id', component: ModificaComuneComponent},
+  //tempo fatturazione
+  {path:'tempi', component: TempiFatturazioneComponent},
+  {path:'nuovo-tempo', component: NuovoTempoComponent},
+  {path:'modifica-tempo/:id', component: ModificaTempoComponent},
   //oggetto
   {path:'oggetto', component:OggettoComponent},
   {path:'nuovo-oggetto', component: NuovoOggettoComponent},

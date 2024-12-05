@@ -1,136 +1,104 @@
 <div class="container-fluid">
-<h3 class="text-center p-5">COMMESSE</h3>
-<hr>
+  <h3 class="text-center p-5">COMMESSE</h3>
+  <hr>
+  <div class="card">
+    <p-table
+      #dt1
+      [value]="filteredCommesseList"
+      dataKey="num_tesserino"
+      [rows]="10"
+      [showCurrentPageReport]="true"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [loading]="loading"
+      [paginator]="true"
+      currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+      [globalFilterFields]="['commessa.nome_comune', 'commessa.importo', 'commessa.data_inizio', 'commessa.data_fine', 'commessa.pnrrValue', 'commessa.tipo_commessa', 'commessa.determina']"
+    >
+      <ng-template pTemplate="caption">
+        <div class="row">
 
-<div class="card">
-  <p-table
-    #dt1
-    [value]="commesseList"
-    dataKey="num_tesserino"
-    [rows]="10"
-    [showCurrentPageReport]="true"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [loading]="loading"
-    [paginator]="true"
-    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-    [globalFilterFields]="['nome_comune', 'importo', 'data_inizio', 'data_fine', 'pnrrValue', 'codice_fatturazione', 'determina']"
-  >
-    <ng-template pTemplate="caption">
-      <div class="row ">
-
-        <div class="col-12" *ngIf="role != 'dipendente'">
-
-          <p-button label="Crea Nuova Commessa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" routerLink="/nuova-commessa"></p-button>
+          <div class="col-12" *ngIf="role != 'dipendente'">
+            <p-button label="Crea Nuova Commessa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" routerLink="/nuova-commessa"></p-button>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <h6>Filtra</h6>
+          <div class="col-3">
+            <p-dropdown
+              [options]="comuneList"
+              [(ngModel)]="selectedComune"
+              placeholder="Seleziona Comune"
+              optionLabel="nome_comune"
+              optionValue="nome_comune"
+              (onChange)="applyFilters()">
+            </p-dropdown>
+          </div>
+          <div class="col-3">
+            <p-dropdown
+              [options]="tipoCommessaList"
+              [(ngModel)]="selectedTipo"
+              placeholder="Seleziona Tipo"
+              optionLabel="tipo_commessa"
+              optionValue="tipo_commessa"
+              (onChange)="applyFilters()">
+            </p-dropdown>
+          </div>
+          <div class="col-3">
+            <p-dropdown
+              [options]="pnrrOptions"
+              [(ngModel)]="selectedPnrr"
+              placeholder="Seleziona Pnrr"
+              optionLabel="label"
+              optionValue="value"
+              (onChange)="applyFilters()">
+            </p-dropdown>
+          </div>
+          <div class="col-3">
+            <button pButton label="Cancella Filtri" (click)="resetFilters()" severity="danger"></button>
+          </div>
         </div>
 
-      </div>
-    </ng-template>
+      </ng-template>
 
-    <ng-template pTemplate="header">
-      <tr>
-        <th>
-          <div class="flex align-items-center text-center">
-            Comune
-          </div>
-        </th>
-        <th  *ngIf="role != 'dipendente'">
-          <div class="flex align-items-center text-center">
-            Importo
-
-          </div>
-        </th>
-        <th >
-          <div class="flex align-items-center text-center">
-            Da
-
-          </div>
-        </th>
-
-        <th >
-          <div class="flex align-items-center text-center">
-            A
-
-          </div>
-        </th>
-        <th>
-          <div class="flex align-items-center text-center">
-            PNRR
-
-          </div>
-        </th>
-        <th   *ngIf="role != 'dipendente'" >
-          <div class="flex align-items-center text-center">
-            Tipo
-
-          </div>
-        </th>
-        <th  *ngIf="role != 'dipendente'">
-          <div class="flex align-items-center text-center">
-            Determina
-
-          </div>
-        </th>
-        <th   *ngIf="role === 'dipendente'">
-          <div class="flex align-items-center text-center">
-           Tempo
-          </div>
-        </th>
-        <th   *ngIf="role === 'dipendente'">
-          <div class="flex align-items-center text-center">
-            Percentuale
-          </div>
-        </th>
-        <th>Azioni</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-customer>
-      <tr>
-        <td  class="flex align-items-center text-center">
-          {{customer.commessa.nome_comune}}
-        </td>
-        <td *ngIf="role != 'dipendente'"  class="flex align-items-center text-center">
-          {{customer.commessa.importo}}
-        </td>
-        <td  class="flex align-items-center text-center">
-          {{customer.commessa.data_inizio  | date:'dd-MM-yyyy' }}
-        </td>
-        <td  class="flex align-items-center text-center">
-          {{customer.commessa.data_fine  | date:'dd-MM-yyyy' }}
-        </td>
-        <td  class="flex align-items-center text-center">
-          {{customer.commessa.pnrrValue}}
-        </td>
-        <td *ngIf="role != 'dipendente'"  class="flex align-items-center text-center">
-          {{customer.commessa.tipo_commessa}}
-        </td>
-        <td *ngIf="role != 'dipendente'"  class="flex align-items-center text-center" >
-          {{customer.commessa.determina}}
-        </td>
-        <td *ngIf="role === 'dipendente'"  class="flex align-items-center text-center">
-          {{customer?.dipendenti?.risorse[0].tempo}}
-        </td>
-        <td *ngIf="role === 'dipendente'" class="flex align-items-center text-center">
-          {{ customer?.dipendenti?.risorse[0].tempo === 'full' ? '100%' : customer?.dipendenti?.risorse[0].percentuale + '%' }}
-        </td>
-
-        <p-button *ngIf="role != 'dipendente'" (click)="editCustomer(customer)" icon="pi pi-pencil" class="p-2" pTooltip="Modifica"
-                  tooltipPosition="bottom"></p-button>
-        <p-button *ngIf="role != 'dipendente'" (click)="deleteCustomer(customer)" icon="pi pi-trash" severity="danger" class="p-2" pTooltip="Elimina"
-                  tooltipPosition="bottom"></p-button>
-        <p-button (click)="attivitaCustomer(customer)" icon="pi pi-user-plus"  pTooltip="Attività"
-                  tooltipPosition="bottom"class="p-2" severity="info"></p-button>
-        <p-button (click)="contabilitaCustomer(customer)"  icon="pi pi-calculator" class="p-2" severity="info" pTooltip="Contabilità"
-                  tooltipPosition="bottom"></p-button>
-        <p-button (click)="fornitureCustomer(customer)" icon="pi pi-money-bill" class="p-2" severity="info" pTooltip="Forniture"
-                  tooltipPosition="bottom" ></p-button>
-
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="7">Nessun elemento trovato.</td>
-      </tr>
-    </ng-template>
-  </p-table>
-</div>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Comune</th>
+          <th *ngIf="role != 'dipendente'">Importo</th>
+          <th>Da</th>
+          <th>A</th>
+          <th>PNRR</th>
+          <th *ngIf="role != 'dipendente'">Tipo</th>
+          <th *ngIf="role != 'dipendente'">Determina</th>
+          <th *ngIf="role === 'dipendente'">Tempo</th>
+          <th *ngIf="role === 'dipendente'">Percentuale</th>
+          <th>Azioni</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-customer>
+        <tr>
+          <td>{{customer.commessa.nome_comune}}</td>
+          <td *ngIf="role != 'dipendente'">{{customer.commessa.importo}}</td>
+          <td>{{customer.commessa.data_inizio | date:'dd-MM-yyyy' }}</td>
+          <td>{{customer.commessa.data_fine | date:'dd-MM-yyyy' }}</td>
+          <td>{{customer.commessa.pnrrValue}}</td>
+          <td *ngIf="role != 'dipendente'">{{customer.commessa.tipo_commessa}}</td>
+          <td *ngIf="role != 'dipendente'">{{customer.commessa.determina}}</td>
+          <td *ngIf="role === 'dipendente'">{{customer?.dipendenti?.risorse[0].tempo}}</td>
+          <td *ngIf="role === 'dipendente'">{{ customer?.dipendenti?.risorse[0].tempo === 'full' ? '100%' : customer?.dipendenti?.risorse[0].percentuale + '%' }}</td>
+          <td>
+            <p-button *ngIf="role != 'dipendente'" (click)="editCustomer(customer)" icon="pi pi-pencil" class="p-2" pTooltip="Modifica" tooltipPosition="bottom"></p-button>
+            <p-button *ngIf="role != 'dipendente'" (click)="deleteCustomer(customer)" icon="pi pi-trash" severity="danger" class="p-2" pTooltip="Elimina" tooltipPosition="bottom"></p-button>
+            <p-button (click)="attivitaCustomer(customer)" icon="pi pi-user-plus" pTooltip="Attività" tooltipPosition="bottom" class="p-2" severity="info"></p-button>
+            <p-button (click)="contabilitaCustomer(customer)" icon="pi pi-calculator" class="p-2" severity="info" pTooltip="Contabilità" tooltipPosition="bottom"></p-button>
+            <p-button (click)="fornitureCustomer(customer)" icon="pi pi-money-bill" class="p-2" severity="info" pTooltip="Forniture" tooltipPosition="bottom"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="10">Nessun elemento trovato.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>

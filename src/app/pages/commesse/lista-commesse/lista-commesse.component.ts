@@ -14,6 +14,9 @@ import {AuthService} from "../../../providers/auth.service";
 import {DatePipe, NgIf} from "@angular/common";
 import {SharedService} from "../../../providers/shared.service";
 import {TooltipModule} from "primeng/tooltip";
+import {DropdownModule} from "primeng/dropdown";
+import {FormsModule} from "@angular/forms";
+import {SelectButtonModule} from "primeng/selectbutton";
 @Component({
   selector: 'app-lista-commesse',
   standalone: true,
@@ -24,7 +27,10 @@ import {TooltipModule} from "primeng/tooltip";
     RouterLink,
     NgIf,
     DatePipe,
-    TooltipModule
+    TooltipModule,
+    DropdownModule,
+    FormsModule,
+    SelectButtonModule
   ],
   templateUrl: './lista-commesse.component.html',
   styleUrl: './lista-commesse.component.css'
@@ -32,9 +38,17 @@ import {TooltipModule} from "primeng/tooltip";
 export class ListaCommesseComponent implements OnInit{
   @ViewChild('dt1') dt1: any;
   commesseList:any;
+  filteredCommesseList: any;
   loading: boolean = false;
   role!: string;
   idUtente!:string;
+  selectedComune: any;
+  selectedTipo: any;
+  selectedPnrr: any;
+  pnrrOptions: any[] = [
+    { label: 'Sì', value: 'si' },
+    { label: 'No', value: 'no' }
+  ];
   constructor(private router: Router,
               private authService: AuthService,
               private sharedService: SharedService,
@@ -44,7 +58,8 @@ export class ListaCommesseComponent implements OnInit{
   ngOnInit() {
     this.getCommesseList();
     this.userDetails();
-
+    this.getTipoComessaList();
+    this.getComuniList();
   }
 userDetails(): void {
     this.authService.getUserDetails()
@@ -56,12 +71,12 @@ userDetails(): void {
 }
   async getCommesseList() {
     const huntersRef = ref(database, 'lista-commesse');
+    this.loading = true;
     try {
       const snapshot = await get(huntersRef);
       if (snapshot.exists()) {
         const data = snapshot.val();
 
-        // Filtra e mappa i dati in base al ruolo
         let tempCommesseList = [];
         if (this.role === 'dipendente') {
           tempCommesseList = Object.keys(data)
@@ -71,20 +86,21 @@ userDetails(): void {
           tempCommesseList = Object.keys(data).map(key => ({ ...data[key], id: key }));
         }
 
-        // Ordinamento dal più recente al meno recente basato su ID
         tempCommesseList.sort((a, b) => b.id.localeCompare(a.id));
 
         this.commesseList = tempCommesseList;
-        console.log(this.commesseList);
-        return this.commesseList;
+        this.filteredCommesseList = [...this.commesseList]; // Inizializza la lista filtrata con tutti i dati
       } else {
-        return null;
+        this.commesseList = [];
+        this.filteredCommesseList = [];
       }
     } catch (error) {
       console.error('Errore durante il recupero delle commesse:', error);
-      return null;
+    } finally {
+      this.loading = false;
     }
   }
+
 
   editCustomer(customer: any) {
 
@@ -116,4 +132,61 @@ userDetails(): void {
     this.router.navigate(['/lista-forniture', customer.id]);
     console.log(customer.id, 'listacommesse ')
   }
+  comuneList: any;
+  async getComuniList() {
+    this.loading = true;
+    const usersRef = ref(database, 'impostazioni/comuni');
+    try {
+      const snapshot = await get(usersRef!);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        this.comuneList = Object.keys(data).map(key => ({ ...data[key], id: key }));
+        return this.comuneList
+      } else {
+        return null;
+      }
+    } catch (error) {
+      return null;
+    }finally {
+      this.loading = false; // Nascondi lo spinner
+    }
+  }
+  tipoCommessaList:any;
+  async getTipoComessaList() {
+    this.loading = true;
+    const usersRef = ref(database, 'impostazioni/tipo-commessa');
+    try {
+      const snapshot = await get(usersRef!);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        this.tipoCommessaList = Object.keys(data).map(key => ({ ...data[key], id: key }));
+        return this.tipoCommessaList
+      } else {
+
+        return null;
+      }
+    } catch (error) {
+
+      return null;
+    }finally {
+      this.loading = false; // Nascondi lo spinner
+    }
+  }
+
+  applyFilters() {
+    this.filteredCommesseList = this.commesseList.filter((commessa:any) => {
+      const matchesComune = this.selectedComune ? commessa.commessa.nome_comune === this.selectedComune : true;
+      const matchesTipo = this.selectedTipo ? commessa.commessa.tipo_commessa === this.selectedTipo : true;
+      const matchesPnrr = this.selectedPnrr ? commessa.commessa.pnrrValue === this.selectedPnrr : true;
+      return matchesComune && matchesTipo && matchesPnrr;
+    });
+  }
+
+  resetFilters() {
+    this.selectedComune = null;
+    this.selectedTipo = null;
+    this.selectedPnrr = null;
+    this.filteredCommesseList = [...this.commesseList]; // Resetta la lista filtrata con tutti i dati
+  }
+
 }

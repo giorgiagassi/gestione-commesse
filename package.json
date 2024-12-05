@@ -23,7 +23,7 @@
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "primeicons": "^7.0.0",
-    "primeng": "^17.12.0",
+    "primeng": "^17.18.12",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.6.13",
     "tslib": "^2.3.0",
