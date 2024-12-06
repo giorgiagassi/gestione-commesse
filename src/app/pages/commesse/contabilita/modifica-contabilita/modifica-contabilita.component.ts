@@ -65,8 +65,9 @@ export class ModificaContabilitaComponent implements OnInit {
       n_fattura: new FormControl(''),
       importo: new FormControl(''),
       descrizione: new FormControl(''),
-      data_inizio: new FormControl(''),
-      data_fine: new FormControl(''),
+      // data_inizio: new FormControl(''),
+      // data_fine: new FormControl(''),
+      cig: new FormControl(''),
       pagato: new FormControl(false),
     });
   }
@@ -82,8 +83,9 @@ export class ModificaContabilitaComponent implements OnInit {
           n_fattura: data.contabilita.n_fattura,
           importo: data.contabilita.importo,
           descrizione: data.contabilita.descrizione,
-          data_inizio: data.contabilita.data_inizio,
-          data_fine: data.contabilita.data_fine,
+          // data_inizio: data.contabilita.data_inizio,
+          // data_fine: data.contabilita.data_fine,
+          cig: data.contabilita.cig,
           pagato: data.contabilita.pagato,
         });
       } else {

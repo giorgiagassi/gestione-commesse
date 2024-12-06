@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
 import Swal from "sweetalert2";
 import {TooltipModule} from "primeng/tooltip";
 import {RadioButtonModule} from "primeng/radiobutton";
-import { getStorage,  ref as storageRef, uploadBytesResumable, getDownloadURL, UploadTask } from "firebase/storage";
+import { getStorage,  ref as storageRef, uploadBytesResumable, getDownloadURL, UploadTask,  deleteObject } from "firebase/storage";
 
 
 declare var $: any;
@@ -177,6 +177,7 @@ export class NuovaCommessaComponent implements OnInit, AfterViewInit {
         pm: this.commessaForm?.value.pm,
         cig: this.commessaForm?.value.cig,
         descrizione_fattura: this.commessaForm?.value.descrizione_fattura,
+        determinaUrl: this.commessaForm?.value.determinaUrl,
         anni: this.commessaForm?.get('anni')!.value || null,
       },
       dipendenti: {
@@ -431,18 +432,25 @@ export class NuovaCommessaComponent implements OnInit, AfterViewInit {
     }
   }
 
-  // Funzione per annullare l'upload (se necessario)
-  cancelUpload(): void {
-    // Resetta lo stato del file
-    this.uploadedFile = null;
-    this.selectedFile = null;
+  removeFile(): void {
+    if (this.uploadedFile && this.uploadedFile.status === 'success') {
+      // Resetta il file caricato
+      this.uploadedFile = null;
+      this.selectedFile = null;
+      this.commessaForm.patchValue({ determinaUrl: '' });
 
-    // Se necessario, cancella anche il file da Firebase Storage (opzionale)
-    if (this.uploadTask) {
-      this.uploadTask.cancel();  // Cancella l'upload in corso se esiste
+      // Se necessario, cancella il file da Firebase Storage
+      if (this.uploadTask) {
+        const fileRef = storageRef(storage, this.uploadTask.snapshot.ref.fullPath);
+        deleteObject(fileRef).then(() => {
+          console.log('File deleted from Firebase Storage');
+          Swal.fire('File rimosso con successo', '', 'success');
+        }).catch((error) => {
+          console.error('Error deleting file from Firebase Storage:', error);
+          Swal.fire('Errore', 'Impossibile rimuovere il file da Firebase Storage', 'error');
+        });
+      }
     }
-
-    // Puoi anche aggiornare il form se desideri:
-    this.commessaForm.patchValue({ determinaUrl: '' });
   }
+
 }

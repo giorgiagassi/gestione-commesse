@@ -7,34 +7,53 @@
         <form method="post" action="" enctype="multipart/form-data" (ngSubmit)="uploadFileToFirebase()">
           <input type="file" name="upload1" id="upload1" class="upload" (change)="onFileSelected($event)" />
           <label for="upload1">
-            <svg class="icon icon-sm" aria-hidden="true"><use href="assets/bootstrap-italia/svg/sprites.svg#it-upload"></use></svg>
+            <svg class="icon icon-sm" aria-hidden="true">
+              <use href="assets/bootstrap-italia/svg/sprites.svg#it-upload"></use>
+            </svg>
             <span>Carica Determina</span>
           </label>
+
+          <!-- Lista dei file caricati -->
           <ul class="upload-file-list" *ngIf="uploadedFile">
             <li class="upload-file" [ngClass]="{
       'success': uploadedFile.status === 'success',
       'error': uploadedFile.status === 'error',
       'uploading': uploadedFile.status === 'uploading'
     }">
-              <svg class="icon icon-sm" aria-hidden="true"><use href="assets/bootstrap-italia/svg/sprites.svg#it-file"></use></svg>
+              <svg class="icon icon-sm" aria-hidden="true">
+                <use href="assets/bootstrap-italia/svg/sprites.svg#it-file"></use>
+              </svg>
               <p>
                 <span class="visually-hidden">File caricato:</span>
-                {{ uploadedFile.name }} <span class="upload-file-weight">{{ uploadedFile.size }} MB</span>
+                {{ uploadedFile.name }}
+                <span class="upload-file-weight">{{ uploadedFile.size }} MB</span>
               </p>
+
+              <!-- Pulsante per segnare il caricamento come completato -->
               <button *ngIf="uploadedFile.status === 'success'" disabled>
                 <span class="visually-hidden">Caricamento ultimato</span>
-                <svg class="icon" aria-hidden="true"><use href="assets/bootstrap-italia/svg/sprites.svg#it-check"></use></svg>
+                <svg class="icon" aria-hidden="true">
+                  <use href="assets/bootstrap-italia/svg/sprites.svg#it-check"></use>
+                </svg>
               </button>
-              <button *ngIf="uploadedFile.status === 'uploading'" (click)="cancelUpload()">
-                <span class="visually-hidden">Annulla caricamento</span>
-                <svg class="icon" aria-hidden="true"><use href="assets/bootstrap-italia/svg/sprites.svg#it-close"></use></svg>
+              <!-- Pulsante per rimuovere il file -->
+              <button *ngIf="uploadedFile.status === 'success'" (click)="removeFile()">
+                <span class="visually-hidden">Rimuovi file</span>
+                <svg class="icon" aria-hidden="true">
+                  <use href="assets/bootstrap-italia/svg/sprites.svg#it-close"></use>
+                </svg>
               </button>
+
+              <!-- Barra di progresso durante il caricamento -->
               <div *ngIf="uploadedFile.status === 'uploading'" class="progress">
-                <div class="progress-bar" role="progressbar" [style.width.%]="uploadedFile.progress" aria-valuenow="uploadedFile.progress" aria-valuemin="0" aria-valuemax="100"></div>
+                <div class="progress-bar" role="progressbar" [style.width.%]="uploadedFile.progress"
+                     aria-valuenow="uploadedFile.progress" aria-valuemin="0" aria-valuemax="100">
+                </div>
               </div>
             </li>
           </ul>
         </form>
+
 
 
       </div>
@@ -59,8 +78,19 @@
       </div>
       <div class="col-3">
         <div class="form-group">
-          <label for="importo" class="active">Importo Commessa</label>
-          <input type="text" class="form-control" id="importo" formControlName="importo">
+          <label for="inputNumber3" class="input-number-label active">Importo Commessa</label>
+          <div class="input-group input-number input-number-currency">
+            <span class="input-group-text fw-semibold">€</span>
+            <input type="number" class="form-control" data-bs-input id="inputNumber3" name="inputNumber3" step="any" formControlName="importo" min="0" />
+            <span class="input-group-text align-buttons flex-column">
+        <button class="input-number-add">
+          <span class="visually-hidden">Aumenta valore Euro</span>
+        </button>
+        <button class="input-number-sub">
+          <span class="visually-hidden">Diminuisci valore Euro</span>
+        </button>
+      </span>
+          </div>
         </div>
       </div>
       <div class="col-3">

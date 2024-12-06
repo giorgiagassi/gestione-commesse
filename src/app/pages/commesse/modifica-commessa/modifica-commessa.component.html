@@ -1,8 +1,71 @@
 <div class="container p-3">
-  <h3 class="text-center"> Modifica Commessa</h3>
+  <h3 class="text-center">Modifica Commessa</h3>
   <hr>
   <form [formGroup]="commessaForm">
+    <div class="row p-3 justify-content-end">
+      <div class="col-3">
+        <form method="post" action="" enctype="multipart/form-data" (ngSubmit)="uploadFileToFirebase()">
+          <input type="file" name="upload1" id="upload1" class="upload" (change)="onFileSelected($event)" />
+          <label for="upload1">
+            <svg class="icon icon-sm" aria-hidden="true">
+              <use href="assets/bootstrap-italia/svg/sprites.svg#it-upload"></use>
+            </svg>
+            <span>Carica Determina</span>
+          </label>
 
+          <!-- Lista dei file caricati -->
+          <ul class="upload-file-list" *ngIf="uploadedFile">
+            <li class="upload-file" [ngClass]="{
+            'success': uploadedFile.status === 'success',
+            'error': uploadedFile.status === 'error',
+            'uploading': uploadedFile.status === 'uploading'
+          }">
+              <svg class="icon icon-sm" aria-hidden="true">
+                <use href="assets/bootstrap-italia/svg/sprites.svg#it-file"></use>
+              </svg>
+              <p>
+                <span class="visually-hidden">File caricato:</span>
+                {{ uploadedFile.name }}
+                <span class="upload-file-weight">{{ uploadedFile.size }} MB</span>
+              </p>
+
+              <!-- Pulsante per segnare il caricamento come completato -->
+              <button *ngIf="uploadedFile.status === 'success'" disabled>
+                <span class="visually-hidden">Caricamento ultimato</span>
+                <svg class="icon" aria-hidden="true">
+                  <use href="assets/bootstrap-italia/svg/sprites.svg#it-check"></use>
+                </svg>
+              </button>
+              <!-- Pulsante per rimuovere il file -->
+              <button *ngIf="uploadedFile.status === 'success'" (click)="removeFile()">
+                <span class="visually-hidden">Rimuovi file</span>
+                <svg class="icon" aria-hidden="true">
+                  <use href="assets/bootstrap-italia/svg/sprites.svg#it-close"></use>
+                </svg>
+              </button>
+
+              <!-- Barra di progresso durante il caricamento -->
+              <div *ngIf="uploadedFile.status === 'uploading'" class="progress">
+                <div class="progress-bar" role="progressbar" [style.width.%]="uploadedFile.progress"
+                     aria-valuenow="uploadedFile.progress" aria-valuemin="0" aria-valuemax="100">
+                </div>
+              </div>
+            </li>
+          </ul>
+
+          <!-- Se il file è già caricato e disponibile nel database -->
+          <div *ngIf="commessaForm.value?.determinaUrl">
+            <p>File caricato precedentemente:</p>
+            <a [href]="commessaForm.value?.determinaUrl" target="_blank">Visualizza Determina</a>
+            <button class="btn btn-danger btn-xs btn-icon ms-1" (click)="removeFile()">
+              <svg class="icon icon-white "><use href="assets/bootstrap-italia/svg/sprites.svg#it-close"></use></svg>
+            </button>
+          </div>
+        </form>
+
+
+      </div>
+    </div>
     <div class="row pt-3">
       <div class="col-3">
         <div class="select-wrapper">
@@ -23,8 +86,25 @@
       </div>
       <div class="col-3">
         <div class="form-group">
-          <label for="importo" class="active">Importo</label>
-          <input type="text" class="form-control" id="importo" formControlName="importo">
+          <label for="inputNumber3" class="input-number-label active">Importo Commessa</label>
+          <div class="input-group input-number input-number-currency">
+            <span class="input-group-text fw-semibold">€</span>
+            <input type="number" class="form-control" data-bs-input id="inputNumber3" name="inputNumber3" step="any" formControlName="importo" min="0" />
+            <span class="input-group-text align-buttons flex-column">
+        <button class="input-number-add">
+          <span class="visually-hidden">Aumenta valore Euro</span>
+        </button>
+        <button class="input-number-sub">
+          <span class="visually-hidden">Diminuisci valore Euro</span>
+        </button>
+      </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="form-group">
+          <label for="cig" class="active">CIG </label>
+          <input type="text" class="form-control" id="cig" formControlName="cig">
         </div>
       </div>
       <div class="col-3">
@@ -33,6 +113,7 @@
           <input type="date" class="form-control" id="data_inizio" formControlName="data_inizio">
         </div>
       </div>
+
       <div class="col-3">
         <div class="form-group">
           <label for="data_fine" class="active">Data Fine</label>
@@ -41,27 +122,41 @@
       </div>
       <div class="col-3">
         <div class="form-group">
-          <label for="anni" class="active">Anni</label>
-          <input type="text" class="form-control" id="anni" formControlName="anni">
+          <label for="determina" class="active">Determina</label>
+          <input type="text" class="form-control" id="determina" formControlName="determina">
         </div>
       </div>
       <div class="col-3">
         <div class="form-group">
-          <label for="codice_fatturazione" class="active">Codice Fatturazione</label>
+          <label for="codice_fatturazione" class="active">Codice Destinatario</label>
           <input type="text" class="form-control" id="codice_fatturazione" formControlName="codice_fatturazione" >
         </div>
       </div>
       <div class="col-3">
-        <div class="form-group">
-          <label for="tempi_fatturazione" class="active">Tempi di Fatturazione</label>
-          <input type="text" class="form-control" id="tempi_fatturazione" formControlName="tempi_fatturazione">
+        <div class="select-wrapper">
+          <label>Tempi fatturazione</label>
+          <select formControlName="tempi_fatturazione">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let hunter of tempoList" [value]="hunter.nome_tempo">
+              {{ hunter.nome_tempo }}
+            </option>
+          </select>
         </div>
       </div>
-
+      <div class="col-3">
+        <div class="select-wrapper">
+          <label>Metodo fatturazione</label>
+          <select formControlName="metodo_fatturazione">
+            <option value="">Scegli un'opzione</option>
+            <option value="anticipato">Anticipato</option>
+            <option value="posticipato">Posticipato</option>
+          </select>
+        </div>
+      </div>
       <div class="col-3">
         <div class="form-group">
-          <label for="determina" class="active">Determina</label>
-          <input type="text" class="form-control" id="determina" formControlName="determina">
+          <label for="descrizione_fattura" class="active">Descrizione Fattura</label>
+          <input type="text" class="form-control" id="descrizione_fattura" formControlName="descrizione_fattura">
         </div>
       </div>
       <div class="col-3">
@@ -112,6 +207,58 @@
           </select>
         </div>
       </div>
+
+      <div class="col-8 pt-5">
+        <div class="row">
+          <div class="col-3">
+            <div class="form-group">
+              <label class="active">Competenza fiscale</label>
+              <div>
+                <div class="form-check form-check-inline" data-toggle="tooltip" title="L'importo della commessa verrà spalmato in base all' inizo e la fine della commessa">
+                  <input type="radio" id="radio6" formControlName="competenza_fiscale" value="si" checked>
+                  <label for="radio6">SI</label>
+                </div>
+                <div class="form-check form-check-inline" data-toggle="tooltip" title="L'importo della commessa verrà spalmato nell'anno scelto">
+                  <input type="radio" id="radio7" formControlName="competenza_fiscale" value="no">
+                  <label for="radio7">NO</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Condizione per visualizzare le checkbox degli anni se "competenza_fiscale" è "NO" -->
+          <div class="col-8" *ngIf="competenzaFiscaleNo && dateRangeValid">
+            <label class="active">Seleziona gli anni:</label>
+            <div class="checkbox-container">
+              <div *ngFor="let year of years">
+                <div class="form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    [formControlName]="'year_' + year"
+                    id="year_{{ year }}"
+                    [checked]="selectedYears.includes(year)"
+                  (change)="onYearChange(year, $event)"
+                  >
+                  <label class="form-check-label" for="year_{{ year }}">{{ year }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+
 
 
     </div>

@@ -1,9 +1,13 @@
+<div class="container">
+
 <h3 class="text-center p-5">Contabilità</h3>
 <hr>
 
 <div class="row ">
   <div class="col-12" *ngIf="role != 'dipendente'">
-    <p-button label="Nuova Contabilità" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>
+    <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoices()"></p-button>
+<!--    <p-button label="Nuova Contabilità" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>-->
+    <p-button label="Dettagli Commessa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="showDialog()"></p-button>
   </div>
 </div>
 
@@ -31,9 +35,9 @@
         <th>
           <div class="flex align-items-center colspan-2">Descrizione</div>
         </th>
-        <th>
-          <div class="flex align-items-center">Periodo Fatturazione</div>
-        </th>
+<!--        <th>-->
+<!--          <div class="flex align-items-center">Periodo Fatturazione</div>-->
+<!--        </th>-->
         <th>
           <div class="flex align-items-center">Pagamento</div>
         </th>
@@ -45,9 +49,9 @@
         <td>{{customer.contabilita.n_fattura}}</td>
         <td>{{customer.contabilita.importo}}</td>
         <td>{{customer.contabilita.descrizione}}</td>
-        <td>
-          {{customer.contabilita.data_inizio | date:'dd/MM/yyyy'}} - {{customer.contabilita.data_fine | date:'dd/MM/yyyy'}}
-        </td>
+<!--        <td>-->
+<!--          {{customer.contabilita.data_inizio | date:'dd/MM/yyyy'}} - {{customer.contabilita.data_fine | date:'dd/MM/yyyy'}}-->
+<!--        </td>-->
         <td>
           <p-toggleButton [(ngModel)]="customer.contabilita.pagato" onLabel="SI" offLabel="NO"   (onChange)="togglePagamento(customer, $event)" ></p-toggleButton>
         </td>
@@ -64,3 +68,34 @@
     </ng-template>
   </p-table>
 </div>
+</div>
+<p-dialog
+  [modal]="true"
+  [(visible)]="visible"
+  [style]="{ width: '50rem' }"
+  [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+  [maximizable]="true">
+  <div class="row">
+    <div class="col-12">
+      <p>
+        <strong>Tipo Appalto:</strong> {{commessaData?.tipo_appalto}}
+        <br>
+        <strong>Tipo Commessa:</strong> {{commessaData?.tipo_commessa}}
+        <br>
+        <strong>Determina:</strong> {{commessaData?.determina}}
+        <br>
+        <strong>Data Inizio:</strong> {{commessaData?.data_inizio | date: 'dd-MM-YYYY'}}
+        <br>
+        <strong>Data Fine:</strong> {{commessaData?.data_fine | date: 'dd-MM-YYYY'}}
+        <br>
+        <strong>Tempi fatturazione:</strong> {{commessaData?.tempi_fatturazione}}
+        <br>
+        <strong>Metodo fatturazione:</strong> {{commessaData?.metodo_fatturazione}}
+        <br>
+        <strong>Competenza Fiscale:</strong> {{commessaData?.competenza_fiscale}}
+        <br>
+      </p>
+      <p *ngIf="commessaData?.competenza_fiscale === 'no'"> <strong>Anni di competenza</strong> {{commessaData?.anni}}</p>
+    </div>
+  </div>
+</p-dialog>
