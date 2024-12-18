@@ -86,6 +86,11 @@ import {StampaFornituraComponent} from "./pages/commesse/forniture/stampa-fornit
 import {TempiFatturazioneComponent} from "./pages/impostazioni/tempi-fatturazione/tempi-fatturazione.component";
 import {ModificaTempoComponent} from "./pages/impostazioni/tempi-fatturazione/modifica-tempo/modifica-tempo.component";
 import {NuovoTempoComponent} from "./pages/impostazioni/tempi-fatturazione/nuovo-tempo/nuovo-tempo.component";
+import {TipologiaAppaltoComponent} from "./pages/impostazioni/tipologia-appalto/tipologia-appalto.component";
+import {NuovoAppaltoComponent} from "./pages/impostazioni/tipologia-appalto/nuovo-appalto/nuovo-appalto.component";
+import {
+  ModificaAppaltoComponent
+} from "./pages/impostazioni/tipologia-appalto/modifica-appalto/modifica-appalto.component";
 
 export const routes: Routes = [
   {path:'', redirectTo:'login', pathMatch:'full'},
@@ -127,6 +132,10 @@ export const routes: Routes = [
   {path:'tempi', component: TempiFatturazioneComponent},
   {path:'nuovo-tempo', component: NuovoTempoComponent},
   {path:'modifica-tempo/:id', component: ModificaTempoComponent},
+  //tipologia appalto
+  {path:'tipologia-appalto', component: TipologiaAppaltoComponent},
+  {path:'nuovo-appalto', component: NuovoAppaltoComponent},
+  {path:'modifica-appalto/:id', component: ModificaAppaltoComponent},
   //oggetto
   {path:'oggetto', component:OggettoComponent},
   {path:'nuovo-oggetto', component: NuovoOggettoComponent},

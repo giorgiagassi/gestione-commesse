@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {JsonPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {get, getDatabase, push, ref} from "firebase/database";
 import {initializeApp} from "firebase/app";
 import {environment} from "../../../enviroments/enviroments";
@@ -26,7 +26,8 @@ const storage = getStorage(app);
     NgForOf,
     TooltipModule,
     RadioButtonModule,
-    NgClass
+    NgClass,
+    JsonPipe
   ],
   templateUrl: './nuova-commessa.component.html',
   providers: [
@@ -44,6 +45,7 @@ export class NuovaCommessaComponent implements OnInit, AfterViewInit {
   responsabileForm!: FormGroup;
   misuraList: any;
   tempoList: any;
+  tipologiAppaltolist: any;
   tipoCommessaList: any;
   comuneList: any;
   loading: boolean = false;
@@ -68,6 +70,7 @@ export class NuovaCommessaComponent implements OnInit, AfterViewInit {
     this.onDateChange();
     this.checkDateRange();
     this.getTempoList();
+    this.getTipologiaList();
   }
 
   async #load() {
@@ -452,5 +455,24 @@ export class NuovaCommessaComponent implements OnInit, AfterViewInit {
       }
     }
   }
+  async getTipologiaList() {
+    this.loading = true;
+    const usersRef = ref(database, 'impostazioni/tipologia-appalto');
+    try {
+      const snapshot = await get(usersRef!);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        this.tipologiAppaltolist = Object.keys(data).map(key => ({...data[key], id: key}));
+        return this.tipologiAppaltolist
+      } else {
 
+        return null;
+      }
+    } catch (error) {
+
+      return null;
+    } finally {
+      this.loading = false; // Nascondi lo spinner
+    }
+  }
 }

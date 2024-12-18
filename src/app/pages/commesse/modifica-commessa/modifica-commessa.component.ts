@@ -54,6 +54,7 @@ export class ModificaCommessaComponent implements OnInit, AfterViewInit{
   uploadedFile: any = null; // Oggetto per memorizzare il file caricato e il suo stato
   uploadTask: UploadTask | null = null; // Per gestire il task di upload
   selectedYears: number[] = [];
+  tipologiAppaltolist:any;
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -456,6 +457,26 @@ export class ModificaCommessaComponent implements OnInit, AfterViewInit{
           });
         }
       );
+    }
+  }
+  async getTipologiaList() {
+    this.loading = true;
+    const usersRef = ref(database, 'impostazioni/tipologia-appalto');
+    try {
+      const snapshot = await get(usersRef!);
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        this.tipologiAppaltolist = Object.keys(data).map(key => ({...data[key], id: key}));
+        return this.tipologiAppaltolist
+      } else {
+
+        return null;
+      }
+    } catch (error) {
+
+      return null;
+    } finally {
+      this.loading = false; // Nascondi lo spinner
     }
   }
 }

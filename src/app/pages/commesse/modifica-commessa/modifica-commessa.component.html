@@ -79,9 +79,14 @@
         </div>
       </div>
       <div class="col-3">
-        <div class="form-group">
-          <label for="tipo_appalto" class="active">Tipologia Appalto</label>
-          <input type="text" class="form-control" id="tipo_appalto" formControlName="tipo_appalto">
+        <div class="select-wrapper">
+          <label>Tipologia Appalto</label>
+          <select formControlName="tipologia_appalto">
+            <option value="">Scegli un'opzione</option>
+            <option *ngFor="let tipologiaAppalto of tipologiAppaltolist" [value]="tipologiaAppalto.nome_appalto">
+              {{ tipologiaAppalto.nome_appalto }}  {{tipologiaAppalto.codice}}
+            </option>
+          </select>
         </div>
       </div>
       <div class="col-3">

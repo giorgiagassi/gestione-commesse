@@ -12,6 +12,7 @@ import {MisuraPnrrComponent} from "../misura-pnrr/misura-pnrr.component";
 import {TipoCommessaComponent} from "../tipo-commessa/tipo-commessa.component";
 import {AttivitaComponent} from "../attivita/attivita.component";
 import {TempiFatturazioneComponent} from "../tempi-fatturazione/tempi-fatturazione.component";
+import {TipologiaAppaltoComponent} from "../tipologia-appalto/tipologia-appalto.component";
 
 @Component({
   selector: 'app-lista-impostazioni',
@@ -29,7 +30,8 @@ import {TempiFatturazioneComponent} from "../tempi-fatturazione/tempi-fatturazio
     MisuraPnrrComponent,
     TipoCommessaComponent,
     AttivitaComponent,
-    TempiFatturazioneComponent
+    TempiFatturazioneComponent,
+    TipologiaAppaltoComponent
   ],
   templateUrl: './lista-impostazioni.component.html',
   styleUrl: './lista-impostazioni.component.css'
