@@ -70,6 +70,7 @@ export class ModificaContabilitaComponent implements OnInit {
       cig: new FormControl(''),
       pagato: new FormControl(false),
       fattura_emessa: new FormControl(false),
+      data_invio: new FormControl(),
     });
   }
 
@@ -89,6 +90,7 @@ export class ModificaContabilitaComponent implements OnInit {
           cig: data.contabilita.cig,
           pagato: data.contabilita.pagato,
           fattura_emessa: data.contabilita.fattura_emessa,
+          data_invio: data.contabilita.data_invio,
         });
       } else {
         console.error('Nessun dato trovato per la contabilità con ID:', this.contabilitaId);

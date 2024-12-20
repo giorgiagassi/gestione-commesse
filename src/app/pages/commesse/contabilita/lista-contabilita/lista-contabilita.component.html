@@ -37,17 +37,18 @@
         <th>
           <div class="flex align-items-center">Descrizione</div>
         </th>
-        <th>
-          <div class="flex align-items-center ">Inzio</div>
+        <th colspan="2" class="text-center">
+          <div class="flex align-items-center">Periodo</div>
         </th>
-        <th>
-          <div class="flex align-items-center">Fine</div>
-        </th>
+
         <th>
           <div class="flex align-items-center">Emissione</div>
         </th>
         <th>
           <div class="flex align-items-center">Pagamento</div>
+        </th>
+        <th>
+          <div class="flex align-items-center">Data Invio</div>
         </th>
         <th colspan="2" class="flex align-items-center">Azioni</th>
       </tr>
@@ -64,6 +65,9 @@
         </td>
         <td>
           <p-toggleButton [(ngModel)]="customer.contabilita.pagato" onLabel="SI" offLabel="NO"   (onChange)="togglePagamento(customer, $event)" ></p-toggleButton>
+        </td>
+        <td>
+          {{customer.contabilita.data_invio | date: 'dd-MM-yyyy'}}
         </td>
         <td>
           <p-button *ngIf="role != 'dipendente'" (click)="editCustomer(customer)" icon="pi pi-pencil" class="p-2" pTooltip="Modifica" tooltipPosition="bottom"></p-button>

@@ -182,34 +182,47 @@ export class ListaContabilitaComponent implements OnInit {
       return;
     }
 
+    // Consideriamo solo Mensile e Bimestrale
+    let increment = 1; // default mensile
+    if (this.tempiFatturazione === 'Bimestrale') {
+      increment = 2;
+    } else if (this.tempiFatturazione !== 'Mensile') {
+      Swal.fire('Errore', 'Seleziona "Mensile" o "Bimestrale" come intervallo.', 'error');
+      return;
+    }
+
     let startDate = new Date(this.dataInizio);
     const endDate = new Date(this.dataFine);
-    const invoices: any = [];
-
-    const increment = this.tempiFatturazione === 'Mensile' ? 1 :
-      this.tempiFatturazione === 'Bimestrale' ? 2 :
-        this.tempiFatturazione === 'Trimestrale' ? 3 :
-          this.tempiFatturazione === 'Semestrale' ? 6 : 12;
-
+    const invoices: any[] = [];
     let count = 1;
+
+    // Cicla finché la data di inizio periodo è <= data di fine
     while (startDate <= endDate) {
       const periodoInizio = new Date(startDate);
       const periodoFine = new Date(periodoInizio);
-      periodoFine.setMonth(periodoInizio.getMonth() + increment);
+      // Aggiunge 1 o 2 mesi, poi imposta il giorno a 0 per avere l'ultimo giorno del mese
+      periodoFine.setMonth(periodoFine.getMonth() + increment);
       periodoFine.setDate(0);
+
+      // Se la fine supera la dataFine del contratto, la tronchiamo
+      if (periodoFine > endDate) {
+        periodoFine.setTime(endDate.getTime());
+      }
 
       invoices.push({
         n_fattura: `F${count++}`,
         importo: invoiceAmount,
         descrizione: this.descrizione,
         cig: this.cig,
-        data_inizio: periodoInizio.toISOString().slice(0, 10),
-        data_fine: periodoFine.toISOString().slice(0, 10),
+        data_inizio: this.formatDate(periodoInizio),
+        data_fine: this.formatDate(periodoFine),
         pagato: false,
+        emissione_fattura: false
       });
 
-      startDate.setMonth(startDate.getMonth() + increment);
-      startDate.setDate(1);
+      // Avanza la startDate al mese successivo o di due mesi, impostando il giorno al primo
+      startDate = new Date(periodoFine.getFullYear(), periodoFine.getMonth(), periodoFine.getDate());
+      startDate.setDate(startDate.getDate() + 1);
     }
 
     Swal.fire({
@@ -223,7 +236,7 @@ export class ListaContabilitaComponent implements OnInit {
       if (result.isConfirmed) {
         invoices.forEach((fatturaData: any) => {
           const dbRef = ref(database, `contabilita`);
-          push(dbRef, {commessa: this.commessaId, contabilita: fatturaData});
+          push(dbRef, { commessa: this.commessaId, contabilita: fatturaData });
         });
         Swal.fire('Successo', `${invoices.length} fatture generate con successo`, 'success').then(() => {
           this.router.navigate(['/lista-commesse']);
@@ -267,6 +280,7 @@ export class ListaContabilitaComponent implements OnInit {
         data_inizio: this.formatDate(periodoInizio),
         data_fine: this.formatDate(periodoFine),
         pagato: false,
+        emissione_fattura: false
       });
 
       currentStartDate = new Date(periodoFine.getTime());
