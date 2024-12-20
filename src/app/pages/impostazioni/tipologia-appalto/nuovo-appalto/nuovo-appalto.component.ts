@@ -30,7 +30,6 @@ export class NuovoAppaltoComponent implements OnInit{
   async #load(){
     this.comuniForm = this.formBuilder.group({
       nome_appalto: new FormControl(''),
-      codice: new FormControl(''),
     })
   }
 

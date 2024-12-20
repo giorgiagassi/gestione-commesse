@@ -75,8 +75,8 @@
           <label>Tipologia Appalto</label>
           <select formControlName="tipo_appalto">
             <option value="">Scegli un'opzione</option>
-            <option *ngFor="let tipologiaAppalto of tipologiAppaltolist"  [value]="tipologiaAppalto | json">
-              {{ tipologiaAppalto.nome_appalto }}  {{tipologiaAppalto.codice}}
+            <option *ngFor="let tipologiaAppalto of tipologiAppaltolist" [value]="tipologiaAppalto.nome_appalto">
+              {{ tipologiaAppalto.nome_appalto }}
             </option>
           </select>
         </div>

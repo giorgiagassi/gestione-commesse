@@ -33,11 +33,6 @@
               Tipologia Appalto
             </div>
           </th>
-          <th >
-            <div class="flex align-items-center">
-              Codice Fattura
-            </div>
-          </th>
           <th>Azioni</th>
         </tr>
       </ng-template>
@@ -46,10 +41,6 @@
           <td class="text-center">
             {{customer.nome_appalto}}
           </td>
-          <td class="text-center">
-            {{customer.codice}}
-          </td>
-
           <p-button (click)="editCustomer(customer)" label="Modfica" class="p-2"></p-button>
           <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
         </tr>

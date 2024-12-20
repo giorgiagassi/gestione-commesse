@@ -29,27 +29,33 @@
       </div>
       <div class="row">
         <div class="col-3">
-          <label class="active">Pagato</label>
+          <label class="active">Pagata</label>
           <div class="card flex justify-content-center">
             <p-toggleButton formControlName="pagato" onLabel="SI" offLabel="NO"></p-toggleButton>
           </div>
         </div>
+        <div class="col-3">
+          <label class="active">Emessa</label>
+          <div class="card flex justify-content-center">
+            <p-toggleButton formControlName="fattura_emessa" onLabel="SI" offLabel="NO"></p-toggleButton>
+          </div>
+        </div>
       </div>
-<!--      <div class="row">-->
-<!--        <h6 class="p-3">Periodo Fatturazione</h6>-->
-<!--        <div class="col-2">-->
-<!--          <div class="form-group">-->
-<!--            <label class="active" for="data_inizio">Data Inizio</label>-->
-<!--            <input type="date" id="data_inizio" formControlName="data_inizio">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="col-2">-->
-<!--          <div class="form-group">-->
-<!--            <label class="active" for="data_fine">Data Fine</label>-->
-<!--            <input type="date" id="data_fine" formControlName="data_fine">-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div class="row">
+        <h6 class="p-3">Periodo Fatturazione</h6>
+        <div class="col-2">
+          <div class="form-group">
+            <label class="active" for="data_inizio">Data Inizio</label>
+            <input type="date" id="data_inizio" formControlName="data_inizio">
+          </div>
+        </div>
+        <div class="col-2">
+          <div class="form-group">
+            <label class="active" for="data_fine">Data Fine</label>
+            <input type="date" id="data_fine" formControlName="data_fine">
+          </div>
+        </div>
+      </div>
     </div>
   </form>
   <div class="row justify-content-center">

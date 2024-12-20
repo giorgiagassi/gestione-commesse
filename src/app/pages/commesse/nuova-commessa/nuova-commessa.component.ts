@@ -76,7 +76,7 @@ export class NuovaCommessaComponent implements OnInit, AfterViewInit {
   async #load() {
     this.commessaForm = this.formBuilder.group({
       nome_comune: new FormControl(''),
-      tipo_appalto: new FormControl(''),
+      tipo_appalto:[''],
       importo: new FormControl(''),
       data_inizio: new FormControl(''),
       data_fine: new FormControl(''),

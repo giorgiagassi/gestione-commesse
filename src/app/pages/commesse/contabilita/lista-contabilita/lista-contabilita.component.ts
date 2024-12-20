@@ -14,6 +14,7 @@ import {ToggleButtonModule} from "primeng/togglebutton";
 import {FormsModule} from "@angular/forms";
 import Swal from "sweetalert2";
 import {DialogModule} from "primeng/dialog";
+import {TooltipModule} from "primeng/tooltip";
 
 const app = initializeApp(environment.firebaseConfig);
 const database = getDatabase(app);
@@ -30,7 +31,8 @@ const database = getDatabase(app);
     TagModule,
     ToggleButtonModule,
     FormsModule,
-    DialogModule
+    DialogModule,
+    TooltipModule
   ],
   templateUrl: './lista-contabilita.component.html',
   styleUrl: './lista-contabilita.component.css'
@@ -111,15 +113,18 @@ export class ListaContabilitaComponent implements OnInit {
     });
   }
 
-  stampaCustomer() {
-    const commessaId = this.route.snapshot.paramMap.get('id');
-    this.router.navigate(['/nuova-contabilita/', commessaId]);
-  }
 
   togglePagamento(customer: any, event: any): void {
     const pagato = event.checked;
     const customerRef = ref(database, `contabilita/${customer.id}/contabilita`);
     update(customerRef, {pagato}).catch((error: any) => {
+      console.error('Errore :', error);
+    });
+  }
+  toggleEmissione(customer: any, event: any): void {
+    const fattura_emessa = event.checked;
+    const customerRef = ref(database, `contabilita/${customer.id}/contabilita`);
+    update(customerRef, {fattura_emessa}).catch((error: any) => {
       console.error('Errore :', error);
     });
   }
@@ -169,7 +174,7 @@ export class ListaContabilitaComponent implements OnInit {
     invoiceAmount = totalAmount / periods;
     return parseFloat(invoiceAmount.toFixed(2));
   }
-
+//mesile bimestrale
   generateInvoices(): void {
     const invoiceAmount = this.calculateInvoiceAmount();
     if (invoiceAmount <= 0 || isNaN(invoiceAmount)) {
@@ -226,6 +231,98 @@ export class ListaContabilitaComponent implements OnInit {
       }
     });
   }
+  generateInvoicesByPeriod(period: 'Trimestrale' | 'Semestrale'): void {
+    const invoiceAmount = this.calculateInvoiceAmount();
+    if (invoiceAmount <= 0 || isNaN(invoiceAmount)) {
+      Swal.fire('Errore', 'Importo non valido per la generazione delle fatture.', 'error');
+      return;
+    }
+
+    const startDate = new Date(this.dataInizio);
+    const endDate = new Date(this.dataFine);
+    const invoices: any[] = [];
+
+    console.log(`Periodo di fatturazione: ${period}`);
+    console.log(`Data inizio: ${this.formatDate(startDate)}, Data fine: ${this.formatDate(endDate)}`);
+
+    const incrementMonths = period === 'Trimestrale' ? 3 : 6;
+    let currentStartDate = new Date(startDate.getTime());
+    let invoiceCount = 1;
+
+    while (currentStartDate <= endDate) {
+      const periodoInizio = new Date(currentStartDate.getTime());
+
+      let periodoFine = new Date(periodoInizio.getFullYear(), periodoInizio.getMonth() + incrementMonths, 0);
+      if (periodoFine > endDate) {
+        periodoFine = new Date(endDate.getTime());
+      }
+
+      console.log(`Generazione fattura ${invoiceCount}: Inizio ${this.formatDate(periodoInizio)}, Fine ${this.formatDate(periodoFine)}`);
+
+      invoices.push({
+        n_fattura: `F${invoiceCount++}`,
+        importo: invoiceAmount,
+        descrizione: this.descrizione,
+        cig: this.cig,
+        data_inizio: this.formatDate(periodoInizio),
+        data_fine: this.formatDate(periodoFine),
+        pagato: false,
+      });
+
+      currentStartDate = new Date(periodoFine.getTime());
+      currentStartDate.setDate(currentStartDate.getDate() + 1);
+    }
+
+    console.log(`Numero totale di fatture generate: ${invoices.length}`);
+
+    Swal.fire({
+      title: `Genera Fatture (${period})`,
+      text: `Generare ${invoices.length} fatture con le date di riferimento?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Genera',
+      cancelButtonText: 'Annulla',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        invoices.forEach((fatturaData: any) => {
+          const dbRef = ref(database, `contabilita`);
+          push(dbRef, { commessa: this.commessaId, contabilita: fatturaData });
+        });
+        Swal.fire('Successo', `${invoices.length} fatture generate con successo`, 'success').then(() => {
+          this.router.navigate(['/lista-commesse']);
+        });
+      }
+    });
+  }
+
+  private formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   getMonthsDifference(startDate: Date, endDate: Date): number {
     const startYear = startDate.getFullYear();

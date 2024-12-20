@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {JsonPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import {get, getDatabase, ref, update} from "firebase/database";
 import Swal from "sweetalert2";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -27,7 +27,8 @@ declare var $: any;
     NgForOf,
     NgIf,
     ReactiveFormsModule,
-    NgClass
+    NgClass,
+    JsonPipe
   ],
   templateUrl: './modifica-commessa.component.html',
   styleUrl: './modifica-commessa.component.css'
@@ -75,6 +76,7 @@ export class ModificaCommessaComponent implements OnInit, AfterViewInit{
       this.onDateChange();
       this.checkDateRange();
       this.getTempoList();
+      this.getTipologiaList();
     }
   }
 

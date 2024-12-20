@@ -1,11 +1,13 @@
-<div class="container">
+<div class="container-fluid p-2">
 
 <h3 class="text-center p-5">Contabilità</h3>
 <hr>
 
 <div class="row ">
   <div class="col-12" *ngIf="role != 'dipendente'">
-    <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoices()"></p-button>
+    <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoices()" *ngIf="tempiFatturazione === 'Mensile' ||  tempiFatturazione === 'Bimestrale' "></p-button>
+    <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoicesByPeriod('Trimestrale')" *ngIf="tempiFatturazione === 'Trimestrale' "></p-button>
+    <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoicesByPeriod( 'Semestrale')" *ngIf="  tempiFatturazione === 'Semestrale' "></p-button>
 <!--    <p-button label="Nuova Contabilità" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>-->
     <p-button label="Dettagli Commessa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="showDialog()"></p-button>
   </div>
@@ -33,18 +35,21 @@
           <div class="flex align-items-center">Importo</div>
         </th>
         <th>
-          <div class="flex align-items-center colspan-2">Descrizione</div>
+          <div class="flex align-items-center">Descrizione</div>
         </th>
         <th>
           <div class="flex align-items-center ">Inzio</div>
         </th>
         <th>
-          <div class="flex align-items-center">FIne</div>
+          <div class="flex align-items-center">Fine</div>
+        </th>
+        <th>
+          <div class="flex align-items-center">Emissione</div>
         </th>
         <th>
           <div class="flex align-items-center">Pagamento</div>
         </th>
-        <th>Azioni</th>
+        <th colspan="2" class="flex align-items-center">Azioni</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-customer>
@@ -55,11 +60,17 @@
         <td>{{customer.contabilita.data_inizio | date: 'dd-MM-yyyy'}}</td>
         <td>{{customer.contabilita.data_fine | date: 'dd-MM-yyyy'}}</td>
         <td>
+          <p-toggleButton [(ngModel)]="customer.contabilita.fattura_emessa" onLabel="SI" offLabel="NO"   (onChange)="toggleEmissione(customer, $event)" ></p-toggleButton>
+        </td>
+        <td>
           <p-toggleButton [(ngModel)]="customer.contabilita.pagato" onLabel="SI" offLabel="NO"   (onChange)="togglePagamento(customer, $event)" ></p-toggleButton>
         </td>
         <td>
-          <p-button (click)="editCustomer(customer)" label="Modifica" class="p-2" *ngIf="role === 'pm'"></p-button>
-          <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
+          <p-button *ngIf="role != 'dipendente'" (click)="editCustomer(customer)" icon="pi pi-pencil" class="p-2" pTooltip="Modifica" tooltipPosition="bottom"></p-button>
+
+        </td>
+        <td>
+          <p-button *ngIf="role != 'dipendente'" (click)="deleteCustomer(customer)" icon="pi pi-trash" severity="danger" class="p-2" pTooltip="Elimina" tooltipPosition="bottom"></p-button>
         </td>
       </tr>
     </ng-template>
@@ -80,7 +91,7 @@
   <div class="row">
     <div class="col-12">
       <p>
-        <strong>Tipo Appalto:</strong> {{commessaData?.tipo_appalto}}
+        <strong>Tipo Appalto:</strong> {{commessaData?.tipo_appalto?.nome_appalto}}-{{commessaData?.tipo_appalto?.codcie}}
         <br>
         <strong>Tipo Commessa:</strong> {{commessaData?.tipo_commessa}}
         <br>

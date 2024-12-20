@@ -81,10 +81,10 @@
       <div class="col-3">
         <div class="select-wrapper">
           <label>Tipologia Appalto</label>
-          <select formControlName="tipologia_appalto">
+          <select formControlName="tipo_appalto">
             <option value="">Scegli un'opzione</option>
             <option *ngFor="let tipologiaAppalto of tipologiAppaltolist" [value]="tipologiaAppalto.nome_appalto">
-              {{ tipologiaAppalto.nome_appalto }}  {{tipologiaAppalto.codice}}
+              {{ tipologiaAppalto.nome_appalto }}
             </option>
           </select>
         </div>
