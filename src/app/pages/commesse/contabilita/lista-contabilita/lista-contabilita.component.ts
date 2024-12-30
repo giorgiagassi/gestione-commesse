@@ -4,9 +4,8 @@ import {environment} from "../../../../enviroments/enviroments";
 import {get, getDatabase, push, ref, remove, update} from "firebase/database";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../../../providers/auth.service";
-import {SharedService} from "../../../../providers/shared.service";
 import {ButtonModule} from "primeng/button";
-import {DatePipe, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgIf} from "@angular/common";
 import {SharedModule} from "primeng/api";
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
@@ -32,7 +31,8 @@ const database = getDatabase(app);
     ToggleButtonModule,
     FormsModule,
     DialogModule,
-    TooltipModule
+    TooltipModule,
+    CurrencyPipe
   ],
   templateUrl: './lista-contabilita.component.html',
   styleUrl: './lista-contabilita.component.css'
@@ -59,7 +59,7 @@ export class ListaContabilitaComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private authService: AuthService,
-              private sharedService: SharedService) {
+  ) {
   }
 
   ngOnInit() {
@@ -121,6 +121,7 @@ export class ListaContabilitaComponent implements OnInit {
       console.error('Errore :', error);
     });
   }
+
   toggleEmissione(customer: any, event: any): void {
     const fattura_emessa = event.checked;
     const customerRef = ref(database, `contabilita/${customer.id}/contabilita`);
@@ -174,6 +175,7 @@ export class ListaContabilitaComponent implements OnInit {
     invoiceAmount = totalAmount / periods;
     return parseFloat(invoiceAmount.toFixed(2));
   }
+
 //mesile bimestrale
   generateInvoices(): void {
     const invoiceAmount = this.calculateInvoiceAmount();
@@ -236,7 +238,7 @@ export class ListaContabilitaComponent implements OnInit {
       if (result.isConfirmed) {
         invoices.forEach((fatturaData: any) => {
           const dbRef = ref(database, `contabilita`);
-          push(dbRef, { commessa: this.commessaId, contabilita: fatturaData });
+          push(dbRef, {commessa: this.commessaId, contabilita: fatturaData});
         });
         Swal.fire('Successo', `${invoices.length} fatture generate con successo`, 'success').then(() => {
           this.router.navigate(['/lista-commesse']);
@@ -244,6 +246,7 @@ export class ListaContabilitaComponent implements OnInit {
       }
     });
   }
+
   generateInvoicesByPeriod(period: 'Trimestrale' | 'Semestrale'): void {
     const invoiceAmount = this.calculateInvoiceAmount();
     if (invoiceAmount <= 0 || isNaN(invoiceAmount)) {
@@ -300,7 +303,7 @@ export class ListaContabilitaComponent implements OnInit {
       if (result.isConfirmed) {
         invoices.forEach((fatturaData: any) => {
           const dbRef = ref(database, `contabilita`);
-          push(dbRef, { commessa: this.commessaId, contabilita: fatturaData });
+          push(dbRef, {commessa: this.commessaId, contabilita: fatturaData});
         });
         Swal.fire('Successo', `${invoices.length} fatture generate con successo`, 'success').then(() => {
           this.router.navigate(['/lista-commesse']);
@@ -315,27 +318,6 @@ export class ListaContabilitaComponent implements OnInit {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}-${month}-${day}`;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   getMonthsDifference(startDate: Date, endDate: Date): number {

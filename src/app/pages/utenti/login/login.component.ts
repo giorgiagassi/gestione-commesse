@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit{
   loading: boolean = false
   role!: string;
   idUtente!:string;
-  constructor(private authService: AuthService,
+  constructor(public authService: AuthService,
               private router: Router,) {}
 
   ngOnInit(): void {
@@ -47,7 +47,9 @@ export class LoginComponent implements OnInit{
       } else {
         this.router.navigate(['/lista-commesse']);
       }
-
+      if (this.role == 'contabile'){
+        this.router.navigate(['/dashboard']);
+      }
       // Il messaggio di successo può essere gestito all'interno di SignIn
     }).catch((error) => {
       // Gli errori possono essere gestiti all'interno di SignIn

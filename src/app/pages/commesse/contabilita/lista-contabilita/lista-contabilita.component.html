@@ -56,7 +56,7 @@
     <ng-template pTemplate="body" let-customer>
       <tr>
         <td>{{customer.contabilita.n_fattura}}</td>
-        <td>{{customer.contabilita.importo}}</td>
+        <td>{{customer.contabilita.importo | currency: "EUR":"symbol":".2-2":"it"}}</td>
         <td>{{customer.contabilita.descrizione}}</td>
         <td>{{customer.contabilita.data_inizio | date: 'dd-MM-yyyy'}}</td>
         <td>{{customer.contabilita.data_fine | date: 'dd-MM-yyyy'}}</td>
@@ -95,7 +95,7 @@
   <div class="row">
     <div class="col-12">
       <p>
-        <strong>Tipo Appalto:</strong> {{commessaData?.tipo_appalto?.nome_appalto}}-{{commessaData?.tipo_appalto?.codcie}}
+        <strong>Tipo Appalto:</strong> {{commessaData?.tipo_appalto}}
         <br>
         <strong>Tipo Commessa:</strong> {{commessaData?.tipo_commessa}}
         <br>

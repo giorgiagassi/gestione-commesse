@@ -55,7 +55,8 @@ export class HeaderComponent implements OnInit {
           ]
         }
       ];
-    } else {
+    }
+    if (role != 'dipendente'){
       this.items = [
         {
           label: 'Dipendenti',
@@ -72,6 +73,12 @@ export class HeaderComponent implements OnInit {
               routerLink: ['/lista-dipendenti'] // Aggiungi il percorso di navigazione desiderato
             },
           ]
+        },
+        {
+          label: 'Dashboard',
+          icon: 'pi pi-fw pi-euro',
+          routerLink: ['/dashboard']
+
         },
         {
           label: 'Commesse',

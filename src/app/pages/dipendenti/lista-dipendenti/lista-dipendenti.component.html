@@ -20,7 +20,7 @@
 
           <div class="col-12">
 
-            <p-button label="Crea Nuovo Dipendente" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" routerLink="/nuovo-dipendente"></p-button>
+            <p-button label="Inserisci Dipendente" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" routerLink="/nuovo-dipendente"></p-button>
           </div>
 
         </div>
@@ -58,7 +58,7 @@
             {{customer.role}}
           </td>
 
-
+          <p-button (click)="addCustomer(customer)" label="Modifica" severity="info" class="p-2"></p-button>
           <p-button (click)="deleteCustomer(customer)" label="Elimina" severity="danger"></p-button>
         </tr>
       </ng-template>

@@ -64,5 +64,9 @@ export class ListaDipendentiComponent implements OnInit{
 
     });
   }
+  addCustomer(customer: any) {
+
+    this.router.navigate(['/modifica-dipendente',  customer.id]);
+  }
 }
 
