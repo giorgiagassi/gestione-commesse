@@ -11,7 +11,7 @@ import { remove } from 'firebase/database';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {AuthService} from "../../../providers/auth.service";
-import {DatePipe, NgIf} from "@angular/common";
+import {CurrencyPipe, DatePipe, NgIf} from "@angular/common";
 import {SharedService} from "../../../providers/shared.service";
 import {TooltipModule} from "primeng/tooltip";
 import {DropdownModule} from "primeng/dropdown";
@@ -20,18 +20,19 @@ import {SelectButtonModule} from "primeng/selectbutton";
 @Component({
   selector: 'app-lista-commesse',
   standalone: true,
-  imports: [
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    RouterLink,
-    NgIf,
-    DatePipe,
-    TooltipModule,
-    DropdownModule,
-    FormsModule,
-    SelectButtonModule
-  ],
+    imports: [
+        TableModule,
+        ButtonModule,
+        InputTextModule,
+        RouterLink,
+        NgIf,
+        DatePipe,
+        TooltipModule,
+        DropdownModule,
+        FormsModule,
+        SelectButtonModule,
+        CurrencyPipe
+    ],
   templateUrl: './lista-commesse.component.html',
   styleUrl: './lista-commesse.component.css'
 })

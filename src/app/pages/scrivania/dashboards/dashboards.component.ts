@@ -60,7 +60,7 @@ export class DashboardsComponent implements OnInit {
   filtroAnnoScadenza: string = '';
   filtroEmissioneScadenza: boolean | null = null;
   filtroPagamentoScadenza: boolean | null = null;
-
+  annicompetenza:any
   anni = [
     { label: '2022', value: '2022' },
     { label: '2023', value: '2023' },
@@ -129,6 +129,7 @@ export class DashboardsComponent implements OnInit {
       if (snapshot.exists()) {
         const commessaData = snapshot.val();
         this.commessaData = commessaData.commessa;
+        this.annicompetenza = this.getAnniCompetenza(commessaData.commessa);
       } else {
         Swal.fire('Errore', 'Impossibile trovare la commessa', 'error');
       }
@@ -136,7 +137,23 @@ export class DashboardsComponent implements OnInit {
       Swal.fire('Errore', 'Impossibile caricare i dati della commessa', 'error');
     });
   }
+  getAnniCompetenza(data: any): number[] {
+    const anni: number[] = [];
 
+    // Scansiona tutte le chiavi dell'oggetto
+    Object.keys(data).forEach(key => {
+      if (key.startsWith('year_') && data[key] === true) {
+        // Estrai l'anno dalla chiave e aggiungilo all'array
+        const year = parseInt(key.replace('year_', ''), 10);
+        if (!isNaN(year)) {
+          anni.push(year);
+        }
+      }
+    });
+
+    // Ordina gli anni in ordine crescente
+    return anni.sort((a, b) => a - b);
+  }
   fattureInScadenzaList(): void {
     const today = new Date(); // Data odierna
     const currentMonth = today.getMonth(); // Mese attuale

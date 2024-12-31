@@ -8,6 +8,7 @@
     <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoices()" *ngIf="tempiFatturazione === 'Mensile' ||  tempiFatturazione === 'Bimestrale' "></p-button>
     <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoicesByPeriod('Trimestrale')" *ngIf="tempiFatturazione === 'Trimestrale' "></p-button>
     <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoicesByPeriod( 'Semestrale')" *ngIf="  tempiFatturazione === 'Semestrale' "></p-button>
+    <p-button label="Genera Fatture" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="generateInvoicesAnnuale()" *ngIf="  tempiFatturazione === 'Annuale' "></p-button>
 <!--    <p-button label="Nuova Contabilità" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="stampaCustomer()"></p-button>-->
     <p-button label="Dettagli Commessa" [raised]="true" [rounded]="true" class="p-2 float-end" size="small" (click)="showDialog()"></p-button>
   </div>
@@ -112,7 +113,7 @@
         <strong>Competenza Fiscale:</strong> {{commessaData?.competenza_fiscale}}
         <br>
       </p>
-      <p *ngIf="commessaData?.competenza_fiscale === 'no'"> <strong>Anni di competenza</strong> {{commessaData?.anni}}</p>
+      <p *ngIf="commessaData?.competenza_fiscale === 'no'"> <strong>Anni di competenza</strong> {{annicompetenza}}</p>
     </div>
   </div>
 </p-dialog>

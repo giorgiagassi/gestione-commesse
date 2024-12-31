@@ -44,7 +44,7 @@ export class ListaContabilitaComponent implements OnInit {
   loading: boolean = false;
   role!: string;
   idUtente!: string;
-
+annicompetenza:any
   commessaId!: string;
   commessaData: any = {};
   competenzaFiscale: string = '';
@@ -144,6 +144,7 @@ export class ListaContabilitaComponent implements OnInit {
         this.anniSelezionati = commessaData.commessa.anni || [];
         this.descrizione = commessaData.commessa.descrizione_fattura;
         this.cig = commessaData.commessa.cig;
+        this.annicompetenza = this.getAnniCompetenza(commessaData.commessa);
       } else {
         Swal.fire('Errore', 'Impossibile trovare la commessa', 'error');
       }
@@ -151,7 +152,23 @@ export class ListaContabilitaComponent implements OnInit {
       Swal.fire('Errore', 'Impossibile caricare i dati della commessa', 'error');
     });
   }
+  getAnniCompetenza(data: any): number[] {
+    const anni: number[] = [];
 
+    // Scansiona tutte le chiavi dell'oggetto
+    Object.keys(data).forEach(key => {
+      if (key.startsWith('year_') && data[key] === true) {
+        // Estrai l'anno dalla chiave e aggiungilo all'array
+        const year = parseInt(key.replace('year_', ''), 10);
+        if (!isNaN(year)) {
+          anni.push(year);
+        }
+      }
+    });
+
+    // Ordina gli anni in ordine crescente
+    return anni.sort((a, b) => a - b);
+  }
   calculateInvoiceAmount(): number {
     let totalAmount = this.importoComessa;
     let invoiceAmount = 0;
@@ -352,4 +369,73 @@ export class ListaContabilitaComponent implements OnInit {
   showDialog() {
     this.visible = true;
   }
+
+  //annuale
+  generateInvoicesAnnuale(): void {
+    const totalAmount = this.importoComessa; // 15.000 €
+    const startDate = new Date(this.dataInizio); // 1 maggio 2023
+    const endDate = new Date(this.dataFine); // 31 dicembre 2027
+    const invoices: any[] = [];
+    let invoiceCount = 1;
+
+    const startYear = startDate.getFullYear();
+    const endYear = endDate.getFullYear();
+
+    const totalMonths = this.getMonthsDifference(startDate, endDate); // Mesi totali del periodo
+    const monthlyAmount = totalAmount / totalMonths; // Importo mensile
+
+    for (let year = startYear; year <= endYear; year++) {
+      let yearStartDate = new Date(year, 0, 1); // 1 gennaio dell'anno corrente
+      let yearEndDate = new Date(year, 11, 31); // 31 dicembre dell'anno corrente
+
+      // Se è il primo anno, usa la data di inizio reale
+      if (year === startYear) {
+        yearStartDate = startDate;
+      }
+
+      // Se è l'ultimo anno, usa la data di fine reale
+      if (year === endYear) {
+        yearEndDate = endDate;
+      }
+
+      const monthsInYear = this.getMonthsDifference(yearStartDate, yearEndDate); // Mesi effettivi in questo anno
+      const yearAmount = monthsInYear * monthlyAmount; // Importo per l'anno corrente
+
+      invoices.push({
+        n_fattura: `F${invoiceCount++}`,
+        importo: parseFloat(yearAmount.toFixed(2)),
+        descrizione: this.descrizione,
+        cig: this.cig,
+        data_inizio: this.formatDate(yearStartDate),
+        data_fine: this.formatDate(yearEndDate),
+        pagato: false,
+        emissione_fattura: false
+      });
+    }
+
+    // Verifica somma totale
+    const totalGenerated = invoices.reduce((sum, invoice) => sum + invoice.importo, 0);
+    console.log(`Importo totale generato: ${totalGenerated} (atteso: ${totalAmount})`);
+
+    Swal.fire({
+      title: 'Genera Fatture (Annuale)',
+      text: `Generare ${invoices.length} fatture con le date di riferimento?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Genera',
+      cancelButtonText: 'Annulla',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        invoices.forEach((fatturaData: any) => {
+          const dbRef = ref(database, `contabilita`);
+          push(dbRef, { commessa: this.commessaId, contabilita: fatturaData });
+        });
+        Swal.fire('Successo', `${invoices.length} fatture generate con successo`, 'success').then(() => {
+          this.router.navigate(['/lista-commesse']);
+        });
+      }
+    });
+  }
+
+
 }

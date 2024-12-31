@@ -77,7 +77,7 @@
       <ng-template pTemplate="body" let-customer>
         <tr>
           <td>{{customer.commessa.nome_comune}}</td>
-          <td *ngIf="role != 'dipendente'">{{customer.commessa.importo}}</td>
+          <td *ngIf="role != 'dipendente'">{{customer.commessa.importo | currency: "EUR":"symbol":".2-2":"it"}}</td>
           <td>{{customer.commessa.data_inizio | date:'dd-MM-yyyy' }}</td>
           <td>{{customer.commessa.data_fine | date:'dd-MM-yyyy' }}</td>
           <td>{{customer.commessa.pnrrValue}}</td>
