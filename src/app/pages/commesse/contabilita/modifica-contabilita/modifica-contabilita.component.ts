@@ -103,8 +103,20 @@ export class ModificaContabilitaComponent implements OnInit {
   async saveForm(): Promise<void> {
     this.loading = true;
     const contabilitaRef = ref(database, `contabilita/${this.contabilitaId}`);
+
+    // Ottieni i dati dal form
+    const rawData = this.modificaForm.value;
+
+    // Rimuovi i campi undefined
+    const sanitizedData: any = {};
+    Object.keys(rawData).forEach((key) => {
+      if (rawData[key] !== undefined) {
+        sanitizedData[key] = rawData[key];
+      }
+    });
+
     const dataSend = {
-      contabilita: this.modificaForm.value
+      contabilita: sanitizedData
     };
 
     try {
@@ -116,4 +128,5 @@ export class ModificaContabilitaComponent implements OnInit {
       this.loading = false;
     }
   }
+
 }
